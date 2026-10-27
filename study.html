@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本科学习 · 集大成者</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2324544a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%23edeEE9' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <a class="brand" href="index.html">集大成者</a>
+  <ul class="nav">
+    <li><a href="index.html">总台</a></li>
+    <li><a href="writing.html">创作</a></li>
+    <li><a href="photography.html">摄影</a></li>
+    <li><a href="study.html" aria-current="page">本科学习</a></li>
+    <li><a href="literature.html">学海无涯</a></li>
+    <li><a href="discipline.html">日常</a></li>
+  </ul>
+  <span class="topbar-clock" id="navClock">--:--</span>
+</nav>
+
+<main class="page">
+  <p class="crumb"><a href="index.html">总台</a><span>/</span><span>本科学习</span></p>
+  <h1 class="page-title">本科学习</h1>
+  <p class="page-desc">这学期的课表，和之后要接进来的学习站。链接你定，位置先留着。</p>
+
+  <div class="work">
+    <!-- 学习站接入位 -->
+    <section class="work-cell cell-flex">
+      <div class="cell-head">
+        <h2 class="cell-title">学习站</h2>
+        <span class="hint" id="linkState">待接入</span>
+      </div>
+      <div class="slot slot-grow" id="studySlot">
+        <p>这里会放你指定的学习站入口：课程资料、讲义、习题都在那边。</p>
+        <p>把链接发我，我接到这里，总台的「本科学习」也跟着指过去。</p>
+      </div>
+    </section>
+
+    <!-- 课程 -->
+    <section class="work-cell">
+      <div class="cell-head">
+        <h2 class="cell-title">这学期的课</h2>
+        <span class="hint">2026 秋 · 7 门</span>
+      </div>
+      <div class="course-list">
+        <div class="course-row"><span>材料科学基础（上）</span><span class="course-no">周一 · 笔记 0</span></div>
+        <div class="course-row"><span>材料学中的量子与统计</span><span class="course-no">周二 · 笔记 0</span></div>
+        <div class="course-row"><span>普通物理（II）</span><span class="course-no">周三 · 笔记 0</span></div>
+        <div class="course-row"><span>分析化学</span><span class="course-no">周四 · 笔记 0</span></div>
+        <div class="course-row"><span>古代汉语</span><span class="course-no">周四 · 笔记 0</span></div>
+        <div class="course-row"><span>中国经济专题</span><span class="course-no">周五 · 笔记 0</span></div>
+        <div class="course-row"><span>实验室安全与防护</span><span class="course-no">周五 · 笔记 0</span></div>
+      </div>
+    </section>
+
+    <!-- 待补的三块 -->
+    <section class="work-cell" style="grid-column:1 / -1">
+      <div class="cell-head">
+        <h2 class="cell-title">还没建的部分</h2>
+        <span class="hint">结构先占住，等你给规则</span>
+      </div>
+      <div class="sub-grid">
+        <div class="sub-cell">
+          <div class="empty" style="border-top:none">
+            <strong>课程笔记</strong>
+            <p>按课上到第几讲来挂笔记，暂时空着。你决定是照课程分，还是照章节分。</p>
+          </div>
+        </div>
+        <div class="sub-cell">
+          <div class="empty" style="border-top:none">
+            <strong>实验与作业</strong>
+            <p>实验报告、数据处理、交作业的截止日。目前只留了位置。</p>
+          </div>
+        </div>
+        <div class="sub-cell">
+          <div class="empty" style="border-top:none">
+            <strong>复习清单</strong>
+            <p>考前把要背的、要推的列成一张表。等你说清口径再建。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
+  <p>kinghihido · 2026</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* 学习站地址：拿到链接后填在这里即可 */
+  var STUDY_LINK = "";
+  var STUDY_NAME = "打开学习站";
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+  var slot = document.getElementById("studySlot");
+  if (STUDY_LINK) {
+    slot.textContent = "";
+    var a = document.createElement("a");
+    a.className = "btn";
+    a.href = STUDY_LINK;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = STUDY_NAME;
+    a.style.textDecoration = "none";
+    slot.appendChild(a);
+    document.getElementById("linkState").textContent = "已接入";
+  }
+
+  (function clock() {
+    var d = new Date();
+    document.getElementById("navClock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
+  })();
+})();
+</script>
+
+</body>
+</html>

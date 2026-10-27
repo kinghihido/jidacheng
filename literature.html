@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学海无涯 · 集大成者</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2324544a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%23edeEE9' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <a class="brand" href="index.html">集大成者</a>
+  <ul class="nav">
+    <li><a href="index.html">总台</a></li>
+    <li><a href="writing.html">创作</a></li>
+    <li><a href="photography.html">摄影</a></li>
+    <li><a href="study.html">本科学习</a></li>
+    <li><a href="literature.html" aria-current="page">学海无涯</a></li>
+    <li><a href="discipline.html">日常</a></li>
+  </ul>
+  <span class="topbar-clock" id="navClock">--:--</span>
+</nav>
+
+<main class="page">
+  <p class="crumb"><a href="index.html">总台</a><span>/</span><span>学海无涯</span></p>
+  <h1 class="page-title">学海无涯</h1>
+  <p class="page-desc">只放文献：在读什么、读到哪儿、读完留下哪一句。先建清单，摘录与批注的样式等你的规矩。</p>
+
+  <div class="work">
+    <!-- 记一条 -->
+    <section class="work-cell">
+      <div class="cell-head">
+        <h2 class="cell-title">记一条</h2>
+        <span class="hint" id="total">共 0 篇</span>
+      </div>
+      <div class="field">
+        <label for="litTitle">题目</label>
+        <input id="litTitle" type="text" placeholder="论文或书名" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="litMeta">作者与出处</label>
+        <input id="litMeta" type="text" placeholder="作者 · 期刊 · 年份" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="litStatus">状态</label>
+        <select id="litStatus">
+          <option value="待读">待读</option>
+          <option value="在读">在读</option>
+          <option value="已读">已读</option>
+        </select>
+      </div>
+      <div class="toolbar" style="justify-content:flex-end">
+        <button class="btn" id="addLit" type="button">加入清单</button>
+      </div>
+    </section>
+
+    <!-- 清单 -->
+    <section class="work-cell">
+      <div class="cell-head">
+        <h2 class="cell-title">清单</h2>
+        <span class="hint">待读 <span id="cPending">0</span> · 在读 <span id="cReading">0</span> · 已读 <span id="cDone">0</span></span>
+      </div>
+
+      <div class="field" style="margin-bottom:12px">
+        <label for="search">找一篇</label>
+        <input id="search" type="search" placeholder="按题目或作者搜" autocomplete="off">
+      </div>
+
+      <div class="chips" id="filters" style="margin-bottom:16px">
+        <button class="chip" type="button" data-f="全部" aria-pressed="true">全部</button>
+        <button class="chip" type="button" data-f="待读" aria-pressed="false">待读</button>
+        <button class="chip" type="button" data-f="在读" aria-pressed="false">在读</button>
+        <button class="chip" type="button" data-f="已读" aria-pressed="false">已读</button>
+      </div>
+
+      <div id="litList"></div>
+    </section>
+  </div>
+
+  <p class="hint" style="margin-top:18px">清单存在这台电脑的浏览器里。以后要接 Zotero 或某个文献站，告诉我接口方式，我再改。</p>
+</main>
+
+<footer class="foot">
+  <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
+  <p>kinghihido · 2026</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  try {
+    localStorage.setItem("__jdc_probe", "1");
+    localStorage.removeItem("__jdc_probe");
+  } catch (err) {
+    var warn = document.createElement("p");
+    warn.className = "notice";
+    warn.innerHTML = "<strong>存不下清单。</strong>现在是直接打开本地文件，浏览器多数会禁掉网页存储。换成发布后的网址访问，清单才会留下。";
+    var host = document.querySelector("main");
+    host.insertBefore(warn, host.firstChild);
+  }
+
+  var KEY = "jdc.lit";
+  var filter = "全部";
+  var query = "";
+  var ORDER = ["待读", "在读", "已读"];
+
+  var listEl = document.getElementById("litList");
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+
+  function toast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { el.classList.remove("show"); }, 2000);
+  }
+
+  function load() {
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY) || "[]");
+      return Array.isArray(v) ? v : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function persist(items) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(items));
+      return true;
+    } catch (e) {
+      toast("浏览器存储满了，先删几条");
+      return false;
+    }
+  }
+
+  function stamp(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + "." + pad(d.getMonth() + 1) + "." + pad(d.getDate());
+  }
+
+  function render() {
+    var items = load();
+    var counts = { "待读": 0, "在读": 0, "已读": 0 };
+    items.forEach(function (x) { counts[x.status] = (counts[x.status] || 0) + 1; });
+
+    document.getElementById("total").textContent = "共 " + items.length + " 篇";
+    document.getElementById("cPending").textContent = counts["待读"];
+    document.getElementById("cReading").textContent = counts["在读"];
+    document.getElementById("cDone").textContent = counts["已读"];
+
+    var shown = items.filter(function (x) {
+      var okStatus = filter === "全部" || x.status === filter;
+      var text = (x.title + " " + (x.meta || "")).toLowerCase();
+      var okQuery = !query || text.indexOf(query) > -1;
+      return okStatus && okQuery;
+    }).sort(function (a, b) {
+      var d = ORDER.indexOf(a.status) - ORDER.indexOf(b.status);
+      return d !== 0 ? d : b.ts - a.ts;
+    });
+
+    listEl.textContent = "";
+
+    if (!shown.length) {
+      var box = document.createElement("div");
+      box.className = "empty";
+      var strong = document.createElement("strong");
+      var p = document.createElement("p");
+      if (!items.length) {
+        strong.textContent = "清单还是空的";
+        p.textContent = "把正在读的那篇记进来，两行字就够。";
+      } else {
+        strong.textContent = "这里没有符合条件的";
+        p.textContent = "换个关键词，或者把筛选拨回「全部」。";
+      }
+      box.appendChild(strong);
+      box.appendChild(p);
+      listEl.appendChild(box);
+      return;
+    }
+
+    shown.forEach(function (item) {
+      var row = document.createElement("div");
+      row.className = "entry";
+
+      var main = document.createElement("div");
+      main.className = "entry-main";
+
+      var title = document.createElement("div");
+      title.className = "entry-open";
+      title.style.cursor = "default";
+      title.textContent = item.title;
+
+      var meta = document.createElement("div");
+      meta.className = "entry-meta";
+      meta.textContent = (item.meta ? item.meta + " · " : "") + item.status + " · 记于 " + stamp(item.ts);
+
+      main.appendChild(title);
+      main.appendChild(meta);
+
+      var actions = document.createElement("div");
+      actions.className = "entry-actions";
+
+      var idx = ORDER.indexOf(item.status);
+      if (idx < ORDER.length - 1) {
+        var next = document.createElement("button");
+        next.type = "button";
+        next.textContent = "改为" + ORDER[idx + 1];
+        next.addEventListener("click", function () { setStatus(item.id, ORDER[idx + 1]); });
+        actions.appendChild(next);
+      }
+
+      var del = document.createElement("button");
+      del.type = "button";
+      del.textContent = "删除";
+      del.addEventListener("click", function () {
+        if (!window.confirm("从清单里删掉《" + item.title + "》？")) return;
+        var next2 = load().filter(function (x) { return x.id !== item.id; });
+        if (!persist(next2)) return;
+        render();
+        toast("已删除");
+      });
+      actions.appendChild(del);
+
+      row.appendChild(main);
+      row.appendChild(actions);
+      listEl.appendChild(row);
+    });
+  }
+
+  function setStatus(id, status) {
+    var items = load().map(function (x) {
+      if (x.id !== id) return x;
+      return { id: x.id, title: x.title, meta: x.meta, status: status, ts: x.ts };
+    });
+    if (!persist(items)) return;
+    render();
+    toast("已标为" + status);
+  }
+
+  document.getElementById("addLit").addEventListener("click", function () {
+    var titleEl = document.getElementById("litTitle");
+    var metaEl = document.getElementById("litMeta");
+    var statusEl = document.getElementById("litStatus");
+    var title = titleEl.value.trim();
+    if (!title) {
+      toast("先写题目");
+      titleEl.focus();
+      return;
+    }
+    var items = load();
+    items.push({
+      id: String(Date.now()),
+      title: title,
+      meta: metaEl.value.trim(),
+      status: statusEl.value,
+      ts: Date.now()
+    });
+    if (!persist(items)) return;
+    titleEl.value = "";
+    metaEl.value = "";
+    statusEl.value = "待读";
+    render();
+    toast("已加入清单");
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    query = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  document.getElementById("filters").addEventListener("click", function (e) {
+    var btn = e.target.closest(".chip");
+    if (!btn) return;
+    filter = btn.getAttribute("data-f");
+    Array.prototype.forEach.call(this.querySelectorAll(".chip"), function (c) {
+      c.setAttribute("aria-pressed", String(c === btn));
+    });
+    render();
+  });
+
+  (function clock() {
+    var d = new Date();
+    document.getElementById("navClock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
+  })();
+
+  render();
+})();
+</script>
+
+</body>
+</html>
