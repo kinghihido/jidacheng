@@ -951,3 +951,278 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   文献模块升级 · 上传区 / 报告 / 词汇表 / 设置
+   ============================================================ */
+
+/* 上传区 */
+.upload-zone {
+  border: 2px dashed var(--rule);
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 24px;
+  background: var(--paper);
+}
+.upload-zone:hover,
+.upload-zone.dragover {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+.upload-zone p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.upload-zone .upload-main {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+.upload-zone input[type="file"] { display: none; }
+
+/* 进度条 */
+.progress-bar {
+  height: 3px;
+  background: var(--rule-soft);
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: none;
+}
+.progress-bar.active { display: block; }
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width 0.3s;
+}
+
+/* 报告区块 */
+.report-block {
+  border: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+.report-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.report-title {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.report-meta {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+.report-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.report-actions button {
+  font-size: 12px;
+  color: var(--ink-3);
+  background: none;
+  border: 1px solid var(--rule);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: var(--sans);
+}
+.report-actions button:hover {
+  color: var(--ink);
+  border-color: var(--ink-3);
+}
+.report-actions button.danger:hover {
+  color: var(--seal);
+  border-color: var(--seal);
+}
+.report-body {
+  padding: 18px;
+  display: none;
+}
+.report-body.open { display: block; }
+
+.report-section { margin-bottom: 20px; }
+.report-section:last-child { margin-bottom: 0; }
+.report-section h4 {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.report-section p,
+.report-section div {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink-2);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.report-section blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 6px 14px;
+  margin: 8px 0;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.8;
+  background: var(--paper);
+}
+
+/* 词汇表 */
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.vocab-table th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.vocab-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--rule-soft);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.vocab-table tr:last-child td { border-bottom: none; }
+.vocab-table .vocab-term {
+  font-family: var(--serif);
+  color: var(--ink);
+  font-size: 14px;
+}
+.vocab-table .vocab-en {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+/* 全局词汇面板 */
+.vocab-panel {
+  border: 1px solid var(--rule);
+  margin-top: 24px;
+}
+.vocab-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.vocab-panel-head h3 {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+.vocab-panel-body { padding: 14px 16px; }
+.vocab-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* 设置弹窗 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 28px 24px;
+  max-width: 440px;
+  width: 90%;
+}
+.modal-box h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20px;
+  margin: 0 0 16px;
+}
+.modal-box .field { margin-bottom: 14px; }
+.modal-box .hint { margin-top: 4px; }
+.modal-close {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* 状态标签 */
+.status-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid var(--rule);
+  color: var(--ink-3);
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+.status-tag.done { border-color: var(--accent); color: var(--accent); }
+.status-tag.reading { border-color: var(--ink-2); color: var(--ink-2); }
+
+/* 分析中状态 */
+.analyzing {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--ink-3);
+  font-size: 14px;
+}
+.analyzing .spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--rule);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 10px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 手动添加表单 */
+.manual-form { padding: 16px 0; }
+.manual-form .field { margin-bottom: 12px; }
+
+/* 响应式补充 */
+@media (max-width: 559px) {
+  .report-head { flex-direction: column; gap: 8px; }
+  .report-actions { align-self: flex-end; }
+  .upload-zone { padding: 24px 14px; }
+  .upload-zone .upload-main { font-size: 16px; }
+}

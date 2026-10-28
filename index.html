@@ -49,8 +49,8 @@
         <span class="meta-v" id="statPending">0<small>篇</small></span>
       </div>
       <div class="meta-cell">
-        <span class="meta-k">本周打卡</span>
-        <span class="meta-v" id="statHabits">0<small>%</small></span>
+        <span class="meta-k">任务待办</span>
+        <span class="meta-v" id="statHabits">0<small>项</small></span>
       </div>
     </div>
   </div>
@@ -134,10 +134,10 @@
   <article class="panel panel--daily">
     <div class="panel-top">
       <span class="kicker">日常</span>
-      <span class="stat" id="habitStat">今日 0 / 5</span>
+      <span class="stat" id="habitStat">今日 0 / 3</span>
     </div>
     <h2 class="panel-title">日常网站</h2>
-    <p class="panel-desc" style="margin-bottom:0">早起、运动、阅读、专注、早睡。记录不是用来责备自己的。</p>
+    <p class="panel-desc" style="margin-bottom:0">三餐、健身、睡眠、任务。记录不是用来责备自己的。</p>
     <div class="panel-body">
       <div class="habit-dots" id="habitDots"></div>
       <div class="mini-wrap">
@@ -200,7 +200,7 @@
 (function () {
   "use strict";
 
-  var HABITS = ["早起", "运动", "阅读", "专注", "早睡"];
+  var HABITS = ["早餐", "午餐", "晚餐"];
   var WEEK = ["日", "一", "二", "三", "四", "五", "六"];
   var ZH_DIGIT = ["〇","一","二","三","四","五","六","七","八","九"];
   var ZH_MONTH = ["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
@@ -282,49 +282,56 @@
   document.getElementById("litDone").textContent = counts["已读"];
   document.getElementById("statPending").innerHTML = counts["待读"] + "<small>篇</small>";
   if (lit.length) {
-    var lastLit = lit.slice().sort(function (a, b) { return b.ts - a.ts; })[0];
+    var lastLit = lit.slice().sort(function (a, b) { return (b.createdAt || b.ts) - (a.createdAt || a.ts); })[0];
     document.getElementById("litNote").textContent = "最近记的 · " + lastLit.title;
   }
   document.getElementById("statWords").innerHTML = writings.length + "<small>篇</small>";
   document.getElementById("statPhotos").innerHTML = photos.length + "<small>张</small>";
 
   /* ---------- 打卡 ---------- */
-  var habits = read("jdc.habits", {});
-  if (!habits || typeof habits !== "object" || Array.isArray(habits)) habits = {};
+  var meals = read("jdc.meals", {});
+  if (!meals || typeof meals !== "object" || Array.isArray(meals)) meals = {};
 
-  var today = habits[dayKey(new Date())] || [];
+  var todayMeals = meals[dayKey(new Date())] || {};
+  var mealCount = 0;
   var dots = document.getElementById("habitDots");
   HABITS.forEach(function (name) {
     var chip = document.createElement("span");
     chip.className = "dot-chip";
     var mark = document.createElement("span");
-    mark.className = "dot-mark" + (today.indexOf(name) > -1 ? " on" : "");
+    mark.className = "dot-mark" + (todayMeals[name] ? " on" : "");
     chip.appendChild(mark);
     chip.appendChild(document.createTextNode(name));
     dots.appendChild(chip);
+    if (todayMeals[name]) mealCount++;
   });
-  document.getElementById("habitStat").textContent = "今日 " + today.length + " / " + HABITS.length;
+  document.getElementById("habitStat").textContent = "今日 " + mealCount + " / " + HABITS.length;
 
   var weekHits = 0;
   for (var i = 0; i < 7; i++) {
     var d2 = new Date();
     d2.setDate(d2.getDate() - i);
-    var rec = habits[dayKey(d2)] || [];
-    weekHits += rec.length;
+    var rec = meals[dayKey(d2)] || {};
+    HABITS.forEach(function (name) { if (rec[name]) weekHits++; });
   }
   var weekPct = Math.round((weekHits / (HABITS.length * 7)) * 100);
-  document.getElementById("statHabits").innerHTML = weekPct + "<small>%</small>";
+
+  var tasks = read("jdc.tasks", []);
+  if (!Array.isArray(tasks)) tasks = [];
+  var pendingCount = 0;
+  tasks.forEach(function (t) { if (!t.done) pendingCount++; });
+  document.getElementById("statHabits").innerHTML = pendingCount + "<small>项</small>";
 
   var mini = document.getElementById("weekMini");
-  HABITS.forEach(function (name) {
-    for (var k = 6; k >= 0; k--) {
-      var day = new Date();
-      day.setDate(day.getDate() - k);
-      var cell = document.createElement("span");
-      if ((habits[dayKey(day)] || []).indexOf(name) > -1) cell.className = "on";
-      mini.appendChild(cell);
-    }
-  });
+  for (var k = 6; k >= 0; k--) {
+    var day = new Date();
+    day.setDate(day.getDate() - k);
+    var cell = document.createElement("span");
+    var dayMeals = meals[dayKey(day)] || {};
+    var allDone = HABITS.every(function (name) { return !!dayMeals[name]; });
+    if (allDone) cell.className = "on";
+    mini.appendChild(cell);
+  }
 })();
 </script>
 

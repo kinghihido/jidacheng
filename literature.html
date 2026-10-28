@@ -6,6 +6,7 @@
 <title>学海无涯 · 集大成者</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2324544a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%23edeEE9' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -25,61 +26,106 @@
 <main class="page">
   <p class="crumb"><a href="index.html">总台</a><span>/</span><span>学海无涯</span></p>
   <h1 class="page-title">学海无涯</h1>
-  <p class="page-desc">只放文献：在读什么、读到哪儿、读完留下哪一句。先建清单，摘录与批注的样式等你的规矩。</p>
+  <p class="page-desc">扔一篇 PDF 上来，自动出一份中文阅读报告：干了什么、怎么干的、有何可借鉴、相关理论和专业词汇。</p>
 
-  <div class="work">
-    <!-- 记一条 -->
-    <section class="work-cell">
-      <div class="cell-head">
-        <h2 class="cell-title">记一条</h2>
-        <span class="hint" id="total">共 0 篇</span>
-      </div>
-      <div class="field">
-        <label for="litTitle">题目</label>
-        <input id="litTitle" type="text" placeholder="论文或书名" autocomplete="off">
-      </div>
-      <div class="field">
-        <label for="litMeta">作者与出处</label>
-        <input id="litMeta" type="text" placeholder="作者 · 期刊 · 年份" autocomplete="off">
-      </div>
-      <div class="field">
-        <label for="litStatus">状态</label>
-        <select id="litStatus">
-          <option value="待读">待读</option>
-          <option value="在读">在读</option>
-          <option value="已读">已读</option>
-        </select>
-      </div>
-      <div class="toolbar" style="justify-content:flex-end">
-        <button class="btn" id="addLit" type="button">加入清单</button>
-      </div>
-    </section>
-
-    <!-- 清单 -->
-    <section class="work-cell">
-      <div class="cell-head">
-        <h2 class="cell-title">清单</h2>
-        <span class="hint">待读 <span id="cPending">0</span> · 在读 <span id="cReading">0</span> · 已读 <span id="cDone">0</span></span>
-      </div>
-
-      <div class="field" style="margin-bottom:12px">
-        <label for="search">找一篇</label>
-        <input id="search" type="search" placeholder="按题目或作者搜" autocomplete="off">
-      </div>
-
-      <div class="chips" id="filters" style="margin-bottom:16px">
-        <button class="chip" type="button" data-f="全部" aria-pressed="true">全部</button>
-        <button class="chip" type="button" data-f="待读" aria-pressed="false">待读</button>
-        <button class="chip" type="button" data-f="在读" aria-pressed="false">在读</button>
-        <button class="chip" type="button" data-f="已读" aria-pressed="false">已读</button>
-      </div>
-
-      <div id="litList"></div>
-    </section>
+  <!-- 设置入口 & 手动添加 -->
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+    <button class="btn btn-ghost" id="btnManual" type="button" style="font-size:13px;padding:6px 14px;min-height:34px">手动添加</button>
+    <button class="btn btn-ghost" id="btnSettings" type="button" style="font-size:13px;padding:6px 14px;min-height:34px">AI 设置</button>
   </div>
 
-  <p class="hint" style="margin-top:18px">清单存在这台电脑的浏览器里。以后要接 Zotero 或某个文献站，告诉我接口方式，我再改。</p>
+  <!-- 上传区 -->
+  <div class="upload-zone" id="uploadZone">
+    <p class="upload-main">拖 PDF 到此处，或点击选择文件</p>
+    <p>支持 .pdf 格式，自动提取文字并生成阅读报告</p>
+    <input type="file" id="pdfInput" accept=".pdf" hidden>
+  </div>
+
+  <!-- 进度条 -->
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- 筛选 -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <div class="chips" id="filters">
+      <button class="chip" type="button" data-f="全部" aria-pressed="true">全部</button>
+      <button class="chip" type="button" data-f="待读" aria-pressed="false">待读</button>
+      <button class="chip" type="button" data-f="在读" aria-pressed="false">在读</button>
+      <button class="chip" type="button" data-f="已读" aria-pressed="false">已读</button>
+    </div>
+    <div style="flex:1;min-width:140px">
+      <input id="search" type="search" placeholder="按题目或作者搜" style="font-size:14px;padding:7px 10px;min-height:34px">
+    </div>
+    <span class="hint" id="total">共 0 篇</span>
+  </div>
+
+  <!-- 论文列表 -->
+  <div id="paperList"></div>
+
+  <!-- 全局词汇表 -->
+  <div class="vocab-panel" id="vocabPanel" style="display:none">
+    <div class="vocab-panel-head">
+      <h3>词汇积累</h3>
+      <span class="hint" id="vocabCount">0 条</span>
+    </div>
+    <div class="vocab-panel-body">
+      <input id="vocabSearch" type="search" placeholder="搜词汇" style="font-size:13px;padding:6px 10px;margin-bottom:10px;min-height:32px">
+      <div id="vocabList"></div>
+    </div>
+  </div>
 </main>
+
+<!-- 设置弹窗 -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box">
+    <h3>AI 设置</h3>
+    <div class="field">
+      <label for="cfgKey">API Key</label>
+      <input id="cfgKey" type="text" placeholder="sk-... 或 github_pat_..." autocomplete="off">
+      <p class="hint">存在本机浏览器里，不会上传到任何地方。</p>
+    </div>
+    <div class="field">
+      <label for="cfgUrl">接口地址</label>
+      <input id="cfgUrl" type="text" placeholder="https://api.openai.com/v1/chat/completions">
+      <p class="hint">兼容 OpenAI 格式的接口均可。推荐用 <strong>GitHub Models</strong>（免费）：接口填 <code>https://models.inference.ai.azure.com/chat/completions</code>，Key 用 GitHub Personal Access Token。</p>
+    </div>
+    <div class="field">
+      <label for="cfgModel">模型名</label>
+      <input id="cfgModel" type="text" placeholder="gpt-4o-mini">
+      <p class="hint">GitHub Models 推荐填 <code>gpt-4o-mini</code> 或 <code>gpt-4o</code>。</p>
+    </div>
+    <div class="modal-close">
+      <button class="btn btn-ghost" id="cfgCancel" type="button">取消</button>
+      <button class="btn" id="cfgSave" type="button">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 手动添加弹窗 -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <h3>手动添加文献</h3>
+    <div class="field">
+      <label for="addTitle">题目</label>
+      <input id="addTitle" type="text" placeholder="论文或书名" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="addMeta">作者与出处</label>
+      <input id="addMeta" type="text" placeholder="作者 · 期刊 · 年份" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="addStatus">状态</label>
+      <select id="addStatus">
+        <option value="待读">待读</option>
+        <option value="在读">在读</option>
+        <option value="已读">已读</option>
+      </select>
+    </div>
+    <div class="modal-close">
+      <button class="btn btn-ghost" id="addCancel" type="button">取消</button>
+      <button class="btn" id="addSave" type="button">添加</button>
+    </div>
+  </div>
+</div>
 
 <footer class="foot">
   <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
@@ -92,24 +138,40 @@
 (function () {
   "use strict";
 
-  try {
-    localStorage.setItem("__jdc_probe", "1");
-    localStorage.removeItem("__jdc_probe");
-  } catch (err) {
-    var warn = document.createElement("p");
-    warn.className = "notice";
-    warn.innerHTML = "<strong>存不下清单。</strong>现在是直接打开本地文件，浏览器多数会禁掉网页存储。换成发布后的网址访问，清单才会留下。";
-    var host = document.querySelector("main");
-    host.insertBefore(warn, host.firstChild);
-  }
-
-  var KEY = "jdc.lit";
-  var filter = "全部";
-  var query = "";
+  /* ============================================================
+     常量与状态
+     ============================================================ */
+  var KEYS = {
+    papers: "jdc.papers",
+    vocab: "jdc.vocab",
+    aiKey: "jdc.ai.key",
+    aiUrl: "jdc.ai.url",
+    aiModel: "jdc.ai.model"
+  };
   var ORDER = ["待读", "在读", "已读"];
+  var SECTION_LABELS = {
+    summary: "概述",
+    quotes: "原文引用",
+    principles: "原理总结",
+    lessons: "可借鉴之处",
+    theory: "相关理论",
+    vocabGeneral: "通用词汇",
+    vocabDomain: "专业词汇"
+  };
 
-  var listEl = document.getElementById("litList");
+  var state = {
+    papers: [],
+    vocab: [],
+    filter: "全部",
+    query: "",
+    vocabQuery: "",
+    expanded: {},
+    editing: {}
+  };
 
+  /* ============================================================
+     工具函数
+     ============================================================ */
   function pad(n) { return n < 10 ? "0" + n : String(n); }
 
   function toast(msg) {
@@ -117,178 +179,775 @@
     el.textContent = msg;
     el.classList.add("show");
     clearTimeout(toast._t);
-    toast._t = setTimeout(function () { el.classList.remove("show"); }, 2000);
+    toast._t = setTimeout(function () { el.classList.remove("show"); }, 2200);
   }
 
-  function load() {
+  function store(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); return true; }
+    catch (e) { toast("存储满了，删掉一些旧文献"); return false; }
+  }
+  function load(key, fallback) {
     try {
-      var v = JSON.parse(localStorage.getItem(KEY) || "[]");
-      return Array.isArray(v) ? v : [];
-    } catch (e) {
-      return [];
-    }
+      var v = JSON.parse(localStorage.getItem(key) || "null");
+      return v === null ? fallback : v;
+    } catch (e) { return fallback; }
   }
 
-  function persist(items) {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(items));
-      return true;
-    } catch (e) {
-      toast("浏览器存储满了，先删几条");
-      return false;
-    }
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
   }
 
   function stamp(ts) {
     var d = new Date(ts);
-    return d.getFullYear() + "." + pad(d.getMonth() + 1) + "." + pad(d.getDate());
+    return d.getFullYear() + "." + pad(d.getMonth() + 1) + "." + pad(d.getDate()) +
+      " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
   }
 
-  function render() {
-    var items = load();
-    var counts = { "待读": 0, "在读": 0, "已读": 0 };
-    items.forEach(function (x) { counts[x.status] = (counts[x.status] || 0) + 1; });
+  function truncate(s, n) {
+    s = String(s || "").replace(/\s+/g, " ").trim();
+    return s.length > n ? s.slice(0, n) + "……" : s;
+  }
 
-    document.getElementById("total").textContent = "共 " + items.length + " 篇";
-    document.getElementById("cPending").textContent = counts["待读"];
-    document.getElementById("cReading").textContent = counts["在读"];
-    document.getElementById("cDone").textContent = counts["已读"];
-
-    var shown = items.filter(function (x) {
-      var okStatus = filter === "全部" || x.status === filter;
-      var text = (x.title + " " + (x.meta || "")).toLowerCase();
-      var okQuery = !query || text.indexOf(query) > -1;
-      return okStatus && okQuery;
-    }).sort(function (a, b) {
-      var d = ORDER.indexOf(a.status) - ORDER.indexOf(b.status);
-      return d !== 0 ? d : b.ts - a.ts;
-    });
-
-    listEl.textContent = "";
-
-    if (!shown.length) {
-      var box = document.createElement("div");
-      box.className = "empty";
-      var strong = document.createElement("strong");
-      var p = document.createElement("p");
-      if (!items.length) {
-        strong.textContent = "清单还是空的";
-        p.textContent = "把正在读的那篇记进来，两行字就够。";
-      } else {
-        strong.textContent = "这里没有符合条件的";
-        p.textContent = "换个关键词，或者把筛选拨回「全部」。";
+  /* ============================================================
+     PDF 文字提取（pdf.js）
+     ============================================================ */
+  function extractPDF(arrayBuffer) {
+    return new Promise(function (resolve, reject) {
+      if (typeof pdfjsLib === "undefined") {
+        reject(new Error("pdf.js 未加载，请检查网络后刷新"));
+        return;
       }
-      box.appendChild(strong);
-      box.appendChild(p);
-      listEl.appendChild(box);
-      return;
-    }
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    shown.forEach(function (item) {
-      var row = document.createElement("div");
-      row.className = "entry";
-
-      var main = document.createElement("div");
-      main.className = "entry-main";
-
-      var title = document.createElement("div");
-      title.className = "entry-open";
-      title.style.cursor = "default";
-      title.textContent = item.title;
-
-      var meta = document.createElement("div");
-      meta.className = "entry-meta";
-      meta.textContent = (item.meta ? item.meta + " · " : "") + item.status + " · 记于 " + stamp(item.ts);
-
-      main.appendChild(title);
-      main.appendChild(meta);
-
-      var actions = document.createElement("div");
-      actions.className = "entry-actions";
-
-      var idx = ORDER.indexOf(item.status);
-      if (idx < ORDER.length - 1) {
-        var next = document.createElement("button");
-        next.type = "button";
-        next.textContent = "改为" + ORDER[idx + 1];
-        next.addEventListener("click", function () { setStatus(item.id, ORDER[idx + 1]); });
-        actions.appendChild(next);
-      }
-
-      var del = document.createElement("button");
-      del.type = "button";
-      del.textContent = "删除";
-      del.addEventListener("click", function () {
-        if (!window.confirm("从清单里删掉《" + item.title + "》？")) return;
-        var next2 = load().filter(function (x) { return x.id !== item.id; });
-        if (!persist(next2)) return;
-        render();
-        toast("已删除");
-      });
-      actions.appendChild(del);
-
-      row.appendChild(main);
-      row.appendChild(actions);
-      listEl.appendChild(row);
+      pdfjsLib.getDocument({ data: arrayBuffer }).promise.then(function (doc) {
+        var pages = [];
+        var cur = Promise.resolve();
+        for (var i = 1; i <= doc.numPages; i++) {
+          (function (num) {
+            cur = cur.then(function () {
+              return doc.getPage(num).then(function (page) {
+                return page.getTextContent().then(function (tc) {
+                  pages[num - 1] = tc.items.map(function (it) { return it.str; }).join(" ");
+                });
+              });
+            });
+          })(i);
+        }
+        cur.then(function () { resolve(pages.join("\n\n")); });
+      }, reject);
     });
+  }
+
+  /* ============================================================
+     AI 分析
+     ============================================================ */
+  function callAI(text) {
+    var key = localStorage.getItem(KEYS.aiKey) || "";
+    var url = localStorage.getItem(KEYS.aiUrl) || "";
+    var model = localStorage.getItem(KEYS.aiModel) || "gpt-4o-mini";
+    if (!key || !url) return Promise.reject(new Error("NEED_CONFIG"));
+
+    var systemPrompt = [
+      "你是一位材料科学领域的学术助手，负责帮本科生阅读学术论文。",
+      "请从以下七个维度分析论文，全部用中文撰写（原文引用保留英文），返回严格的 JSON 格式。",
+      "概述要通俗易懂，像学长给学弟讲明白这篇文章干了什么；难度控制在本科高年级水平。",
+      "原文引用选 2-4 段关键段落。原理总结讲清楚用了什么方法、为什么这样做。",
+      "可借鉴之处提炼实验设计、数据分析或思路上的亮点。",
+      "相关理论知识用类比和通俗语言解释。",
+      "词汇分两类：通用学术英语词汇 + 材料/化学/物理领域专业词汇。",
+      "",
+      "返回格式（严格 JSON，不要加 markdown 代码块标记）：",
+      "{",
+      '  "title": "论文标题",',
+      '  "authors": "作者",',
+      '  "venue": "期刊/会议",',
+      '  "year": "年份",',
+      '  "summary": "概述全文",',
+      '  "quotes": [{"text": "英文原文", "context": "出处说明"}],',
+      '  "principles": "原理总结",',
+      '  "lessons": "可借鉴之处",',
+      '  "theory": "相关理论知识",',
+      '  "vocabGeneral": [{"term": "中文术语", "english": "English", "definition": "一句话解释"}],',
+      '  "vocabDomain": [{"term": "中文术语", "english": "English", "definition": "一句话解释"}]',
+      "}"
+    ].join("\n");
+
+    var userMsg = "请分析以下学术论文，按指定 JSON 格式返回阅读报告。如果 PDF 提取的文字不完整，尽量根据已有内容分析。\n\n论文全文：\n" + text.slice(0, 35000);
+
+    return fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMsg }
+        ],
+        temperature: 0.3
+      })
+    }).then(function (r) {
+      if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ": " + t); });
+      return r.json();
+    }).then(function (data) {
+      var content = data.choices[0].message.content.trim();
+      /* 去掉可能的 markdown 代码块标记 */
+      if (content.startsWith("```")) {
+        content = content.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+      }
+      return JSON.parse(content);
+    });
+  }
+
+  /* ============================================================
+     词汇管理
+     ============================================================ */
+  function mergeVocab(newGeneral, newDomain) {
+    var existing = state.vocab;
+    var added = 0;
+    (newGeneral || []).forEach(function (v) {
+      v.category = "通用";
+      if (!existing.some(function (e) { return e.english.toLowerCase() === v.english.toLowerCase(); })) {
+        existing.push(v);
+        added++;
+      }
+    });
+    (newDomain || []).forEach(function (v) {
+      v.category = "专业";
+      if (!existing.some(function (e) { return e.english.toLowerCase() === v.english.toLowerCase(); })) {
+        existing.push(v);
+        added++;
+      }
+    });
+    if (added > 0) store(KEYS.vocab, existing);
+    return added;
+  }
+
+  /* ============================================================
+     数据持久化
+     ============================================================ */
+  function savePapers() { store(KEYS.papers, state.papers); }
+
+  function deletePaper(id) {
+    if (!window.confirm("删掉这篇文献及其报告？删了找不回来。")) return;
+    state.papers = state.papers.filter(function (p) { return p.id !== id; });
+    delete state.expanded[id];
+    delete state.editing[id];
+    savePapers();
+    render();
+    toast("已删除");
   }
 
   function setStatus(id, status) {
-    var items = load().map(function (x) {
-      if (x.id !== id) return x;
-      return { id: x.id, title: x.title, meta: x.meta, status: status, ts: x.ts };
-    });
-    if (!persist(items)) return;
+    var p = state.papers.find(function (x) { return x.id === id; });
+    if (!p) return;
+    p.status = status;
+    p.updatedAt = Date.now();
+    savePapers();
     render();
     toast("已标为" + status);
   }
 
-  document.getElementById("addLit").addEventListener("click", function () {
-    var titleEl = document.getElementById("litTitle");
-    var metaEl = document.getElementById("litMeta");
-    var statusEl = document.getElementById("litStatus");
-    var title = titleEl.value.trim();
-    if (!title) {
-      toast("先写题目");
-      titleEl.focus();
+  /* ============================================================
+     渲染：论文列表
+     ============================================================ */
+  function render() {
+    var listEl = document.getElementById("paperList");
+    var filtered = state.papers.filter(function (p) {
+      var okStatus = state.filter === "全部" || p.status === state.filter;
+      var q = state.query.toLowerCase();
+      var okQuery = !q || (p.title || "").toLowerCase().indexOf(q) > -1 ||
+        (p.meta || "").toLowerCase().indexOf(q) > -1;
+      return okStatus && okQuery;
+    }).sort(function (a, b) { return b.createdAt - a.createdAt; });
+
+    /* 统计 */
+    var counts = { "待读": 0, "在读": 0, "已读": 0 };
+    state.papers.forEach(function (p) { counts[p.status || "待读"] = (counts[p.status || "待读"] || 0) + 1; });
+    document.getElementById("total").textContent = "共 " + state.papers.length + " 篇";
+
+    listEl.textContent = "";
+
+    if (!state.papers.length) {
+      var box = document.createElement("div");
+      box.className = "empty";
+      box.innerHTML = "<strong>清单还是空的</strong><p>拖一篇 PDF 上来，或者手动添加。先把手头在读那篇记进来。</p>";
+      listEl.appendChild(box);
+      renderVocabPanel();
       return;
     }
-    var items = load();
-    items.push({
-      id: String(Date.now()),
-      title: title,
-      meta: metaEl.value.trim(),
-      status: statusEl.value,
-      ts: Date.now()
+
+    if (!filtered.length) {
+      var box2 = document.createElement("div");
+      box2.className = "empty";
+      box2.innerHTML = "<strong>没有符合条件的</strong><p>换个关键词，或者把筛选拨回「全部」。</p>";
+      listEl.appendChild(box2);
+      renderVocabPanel();
+      return;
+    }
+
+    filtered.forEach(function (paper) {
+      listEl.appendChild(renderPaper(paper));
     });
-    if (!persist(items)) return;
-    titleEl.value = "";
-    metaEl.value = "";
-    statusEl.value = "待读";
-    render();
-    toast("已加入清单");
-  });
 
-  document.getElementById("search").addEventListener("input", function (e) {
-    query = e.target.value.trim().toLowerCase();
-    render();
-  });
+    renderVocabPanel();
+  }
 
-  document.getElementById("filters").addEventListener("click", function (e) {
-    var btn = e.target.closest(".chip");
-    if (!btn) return;
-    filter = btn.getAttribute("data-f");
-    Array.prototype.forEach.call(this.querySelectorAll(".chip"), function (c) {
-      c.setAttribute("aria-pressed", String(c === btn));
+  function renderPaper(paper) {
+    var wrap = document.createElement("div");
+    wrap.className = "report-block";
+    wrap.setAttribute("data-id", paper.id);
+
+    var hasReport = !!(paper.summary || paper.principles);
+    var isExpanded = state.expanded[paper.id];
+    var isEditing = state.editing[paper.id];
+
+    /* ---- 头部 ---- */
+    var head = document.createElement("div");
+    head.className = "report-head";
+
+    var headLeft = document.createElement("div");
+    headLeft.style.minWidth = "0";
+    headLeft.style.flex = "1";
+
+    var statusClass = paper.status === "已读" ? "done" : (paper.status === "在读" ? "reading" : "");
+    var titleHTML = '<h3 class="report-title">' + esc(paper.title || "无题") +
+      ' <span class="status-tag ' + statusClass + '">' + esc(paper.status || "待读") + '</span></h3>';
+    var metaText = paper.meta || "";
+    if (paper.createdAt) metaText += (metaText ? " · " : "") + "记于 " + stamp(paper.createdAt);
+    if (!hasReport && paper.status === "待读") metaText += " · 尚未生成报告";
+
+    headLeft.innerHTML = titleHTML + '<div class="report-meta">' + esc(metaText) + '</div>';
+
+    var actions = document.createElement("div");
+    actions.className = "report-actions";
+
+    if (hasReport) {
+      var toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.textContent = isExpanded ? "收起" : "展开";
+      toggleBtn.addEventListener("click", function () {
+        state.expanded[paper.id] = !state.expanded[paper.id];
+        render();
+      });
+      actions.appendChild(toggleBtn);
+    }
+
+    var editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.textContent = isEditing ? "取消编辑" : "编辑";
+    editBtn.addEventListener("click", function () {
+      state.editing[paper.id] = !state.editing[paper.id];
+      render();
     });
-    render();
-  });
+    actions.appendChild(editBtn);
 
+    var delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "danger";
+    delBtn.textContent = "删除";
+    delBtn.addEventListener("click", function () { deletePaper(paper.id); });
+    actions.appendChild(delBtn);
+
+    head.appendChild(headLeft);
+    head.appendChild(actions);
+    wrap.appendChild(head);
+
+    /* ---- 报告正文 ---- */
+    if (hasReport || isEditing) {
+      var body = document.createElement("div");
+      body.className = "report-body" + (isExpanded || isEditing ? " open" : "");
+
+      if (hasReport) {
+        body.appendChild(renderReportSections(paper));
+        body.appendChild(renderPaperVocab(paper));
+      }
+
+      if (isEditing) {
+        body.appendChild(renderEditForm(paper));
+      }
+
+      wrap.appendChild(body);
+    }
+
+    /* ---- 没有报告时的提示 ---- */
+    if (!hasReport && !isEditing) {
+      var hint = document.createElement("div");
+      hint.className = "report-body open";
+      hint.innerHTML = '<p class="hint" style="padding:4px 0">还没有阅读报告。' +
+        (localStorage.getItem(KEYS.aiKey) ? '点击「生成报告」让 AI 帮你分析。' : '先去「AI 设置」配置接口，然后可以自动生成报告；也可以点「编辑」手动填写。') +
+        '</p>';
+      if (!isEditing) {
+        var genBtn = document.createElement("div");
+        genBtn.style.padding = "0 0 12px";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn";
+        btn.textContent = "生成报告";
+        btn.style.cssText = "font-size:13px;padding:6px 16px;min-height:34px";
+        btn.addEventListener("click", function () { generateReport(paper.id); });
+        genBtn.appendChild(btn);
+        hint.appendChild(genBtn);
+      }
+      wrap.appendChild(hint);
+    }
+
+    return wrap;
+  }
+
+  function renderReportSections(paper) {
+    var frag = document.createDocumentFragment();
+    ["summary", "quotes", "principles", "lessons", "theory"].forEach(function (key) {
+      var val = paper[key];
+      if (!val) return;
+      var sec = document.createElement("div");
+      sec.className = "report-section";
+
+      var h = document.createElement("h4");
+      h.textContent = SECTION_LABELS[key] || key;
+      sec.appendChild(h);
+
+      if (key === "quotes" && Array.isArray(val)) {
+        val.forEach(function (q) {
+          var bq = document.createElement("blockquote");
+          bq.textContent = q.text || "";
+          if (q.context) {
+            var cite = document.createElement("p");
+            cite.style.cssText = "font-size:12px;color:var(--ink-3);margin-top:4px;font-style:italic";
+            cite.textContent = "—— " + q.context;
+            bq.appendChild(cite);
+          }
+          sec.appendChild(bq);
+        });
+      } else {
+        var p = document.createElement("div");
+        p.textContent = val;
+        sec.appendChild(p);
+      }
+      frag.appendChild(sec);
+    });
+    return frag;
+  }
+
+  function renderPaperVocab(paper) {
+    var allVocab = [].concat(paper.vocabGeneral || [], paper.vocabDomain || []);
+    if (!allVocab.length) return document.createDocumentFragment();
+
+    var sec = document.createElement("div");
+    sec.className = "report-section";
+    var h = document.createElement("h4");
+    h.textContent = "词汇表";
+    sec.appendChild(h);
+
+    var table = document.createElement("table");
+    table.className = "vocab-table";
+    var thead = document.createElement("thead");
+    thead.innerHTML = "<tr><th>术语</th><th>English</th><th>释义</th></tr>";
+    table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    allVocab.forEach(function (v) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = '<td class="vocab-term">' + esc(v.term) + '</td>' +
+        '<td class="vocab-en">' + esc(v.english) + '</td>' +
+        '<td>' + esc(v.definition) + '</td>';
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    sec.appendChild(table);
+    return sec;
+  }
+
+  function renderEditForm(paper) {
+    var sec = document.createElement("div");
+    sec.className = "report-section";
+    sec.style.borderTop = "1px solid var(--rule-soft)";
+    sec.style.paddingTop = "16px";
+    sec.style.marginTop = "16px";
+
+    var h = document.createElement("h4");
+    h.textContent = "编辑报告";
+    sec.appendChild(h);
+
+    var fields = [
+      { key: "summary", label: "概述", type: "textarea" },
+      { key: "quotes", label: "原文引用（每段用空行分隔）", type: "textarea" },
+      { key: "principles", label: "原理总结", type: "textarea" },
+      { key: "lessons", label: "可借鉴之处", type: "textarea" },
+      { key: "theory", label: "相关理论知识", type: "textarea" }
+    ];
+
+    fields.forEach(function (f) {
+      var wrap = document.createElement("div");
+      wrap.style.marginBottom = "12px";
+      var label = document.createElement("label");
+      label.style.cssText = "display:block;font-size:13px;color:var(--ink-3);margin-bottom:4px";
+      label.textContent = f.label;
+      wrap.appendChild(label);
+
+      var input;
+      if (f.type === "textarea") {
+        input = document.createElement("textarea");
+        input.style.cssText = "min-height:100px;font-family:var(--sans);font-size:14px;line-height:1.7";
+        if (f.key === "quotes" && Array.isArray(paper[f.key])) {
+          input.value = paper[f.key].map(function (q) { return q.text || ""; }).join("\n\n");
+        } else {
+          input.value = paper[f.key] || "";
+        }
+      } else {
+        input = document.createElement("input");
+        input.type = "text";
+        input.value = paper[f.key] || "";
+      }
+      input.setAttribute("data-field", f.key);
+      input.className = "edit-field";
+      wrap.appendChild(input);
+      sec.appendChild(wrap);
+    });
+
+    var btnRow = document.createElement("div");
+    btnRow.style.cssText = "display:flex;gap:8px;margin-top:12px";
+    var saveBtn = document.createElement("button");
+    saveBtn.type = "button";
+    saveBtn.className = "btn";
+    saveBtn.textContent = "保存修改";
+    saveBtn.addEventListener("click", function () { saveEdit(paper.id, sec); });
+    btnRow.appendChild(saveBtn);
+    sec.appendChild(btnRow);
+
+    return sec;
+  }
+
+  function saveEdit(id, secEl) {
+    var paper = state.papers.find(function (p) { return p.id === id; });
+    if (!paper) return;
+
+    var fields = secEl.querySelectorAll(".edit-field");
+    fields.forEach(function (f) {
+      var key = f.getAttribute("data-field");
+      if (key === "quotes") {
+        paper.quotes = f.value.split(/\n\s*\n/).filter(function (s) { return s.trim(); }).map(function (t) {
+          return { text: t.trim(), context: "" };
+        });
+      } else {
+        paper[key] = f.value.trim();
+      }
+    });
+    paper.updatedAt = Date.now();
+    savePapers();
+    state.editing[id] = false;
+    render();
+    toast("已保存");
+  }
+
+  /* ============================================================
+     渲染：全局词汇面板
+     ============================================================ */
+  function renderVocabPanel() {
+    var panel = document.getElementById("vocabPanel");
+    var listEl = document.getElementById("vocabList");
+    var countEl = document.getElementById("vocabCount");
+
+    if (!state.vocab.length) {
+      panel.style.display = "none";
+      return;
+    }
+    panel.style.display = "";
+    countEl.textContent = state.vocab.length + " 条";
+
+    var q = state.vocabQuery.toLowerCase();
+    var filtered = state.vocab.filter(function (v) {
+      if (!q) return true;
+      return (v.term || "").toLowerCase().indexOf(q) > -1 ||
+        (v.english || "").toLowerCase().indexOf(q) > -1 ||
+        (v.definition || "").toLowerCase().indexOf(q) > -1;
+    });
+
+    listEl.textContent = "";
+    if (!filtered.length) {
+      listEl.innerHTML = '<p class="hint">没有找到匹配的词汇</p>';
+      return;
+    }
+
+    var table = document.createElement("table");
+    table.className = "vocab-table";
+    table.innerHTML = "<thead><tr><th>术语</th><th>English</th><th>释义</th><th>分类</th></tr></thead>";
+    var tbody = document.createElement("tbody");
+    filtered.forEach(function (v) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = '<td class="vocab-term">' + esc(v.term) + '</td>' +
+        '<td class="vocab-en">' + esc(v.english) + '</td>' +
+        '<td>' + esc(v.definition) + '</td>' +
+        '<td><span class="status-tag">' + esc(v.category || "") + '</span></td>';
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    listEl.appendChild(table);
+  }
+
+  /* ============================================================
+     生成报告（AI）
+     ============================================================ */
+  function generateReport(id) {
+    var paper = state.papers.find(function (p) { return p.id === id; });
+    if (!paper) return;
+    if (!paper.extractedText) {
+      toast("这篇没有提取文字，请重新上传 PDF");
+      return;
+    }
+    if (!localStorage.getItem(KEYS.aiKey)) {
+      document.getElementById("settingsModal").classList.add("open");
+      toast("先配置 AI 接口");
+      return;
+    }
+
+    /* 显示进度 */
+    state.expanded[id] = true;
+    render();
+    var bodyEl = document.querySelector('[data-id="' + id + '"] .report-body');
+    if (bodyEl) {
+      var loading = document.createElement("div");
+      loading.className = "analyzing";
+      loading.id = "aiLoading";
+      loading.innerHTML = '<div class="spinner"></div><p>AI 正在阅读，请稍候……</p>';
+      bodyEl.insertBefore(loading, bodyEl.firstChild);
+    }
+
+    callAI(paper.extractedText).then(function (report) {
+      /* 合并报告到 paper */
+      paper.title = report.title || paper.title;
+      paper.meta = [report.authors, report.venue, report.year].filter(Boolean).join(" · ") || paper.meta;
+      paper.summary = report.summary || "";
+      paper.quotes = report.quotes || [];
+      paper.principles = report.principles || "";
+      paper.lessons = report.lessons || "";
+      paper.theory = report.theory || "";
+      paper.vocabGeneral = report.vocabGeneral || [];
+      paper.vocabDomain = report.vocabDomain || [];
+      paper.hasReport = true;
+      paper.status = paper.status === "待读" ? "在读" : paper.status;
+      paper.updatedAt = Date.now();
+      delete paper.extractedText; /* 释放空间 */
+
+      /* 合并词汇 */
+      var added = mergeVocab(paper.vocabGeneral, paper.vocabDomain);
+
+      savePapers();
+      render();
+      toast("报告已生成" + (added > 0 ? "，新增 " + added + " 条词汇" : ""));
+    }).catch(function (err) {
+      var loadingEl = document.getElementById("aiLoading");
+      if (loadingEl) loadingEl.remove();
+      if (err.message === "NEED_CONFIG") {
+        document.getElementById("settingsModal").classList.add("open");
+        toast("先配置 AI 接口");
+      } else {
+        console.error(err);
+        toast("AI 分析失败：" + err.message.slice(0, 60));
+      }
+    });
+  }
+
+  /* ============================================================
+     处理 PDF 上传
+     ============================================================ */
+  function handlePDF(file) {
+    if (!file || file.type !== "application/pdf") {
+      toast("请选择 PDF 文件");
+      return;
+    }
+    if (file.size > 30 * 1024 * 1024) {
+      toast("文件太大（超过 30 MB）");
+      return;
+    }
+
+    var bar = document.getElementById("progressBar");
+    var fill = document.getElementById("progressFill");
+    bar.classList.add("active");
+    fill.style.width = "20%";
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      extractPDF(reader.result).then(function (text) {
+        fill.style.width = "60%";
+
+        if (!text.trim() || text.trim().length < 50) {
+          bar.classList.remove("active");
+          toast("PDF 提取不到文字，可能是扫描件");
+          return;
+        }
+
+        /* 创建 paper 条目 */
+        var id = String(Date.now());
+        var paper = {
+          id: id,
+          title: file.name.replace(/\.pdf$/i, ""),
+          meta: "",
+          status: "待读",
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          hasReport: false,
+          extractedText: text,
+          summary: "", quotes: [], principles: "", lessons: "", theory: "",
+          vocabGeneral: [], vocabDomain: []
+        };
+        state.papers.unshift(paper);
+        savePapers();
+
+        fill.style.width = "80%";
+
+        /* 自动尝试 AI 分析 */
+        if (localStorage.getItem(KEYS.aiKey)) {
+          state.expanded[id] = true;
+          render();
+          fill.style.width = "100%";
+          setTimeout(function () { bar.classList.remove("active"); fill.style.width = "0"; }, 500);
+          generateReport(id);
+        } else {
+          fill.style.width = "100%";
+          setTimeout(function () { bar.classList.remove("active"); fill.style.width = "0"; }, 500);
+          render();
+          toast("PDF 已上传，配置 AI 后可自动生成报告");
+        }
+      }).catch(function (err) {
+        bar.classList.remove("active");
+        toast("PDF 解析失败：" + err.message);
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  /* ============================================================
+     事件绑定
+     ============================================================ */
+  function bindEvents() {
+    /* 上传区 */
+    var zone = document.getElementById("uploadZone");
+    var input = document.getElementById("pdfInput");
+
+    zone.addEventListener("click", function () { input.click(); });
+    input.addEventListener("change", function () {
+      if (input.files && input.files[0]) handlePDF(input.files[0]);
+      input.value = "";
+    });
+
+    zone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      zone.classList.add("dragover");
+    });
+    zone.addEventListener("dragleave", function () {
+      zone.classList.remove("dragover");
+    });
+    zone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      zone.classList.remove("dragover");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handlePDF(e.dataTransfer.files[0]);
+      }
+    });
+
+    /* 筛选 */
+    document.getElementById("filters").addEventListener("click", function (e) {
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      state.filter = btn.getAttribute("data-f");
+      Array.prototype.forEach.call(this.querySelectorAll(".chip"), function (c) {
+        c.setAttribute("aria-pressed", String(c === btn));
+      });
+      render();
+    });
+
+    /* 搜索 */
+    document.getElementById("search").addEventListener("input", function (e) {
+      state.query = e.target.value;
+      render();
+    });
+
+    /* 词汇搜索 */
+    document.getElementById("vocabSearch").addEventListener("input", function (e) {
+      state.vocabQuery = e.target.value;
+      renderVocabPanel();
+    });
+
+    /* 设置弹窗 */
+    document.getElementById("btnSettings").addEventListener("click", function () {
+      document.getElementById("cfgKey").value = localStorage.getItem(KEYS.aiKey) || "";
+      document.getElementById("cfgUrl").value = localStorage.getItem(KEYS.aiUrl) || "";
+      document.getElementById("cfgModel").value = localStorage.getItem(KEYS.aiModel) || "gpt-4o-mini";
+      document.getElementById("settingsModal").classList.add("open");
+    });
+    document.getElementById("cfgCancel").addEventListener("click", function () {
+      document.getElementById("settingsModal").classList.remove("open");
+    });
+    document.getElementById("cfgSave").addEventListener("click", function () {
+      var key = document.getElementById("cfgKey").value.trim();
+      var url = document.getElementById("cfgUrl").value.trim();
+      var model = document.getElementById("cfgModel").value.trim() || "gpt-4o-mini";
+      if (key) localStorage.setItem(KEYS.aiKey, key);
+      else localStorage.removeItem(KEYS.aiKey);
+      if (url) localStorage.setItem(KEYS.aiUrl, url);
+      else localStorage.removeItem(KEYS.aiUrl);
+      localStorage.setItem(KEYS.aiModel, model);
+      document.getElementById("settingsModal").classList.remove("open");
+      toast("设置已保存");
+      render();
+    });
+
+    /* 手动添加弹窗 */
+    document.getElementById("btnManual").addEventListener("click", function () {
+      document.getElementById("addTitle").value = "";
+      document.getElementById("addMeta").value = "";
+      document.getElementById("addStatus").value = "待读";
+      document.getElementById("addModal").classList.add("open");
+    });
+    document.getElementById("addCancel").addEventListener("click", function () {
+      document.getElementById("addModal").classList.remove("open");
+    });
+    document.getElementById("addSave").addEventListener("click", function () {
+      var title = document.getElementById("addTitle").value.trim();
+      if (!title) { toast("先写题目"); return; }
+      var meta = document.getElementById("addMeta").value.trim();
+      var status = document.getElementById("addStatus").value;
+      var id = String(Date.now());
+      state.papers.unshift({
+        id: id, title: title, meta: meta, status: status,
+        createdAt: Date.now(), updatedAt: Date.now(), hasReport: false,
+        summary: "", quotes: [], principles: "", lessons: "", theory: "",
+        vocabGeneral: [], vocabDomain: []
+      });
+      savePapers();
+      document.getElementById("addModal").classList.remove("open");
+      render();
+      toast("已添加");
+    });
+
+    /* 点击弹窗外部关闭 */
+    document.getElementById("settingsModal").addEventListener("click", function (e) {
+      if (e.target === this) this.classList.remove("open");
+    });
+    document.getElementById("addModal").addEventListener("click", function (e) {
+      if (e.target === this) this.classList.remove("open");
+    });
+  }
+
+  /* ============================================================
+     时钟
+     ============================================================ */
   (function clock() {
     var d = new Date();
     document.getElementById("navClock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
   })();
 
+  /* ============================================================
+     初始化
+     ============================================================ */
+  state.papers = load(KEYS.papers, []);
+  if (!Array.isArray(state.papers)) state.papers = [];
+  state.vocab = load(KEYS.vocab, []);
+  if (!Array.isArray(state.vocab)) state.vocab = [];
+
+  bindEvents();
   render();
 })();
 </script>
