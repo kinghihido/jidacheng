@@ -132,6 +132,27 @@
   </div>
 </div>
 
+<!-- 手动分析弹窗 -->
+<div class="modal-overlay" id="manualModal">
+  <div class="modal-box" style="max-width:560px">
+    <h3>手动分析</h3>
+    <p class="hint" style="margin-bottom:12px">自动分析遇到了跨域问题。你可以把下面的文字复制给 ChatGPT / Claude / 豆包，再把它们的回复粘回来。</p>
+    <div class="field">
+      <label>① 复制这段提示词 + 论文文字，发给 AI</label>
+      <textarea id="manualPrompt" style="min-height:120px;font-family:var(--mono);font-size:12px;line-height:1.6" readonly></textarea>
+      <button class="btn btn-ghost" id="copyPrompt" type="button" style="margin-top:6px;font-size:12px;padding:5px 12px;min-height:30px">复制提示词</button>
+    </div>
+    <div class="field">
+      <label>② 把 AI 的回复粘到这里</label>
+      <textarea id="manualResponse" style="min-height:160px;font-family:var(--mono);font-size:12px;line-height:1.6" placeholder="粘贴 AI 返回的 JSON 结果……"></textarea>
+    </div>
+    <div class="modal-close">
+      <button class="btn btn-ghost" id="manualCancel" type="button">取消</button>
+      <button class="btn" id="manualSave" type="button">保存报告</button>
+    </div>
+  </div>
+</div>
+
 <footer class="foot">
   <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
   <p>kinghihido · 2026</p>
@@ -754,9 +775,96 @@
         toast("先配置 AI 接口");
       } else {
         console.error(err);
-        toast("AI 分析失败：" + err.message.slice(0, 60));
+        /* 自动分析失败时，弹出手动分析窗口 */
+        openManualModal(id);
       }
     });
+  }
+
+  /* ============================================================
+     手动分析弹窗
+     ============================================================ */
+  var manualPaperId = null;
+
+  function openManualModal(id) {
+    var paper = state.papers.find(function (p) { return p.id === id; });
+    if (!paper || !paper.extractedText) {
+      toast("没有可分析的文本");
+      return;
+    }
+    manualPaperId = id;
+
+    var prompt = [
+      "你是一位材料科学领域的学术助手，负责帮本科生阅读学术论文。",
+      "请从以下七个维度分析论文，全部用中文撰写（原文引用保留英文），返回严格的 JSON 格式。",
+      "概述要通俗易懂，像学长给学弟讲明白这篇文章干了什么；难度控制在本科高年级水平。",
+      "原文引用选 2-4 段关键段落。原理总结讲清楚用了什么方法、为什么这样做。",
+      "可借鉴之处提炼实验设计、数据分析或思路上的亮点。",
+      "相关理论知识用类比和通俗语言解释。",
+      "词汇分两类：通用学术英语词汇 + 材料/化学/物理领域专业词汇。",
+      "",
+      "返回格式（严格 JSON，不要加 markdown 代码块标记）：",
+      "{",
+      '  "title": "论文标题",',
+      '  "authors": "作者",',
+      '  "venue": "期刊/会议",',
+      '  "year": "年份",',
+      '  "summary": "概述全文",',
+      '  "quotes": [{"text": "英文原文", "context": "出处说明"}],',
+      '  "principles": "原理总结",',
+      '  "lessons": "可借鉴之处",',
+      '  "theory": "相关理论知识",',
+      '  "vocabGeneral": [{"term": "中文术语", "english": "English", "definition": "一句话解释"}],',
+      '  "vocabDomain": [{"term": "中文术语", "english": "English", "definition": "一句话解释"}]',
+      "}",
+      "",
+      "论文全文：",
+      paper.extractedText.slice(0, 35000)
+    ].join("\n");
+
+    document.getElementById("manualPrompt").value = prompt;
+    document.getElementById("manualResponse").value = "";
+    document.getElementById("manualModal").classList.add("open");
+  }
+
+  function saveManualReport() {
+    if (!manualPaperId) return;
+    var paper = state.papers.find(function (p) { return p.id === manualPaperId; });
+    if (!paper) return;
+
+    var raw = document.getElementById("manualResponse").value.trim();
+    if (!raw) { toast("先粘入 AI 的回复"); return; }
+
+    /* 去掉可能的 markdown 代码块标记 */
+    if (raw.startsWith("```")) {
+      raw = raw.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+    }
+
+    try {
+      var report = JSON.parse(raw);
+      paper.title = report.title || paper.title;
+      paper.meta = [report.authors, report.venue, report.year].filter(Boolean).join(" · ") || paper.meta;
+      paper.summary = report.summary || "";
+      paper.quotes = report.quotes || [];
+      paper.principles = report.principles || "";
+      paper.lessons = report.lessons || "";
+      paper.theory = report.theory || "";
+      paper.vocabGeneral = report.vocabGeneral || [];
+      paper.vocabDomain = report.vocabDomain || [];
+      paper.hasReport = true;
+      paper.status = paper.status === "待读" ? "在读" : paper.status;
+      paper.updatedAt = Date.now();
+      delete paper.extractedText;
+
+      var added = mergeVocab(paper.vocabGeneral, paper.vocabDomain);
+      savePapers();
+      document.getElementById("manualModal").classList.remove("open");
+      render();
+      toast("报告已保存" + (added > 0 ? "，新增 " + added + " 条词汇" : ""));
+    } catch (e) {
+      toast("JSON 解析失败，请检查 AI 回复格式");
+    }
+  }
   }
 
   /* ============================================================
@@ -942,6 +1050,27 @@
     });
     document.getElementById("addModal").addEventListener("click", function (e) {
       if (e.target === this) this.classList.remove("open");
+    });
+    document.getElementById("manualModal").addEventListener("click", function (e) {
+      if (e.target === this) this.classList.remove("open");
+    });
+
+    /* 手动分析弹窗 */
+    document.getElementById("copyPrompt").addEventListener("click", function () {
+      var text = document.getElementById("manualPrompt").value;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () { toast("提示词已复制"); });
+      } else {
+        document.getElementById("manualPrompt").select();
+        document.execCommand("copy");
+        toast("提示词已复制");
+      }
+    });
+    document.getElementById("manualCancel").addEventListener("click", function () {
+      document.getElementById("manualModal").classList.remove("open");
+    });
+    document.getElementById("manualSave").addEventListener("click", function () {
+      saveManualReport();
     });
   }
 
