@@ -382,7 +382,7 @@ a { color: var(--ink); }
 /* 总台上放大的本科学习站卡片 */
 .site-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(0.2, 1fr);
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
