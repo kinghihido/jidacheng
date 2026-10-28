@@ -93,6 +93,11 @@
       <input id="cfgModel" type="text" placeholder="gpt-4o-mini">
       <p class="hint">GitHub Models 推荐填 <code>gpt-4o-mini</code> 或 <code>gpt-4o</code>。</p>
     </div>
+    <div class="field">
+      <label for="cfgProxy">CORS 代理（解决跨域问题）</label>
+      <input id="cfgProxy" type="text" placeholder="https://corsproxy.io/?">
+      <p class="hint">如果 AI 分析报「Failed to fetch」，需要填代理地址。推荐填 <code>https://corsproxy.io/?</code>（免费）。留空则直连。</p>
+    </div>
     <div class="modal-close">
       <button class="btn btn-ghost" id="cfgCancel" type="button">取消</button>
       <button class="btn" id="cfgSave" type="button">保存</button>
@@ -146,7 +151,8 @@
     vocab: "jdc.vocab",
     aiKey: "jdc.ai.key",
     aiUrl: "jdc.ai.url",
-    aiModel: "jdc.ai.model"
+    aiModel: "jdc.ai.model",
+    aiProxy: "jdc.ai.proxy"
   };
   var ORDER = ["待读", "在读", "已读"];
   var SECTION_LABELS = {
@@ -248,7 +254,11 @@
     var key = localStorage.getItem(KEYS.aiKey) || "";
     var url = localStorage.getItem(KEYS.aiUrl) || "";
     var model = localStorage.getItem(KEYS.aiModel) || "gpt-4o-mini";
+    var proxy = localStorage.getItem(KEYS.aiProxy) || "";
     if (!key || !url) return Promise.reject(new Error("NEED_CONFIG"));
+
+    /* 如果有代理，把 API 地址包在代理后面 */
+    var fetchUrl = proxy ? (proxy + encodeURIComponent(url)) : url;
 
     var systemPrompt = [
       "你是一位材料科学领域的学术助手，负责帮本科生阅读学术论文。",
@@ -277,7 +287,7 @@
 
     var userMsg = "请分析以下学术论文，按指定 JSON 格式返回阅读报告。如果 PDF 提取的文字不完整，尽量根据已有内容分析。\n\n论文全文：\n" + text.slice(0, 35000);
 
-    return fetch(url, {
+    return fetch(fetchUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
       body: JSON.stringify({
@@ -875,6 +885,7 @@
       document.getElementById("cfgKey").value = localStorage.getItem(KEYS.aiKey) || "";
       document.getElementById("cfgUrl").value = localStorage.getItem(KEYS.aiUrl) || "";
       document.getElementById("cfgModel").value = localStorage.getItem(KEYS.aiModel) || "gpt-4o-mini";
+      document.getElementById("cfgProxy").value = localStorage.getItem(KEYS.aiProxy) || "";
       document.getElementById("settingsModal").classList.add("open");
     });
     document.getElementById("cfgCancel").addEventListener("click", function () {
@@ -884,11 +895,14 @@
       var key = document.getElementById("cfgKey").value.trim();
       var url = document.getElementById("cfgUrl").value.trim();
       var model = document.getElementById("cfgModel").value.trim() || "gpt-4o-mini";
+      var proxy = document.getElementById("cfgProxy").value.trim();
       if (key) localStorage.setItem(KEYS.aiKey, key);
       else localStorage.removeItem(KEYS.aiKey);
       if (url) localStorage.setItem(KEYS.aiUrl, url);
       else localStorage.removeItem(KEYS.aiUrl);
       localStorage.setItem(KEYS.aiModel, model);
+      if (proxy) localStorage.setItem(KEYS.aiProxy, proxy);
+      else localStorage.removeItem(KEYS.aiProxy);
       document.getElementById("settingsModal").classList.remove("open");
       toast("设置已保存");
       render();
