@@ -30,6 +30,7 @@
 
   <!-- 设置入口 & 手动添加 -->
   <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+    <button class="btn btn-ghost" id="btnReset" type="button" style="font-size:13px;padding:6px 14px;min-height:34px;color:var(--danger,#c44)">重置数据</button>
     <button class="btn btn-ghost" id="btnManual" type="button" style="font-size:13px;padding:6px 14px;min-height:34px">手动添加</button>
     <button class="btn btn-ghost" id="btnSettings" type="button" style="font-size:13px;padding:6px 14px;min-height:34px">AI 设置</button>
   </div>
@@ -1015,6 +1016,32 @@
       render();
     });
 
+    /* 重置数据 */
+    document.getElementById("btnReset").addEventListener("click", function () {
+      if (!window.confirm("确定要清除所有本地数据并重新加载默认文献吗？你自己添加的文献和报告都会丢失。")) return;
+      localStorage.removeItem(KEYS.papers);
+      localStorage.removeItem(KEYS.vocab);
+      state.papers = [];
+      state.vocab = [];
+      fetch("papers.json").then(function (r) {
+        if (!r.ok) throw new Error("Failed to load");
+        return r.json();
+      }).then(function (data) {
+        if (data && Array.isArray(data)) {
+          state.papers = data;
+          store(KEYS.papers, state.papers);
+          data.forEach(function (p) {
+            mergeVocab(p.vocabGeneral, p.vocabDomain);
+          });
+          render();
+          toast("数据已重置");
+        }
+      }).catch(function () {
+        render();
+        toast("数据已清除，但默认数据加载失败");
+      });
+    });
+
     /* 手动添加弹窗 */
     document.getElementById("btnManual").addEventListener("click", function () {
       document.getElementById("addTitle").value = "";
@@ -1088,6 +1115,24 @@
   if (!Array.isArray(state.papers)) state.papers = [];
   state.vocab = load(KEYS.vocab, []);
   if (!Array.isArray(state.vocab)) state.vocab = [];
+
+  /* 如果本地没有数据，从 papers.json 加载默认数据 */
+  if (state.papers.length === 0) {
+    fetch("papers.json").then(function (r) {
+      if (!r.ok) return null;
+      return r.json();
+    }).then(function (data) {
+      if (data && Array.isArray(data) && data.length > 0) {
+        state.papers = data;
+        store(KEYS.papers, state.papers);
+        /* 合并所有词汇 */
+        data.forEach(function (p) {
+          mergeVocab(p.vocabGeneral, p.vocabDomain);
+        });
+        render();
+      }
+    }).catch(function () { /* 加载失败不影响正常使用 */ });
+  }
 
   bindEvents();
   render();

@@ -1,0 +1,596 @@
+[
+  {
+    "id": "raman-001",
+    "title": "Single isolated SWCNT: Resonant Raman spectroscopy and (n,m) structural assignment",
+    "meta": "Jorio et al. · Phys. Rev. Lett. 86, 1118–1121 · 2001",
+    "status": "已读",
+    "createdAt": 1730000000000,
+    "updatedAt": 1730000000000,
+    "hasReport": true,
+    "summary": "这篇文章第一次在单根孤立碳纳米管上做出了共振拉曼光谱，证明了可以通过径向呼吸模（RBM）的频率加上共振激发能量来反推碳纳米管的手性指数 (n,m)。简单说就是：拉曼不只是'看到'碳管，而是能'叫出每根管的名字'。之前的拉曼研究都是对碳管束做测量，看到的是所有管的平均信号；这篇文章把空间分辨率做到单根管，配合不同波长的激光扫描，画出了所谓的 Kataura 图——哪个激发能量对应哪种 (n,m) 的 Eii 跃迁。这个范式直接奠定了后来十年碳管光谱学的基础。",
+    "quotes": [
+      {"text": "The RBM frequency is found to depend on the excitation laser energy, indicating that different tubes are in resonance for different laser energies.", "context": "摘要核心句，说明 RBM 频率与激发能量的共振关系"},
+      {"text": "This result demonstrates that it is possible to assign the (n,m) indices of individual isolated SWCNTs based on their resonant Raman spectra.", "context": "结论段，确立结构指认范式"}
+    ],
+    "principles": "核心原理是共振拉曼效应：当激光能量匹配碳管的 Eii 范霍夫奇点时，拉曼信号增强 100-1000 倍。RBM 频率 ω_RBM 与管径 d 的关系为 ω_RBM = A/d + B，其中 A≈248 cm⁻¹·nm，B 是环境修正项。通过测量不同激发波长下的 RBM，配合已知的 Kataura 图（Eii vs d 的关系），就能唯一确定 (n,m)。关键实验设计：用稀溶液把碳管分散在基底上，保证单根孤立；用多波长激光（从 514 nm 到 750 nm）扫描，找到每根管的共振窗口。",
+    "lessons": "实验设计上最聪明的一点是用'稀溶液 + 单根管'避免了碳管束的集体效应，让每根管的光谱干干净净。数据分析上，他们把 RBM 频率和共振能量画成二维图，直接和理论 Kataura 图对比，视觉上就能指认 (n,m)。这种'二维共振扫描'的思路后来被广泛用到石墨烯、TMD 的共振拉曼研究中。",
+    "theory": "拉曼散射：光子进来，激发虚态，声子参与，光子出去，能量差等于声子能量。共振拉曼：当光子能量匹配真实电子跃迁（范霍夫奇点）时，中间态变成实态，信号暴涨。碳管的范霍夫奇点来自一维体系的态密度奇异性——一维情况下 E(k) 在带边变成抛物线，态密度发散成 δ 函数状的尖峰。金属管和半导体管的 Eii 不同，所以共振条件不同，可以用来分选管型。",
+    "vocabGeneral": [
+      {"term": "共振拉曼", "english": "Resonant Raman", "definition": "当激发光能量匹配材料的电子跃迁时，拉曼信号显著增强的现象"},
+      {"term": "范霍夫奇点", "english": "Van Hove singularity", "definition": "低维体系中态密度出现尖锐峰值的能量位置"},
+      {"term": "结构指认", "english": "Structural assignment", "definition": "通过光谱特征确定材料的微观结构参数（如手性指数）"}
+    ],
+    "vocabDomain": [
+      {"term": "径向呼吸模", "english": "Radial Breathing Mode (RBM)", "definition": "碳纳米管中所有碳原子沿径向同步振动的声子模式，频率与管径成反比"},
+      {"term": "手性指数", "english": "Chiral indices (n,m)", "definition": "描述碳纳米管卷曲方式的两个整数，决定管径和电子性质"},
+      {"term": "Kataura 图", "english": "Kataura plot", "definition": "碳纳米管 Eii 跃迁能量与管径关系的理论图，用于共振拉曼指认"}
+    ]
+  },
+  {
+    "id": "raman-002",
+    "title": "Raman spectroscopy of carbon nanotubes: A comprehensive review",
+    "meta": "Dresselhaus, Dresselhaus, Saito, Jorio · Phys. Rep. 409, 47–99 · 2005",
+    "status": "已读",
+    "createdAt": 1730000001000,
+    "updatedAt": 1730000001000,
+    "hasReport": true,
+    "summary": "碳纳米管拉曼领域的'圣经'，53 页权威综述。系统梳理了从 RBM 到 G 带、D 带、G' 带的所有拉曼特征，建立了完整的分析框架。核心内容包括：RBM 频率与管径的标度关系、G 带的 Breit-Wigner-Fano (BWF) 线型（金属管 vs 半导体管的区分）、D 带的双共振机制（缺陷激活）、G' 带的色散行为。文章还总结了环境效应（衬底、掺杂、应变）对拉曼峰的影响，给出了定量的修正公式。对于做碳管拉曼的人来说，这篇综述是案头必备的工具书。",
+    "quotes": [
+      {"text": "The G band of SWCNTs exhibits a Breit-Wigner-Fano lineshape for metallic tubes, while semiconducting tubes show Lorentzian profiles.", "context": "G 带线型部分，建立金属/半导体管的判据"},
+      {"text": "The D band arises from a double-resonance Raman process involving one phonon and one defect scattering event.", "context": "D 带机制部分，澄清双共振图像"}
+    ],
+    "principles": "双共振拉曼机制是理解 D 和 G' 带的关键：光子激发电子到范霍夫奇点附近，电子散射声子改变动量，再被缺陷散射回到原点，整个过程两个中间态都是实态（共振增强）。G 带的 BWF 线型来自金属管中声子模与连续电子激发的耦合——Fano 干涉导致非对称线型。RBM 的管径标度律 ω = A/d + B 中，A 和 B 依赖于环境（孤立管、束、衬底），需要实验标定。",
+    "lessons": "综述的最大贡献是建立了'拉曼特征 ↔ 物理量'的定量对应表：G 带频率 vs 掺杂浓度、D/G 强度比 vs 缺陷密度、G' 带位置 vs 应变。这种定量标度的思路对后来石墨烯、TMD 的拉曼分析有直接影响。另外，文章强调的双共振图像（需要同时满足能量和动量守恒）成为理解所有二维材料拉曼的基础框架。",
+    "theory": "双共振过程：普通拉曼是单共振（一个中间态共振），双共振要求两个中间态都共振，因此对声子动量 q 有选择性——只有特定 q 的声子参与，导致 D 和 G' 带的频率随激发波长变化（色散行为）。BWF 线型：当离散声子态与连续电子态耦合时，出现 Fano 干涉，线型变为 I(ω) ∝ (q+ε)²/(1+ε²)，其中 ε=(ω-ω₀)/Γ，q 是 Fano 参数。",
+    "vocabGeneral": [
+      {"term": "双共振", "english": "Double resonance", "definition": "拉曼散射中两个中间电子态都满足共振条件的过程"},
+      {"term": "色散行为", "english": "Dispersion behavior", "definition": "拉曼峰频率随激发光能量变化的现象"},
+      {"term": "Fano 干涉", "english": "Fano interference", "definition": "离散态与连续态耦合导致的非对称光谱线型"}
+    ],
+    "vocabDomain": [
+      {"term": "Breit-Wigner-Fano 线型", "english": "BWF lineshape", "definition": "金属碳纳米管 G 带的非对称线型，源于声子与电子连续态的耦合"},
+      {"term": "K 点声子", "english": "K-point phonon", "definition": "布里渊区 K 点附近的声子，参与 D 和 G' 带的双共振过程"},
+      {"term": "缺陷激活", "english": "Defect activation", "definition": "D 带拉曼需要缺陷参与以满足动量守恒"}
+    ]
+  },
+  {
+    "id": "raman-003",
+    "title": "Evolution of the Raman spectra of single- and few-layer graphene with increasing number of layers",
+    "meta": "Ferrari et al. · Phys. Rev. Lett. 97, 187401 · 2006",
+    "status": "已读",
+    "createdAt": 1730000002000,
+    "updatedAt": 1730000002000,
+    "hasReport": true,
+    "summary": "整个二维材料拉曼领域的奠基作，第一次系统建立了石墨烯 2D 峰线型与层数的关系。文章发现：单层石墨烯的 2D 峰是单一洛伦兹峰，双层需要 4 个洛伦兹分量拟合，三层以上逐渐演化成类石墨的宽峰。核心机制是双共振过程中，不同层数的布里渊区折叠导致参与的双共振声子路径不同——单层只有 K 点附近的一条路径，双层由于能带劈裂出现四条路径，多层则进一步复杂化。这篇文章让拉曼成为石墨烯层数判定的标准工具，直接推动了石墨烯研究的爆发式增长。",
+    "quotes": [
+      {"text": "The 2D peak of single-layer graphene is a single Lorentzian, while it requires four components for bilayer graphene.", "context": "摘要核心句，建立层数判据"},
+      {"text": "The evolution of the Raman spectra with the number of layers is understood in terms of the double-resonance process and the band structure folding.", "context": "机制解释部分"}
+    ],
+    "principles": "双共振机制的层数依赖性：单层石墨烯的线性色散在 K 点形成狄拉克锥，双共振过程只涉及 K 点附近的一个声子环；双层石墨烯由于层间耦合导致能带劈裂（成键/反键态），出现四个双共振路径，对应 2D 峰的四个分量；多层石墨烯的能带进一步复杂化，2D 峰演化成宽峰。G 峰的 2D/G 强度比也随层数变化：单层约 2-3，双层约 1，体石墨约 0.5。",
+    "lessons": "实验上最关键的一点是用机械剥离法制备的样品，层数由 AFM 或光学衬度独立标定，避免了拉曼本身的不确定性。数据分析上，用多洛伦兹拟合分解 2D 峰，每个分量对应一个双共振路径，这种'光谱分解 ↔ 物理路径'的对应关系非常优雅。这种思路后来被直接移植到 TMD、hBN 等其他二维材料的层数判定中。",
+    "theory": "双共振的动量选择：对于 2D 峰（G' 峰），过程是光子→电子→声子→电子→光子，两个声子动量相反（q 和 -q），总动量守恒。单层石墨烯的狄拉克锥是线性的，只有特定能量和动量的声子满足双共振条件；双层由于能带劈裂，出现多个满足条件的声子环，对应不同的动量 q，因此 2D 峰需要多个洛伦兹分量。",
+    "vocabGeneral": [
+      {"term": "洛伦兹拟合", "english": "Lorentzian fitting", "definition": "用洛伦兹函数分解光谱峰的方法，每个峰对应一个振动模式"},
+      {"term": "能带劈裂", "english": "Band splitting", "definition": "由于层间耦合，简并能级分裂成多个能带的现象"},
+      {"term": "光学衬度", "english": "Optical contrast", "definition": "二维材料在 SiO2/Si 衬底上由于光干涉产生的可见度差异"}
+    ],
+    "vocabDomain": [
+      {"term": "2D 峰", "english": "2D peak (G' peak)", "definition": "石墨烯拉曼光谱中约 2700 cm⁻¹ 的二阶峰，由双共振过程产生"},
+      {"term": "狄拉克锥", "english": "Dirac cone", "definition": "石墨烯 K 点附近的线性电子色散关系，形成锥形能带结构"},
+      {"term": "双共振路径", "english": "Double-resonance path", "definition": "满足双共振条件的电子-声子散射路径"}
+    ]
+  },
+  {
+    "id": "raman-004",
+    "title": "Raman spectrum of graphene and graphene layers",
+    "meta": "Ferrari & Basko · Nat. Nanotechnol. 8, 235–246 · 2013",
+    "status": "已读",
+    "createdAt": 1730000003000,
+    "updatedAt": 1730000003000,
+    "hasReport": true,
+    "summary": "Ferrari 组在 Nature Nanotechnology 上发的实用综述，相当于给石墨烯拉曼分析写了一本'操作手册'。文章从双共振理论出发，系统讲解了如何用拉曼同时读出石墨烯的层数、缺陷密度、掺杂浓度、应变分布和边缘手性。最实用的部分是给出了各种物理量的定量标度公式：比如 D/G 强度比 vs 缺陷密度的关系（先升后降，有个转折点对应缺陷间距 ~1.5 nm）、2D 峰位置 vs 应变的线性系数、G 峰位置 vs 掺杂浓度的变化。对于做石墨烯表征的人来说，这篇综述是查表式的工具文献。",
+    "quotes": [
+      {"text": "Raman spectroscopy is a fast, reliable, and nondestructive tool to characterize graphene and its properties.", "context": "开篇定位拉曼作为标准表征手段"},
+      {"text": "The D band intensity provides a measure of the defect density, with a maximum at about 0.2% defect concentration.", "context": "D 带与缺陷密度的定量关系"}
+    ],
+    "principles": "双共振理论框架：D 带需要缺陷参与，因此 D/G 比可以标定缺陷密度，但关系不是简单的线性——低缺陷密度时 D/G 上升（更多缺陷激活更多双共振），高缺陷密度时 D/G 下降（缺陷太多破坏共振条件）。应变对拉曼峰的影响是线性的：G 峰每 1% 应变红移约 42 cm⁻¹，2D 峰红移约 85 cm⁻¹。掺杂会改变费米能级位置，当 |Ef| > ℏωL/2 时，D 和 2D 带因为 Pauli 阻塞被抑制。",
+    "lessons": "文章最聪明的地方是把复杂的物理机制转化成了实用的标定曲线。比如缺陷密度的标定：先测 D/G 比，如果小于 1 说明缺陷间距 > 1.5 nm，用 Tuinstra-Koenig 关系；如果大于 1 说明缺陷间距 < 1.5 nm，用另一套公式。这种'分区间标定'的思路避免了单一公式的适用范围问题。",
+    "theory": "Tuinstra-Koenig 关系：ID/IG ∝ 1/La（La 是石墨微晶尺寸），后来 Ferrari-Robertson 修正为适用于无序碳的更一般形式。对于石墨烯，Lucchese 等人标定了 ID/IG 与缺陷密度 nd 的定量关系：ID/IG = CA·nd² 用于低缺陷，ID/IG = C'B·nd⁻² 用于高缺陷。Pauli 阻塞：当费米能级超过激光光子能量的一半时，电子跃迁被禁止，导致 D 和 2D 带消失。",
+    "vocabGeneral": [
+      {"term": "非破坏性表征", "english": "Nondestructive characterization", "definition": "不损伤样品的材料表征方法"},
+      {"term": "定量标定", "english": "Quantitative calibration", "definition": "建立光谱特征与物理量之间的定量对应关系"},
+      {"term": "Pauli 阻塞", "english": "Pauli blocking", "definition": "由于费米能级移动，某些电子跃迁被禁止的现象"}
+    ],
+    "vocabDomain": [
+      {"term": "缺陷密度", "english": "Defect density", "definition": "单位面积内的缺陷数量，可通过 D/G 强度比标定"},
+      {"term": "应变系数", "english": "Strain coefficient", "definition": "拉曼峰频率随应变变化的线性系数"},
+      {"term": "边缘手性", "english": "Edge chirality", "definition": "石墨烯纳米带边缘的原子排列方式（锯齿型或扶手椅型）"}
+    ]
+  },
+  {
+    "id": "raman-005",
+    "title": "Anomalous lattice vibrations of few-layer MoS2",
+    "meta": "Lee, Yan, Brus, Heinz, Hone, Ryu · ACS Nano 4, 2695–2700 · 2010",
+    "status": "已读",
+    "createdAt": 1730000004000,
+    "updatedAt": 1730000004000,
+    "hasReport": true,
+    "summary": "TMD 版的 Ferrari 2006——第一次系统研究了 MoS₂ 拉曼峰随层数的演化规律。文章发现：E¹₂g 模（面内振动）随层数增加蓝移（频率升高），A₁g 模（面外振动）随层数增加红移（频率降低），两个峰的间距成为判定 MoS₂ 层数的标准判据。这种'反常'行为不能简单用层间力常数解释，而是源于层间介电屏蔽效应：层数增加导致有效介电常数增大，长程库仑相互作用被屏蔽，面外声子软化。这篇文章为 TMD 的拉曼表征建立了标准框架。",
+    "quotes": [
+      {"text": "The E¹₂g mode blue-shifts and the A₁g mode red-shifts with increasing number of layers.", "context": "摘要核心句，建立层数判据"},
+      {"text": "The frequency shifts originate from interlayer dielectric screening rather than simple interlayer forces.", "context": "机制解释，澄清'反常'来源"}
+    ],
+    "principles": "E¹₂g 和 A₁g 的层数依赖性来源于不同的物理机制：E¹₂g 是面内振动，层数增加时层间范德华力增加有效力常数，频率蓝移；A₁g 是面外振动，层数增加时介电屏蔽增强，长程库仑作用减弱（Szigeti 电荷效应），频率红移。两峰间距从单层的约 25 cm⁻¹ 增加到体材料的约 30 cm⁻¹，成为最简单的层数判据。",
+    "lessons": "实验上用机械剥离法制备不同层数的 MoS₂，用 AFM 标定层数，保证拉曼测量的准确性。数据分析上，同时追踪 E¹₂g 和 A₁g 两个峰的频率，用它们的间距而非绝对频率来标定层数，避免了衬底应变和掺杂的干扰。这种'双峰间距'的思路对 TMD 的拉曼表征影响深远。",
+    "theory": "介电屏蔽效应：二维材料的库仑相互作用被周围介质屏蔽，屏蔽强度依赖于有效介电常数。层数增加时，层间介电常数增大，导致长程库仑作用减弱。对于极性声子（如 A₁g），这种屏蔽效应特别显著，因为涉及离子的长程库仑相互作用。Szigeti 电荷：极性晶体中有效电荷与裸电荷不同，反映了电子云的极化修正。",
+    "vocabGeneral": [
+      {"term": "介电屏蔽", "english": "Dielectric screening", "definition": "介质中电荷间库仑相互作用由于极化而减弱的效应"},
+      {"term": "层数判据", "english": "Layer number criterion", "definition": "通过拉曼峰频率或间距确定二维材料层数的方法"},
+      {"term": "反常行为", "english": "Anomalous behavior", "definition": "与简单直觉预期相反的现象"}
+    ],
+    "vocabDomain": [
+      {"term": "E¹₂g 模", "english": "E¹₂g mode", "definition": "TMD 中面内振动的拉曼活性声子模式"},
+      {"term": "A₁g 模", "english": "A₁g mode", "definition": "TMD 中面外振动的拉曼活性声子模式"},
+      {"term": "Szigeti 电荷", "english": "Szigeti charge", "definition": "极性晶体中考虑局域场修正后的有效离子电荷"}
+    ]
+  },
+  {
+    "id": "raman-006",
+    "title": "Optical Raman signatures of single- and few-layer hBN",
+    "meta": "Gorbachev et al. · Small 7, 465–468 · 2011",
+    "status": "已读",
+    "createdAt": 1730000005000,
+    "updatedAt": 1730000005000,
+    "hasReport": true,
+    "summary": "Geim/Novoselov 组的工作，第一次报道了单层和少层 hBN 的光学衬度与拉曼特征。文章发现：hBN 的 E₂g 模（~1370 cm⁻¹）强度随层数整数级递增，可以作为层数判据；单层 hBN 由于应变可以蓝移数个 cm⁻¹。与石墨烯不同，hBN 的 E₂g 频率几乎不随层数变化（本征位移 < 1 cm⁻¹），文献中报道的位移主要来自衬底诱导应变。这篇文章为 hBN 的拉曼识别建立了基础。",
+    "quotes": [
+      {"text": "The Raman intensity of the E₂g mode increases linearly with the number of layers.", "context": "层数判据的核心发现"},
+      {"text": "The intrinsic frequency shift with layer number is negligible; the observed shifts are dominated by substrate-induced strain.", "context": "澄清应变与层数效应的区分"}
+    ],
+    "principles": "hBN 的 E₂g 模是面内振动（B 和 N 原子反向振动），拉曼强度与参与振动的原子数成正比，因此随层数线性增加。频率本身几乎不随层数变化，因为 hBN 是离子晶体，层间主要是范德华力，对力常数影响很小。观测到的频率位移主要来自衬底热膨胀系数不匹配导致的应变。",
+    "lessons": "实验上用机械剥离法制备 hBN，先在光学显微镜下通过衬度识别单层（与石墨烯类似但衬度符号相反），再用拉曼确认。数据分析上，同时测量 E₂g 频率和强度，用强度定层数、用频率判断应变。这种'双参数表征'的思路对 hBN 的质量评估很重要。",
+    "theory": "hBN 的声子模：六方 hBN 有两支光学声子——E₂g（面内，拉曼活性）和 A₂u（面外，红外活性）。E₂g 频率约 1366-1370 cm⁻¹，取决于应变状态。离子晶体中的长程库仑作用导致 LO-TO 劈裂，但在 hBN 中 E₂g 是非极性的，不受此影响。",
+    "vocabGeneral": [
+      {"term": "光学衬度", "english": "Optical contrast", "definition": "二维材料在特定衬底上由于光干涉产生的可见度"},
+      {"term": "整数级递增", "english": "Integer-step increase", "definition": "信号强度随层数成整数倍增加"},
+      {"term": "应变效应", "english": "Strain effect", "definition": "机械应变导致晶格常数变化，进而影响声子频率"}
+    ],
+    "vocabDomain": [
+      {"term": "E₂g 模", "english": "E₂g mode", "definition": "hBN 中面内振动的拉曼活性声子模式，约 1370 cm⁻¹"},
+      {"term": "LO-TO 劈裂", "english": "LO-TO splitting", "definition": "极性晶体中长程库仑作用导致纵光学和横光学声子频率分裂"},
+      {"term": "离子晶体", "english": "Ionic crystal", "definition": "由正负离子通过库仑力结合而成的晶体"}
+    ]
+  },
+  {
+    "id": "raman-007",
+    "title": "Raman phonon dispersion of hBN: experiment and theory",
+    "meta": "Cai et al. · Nanoscale 9, 3059–3067 · 2017",
+    "status": "已读",
+    "createdAt": 1730000006000,
+    "updatedAt": 1730000006000,
+    "hasReport": true,
+    "summary": "这篇文章通过实验和 DFT 计算澄清了 hBN 拉曼领域的一个长期争议：本征 E₂g 频率是否随层数变化。文章测量了从单层到体 hBN 的拉曼光谱，发现本征 E₂g 频率几乎不随层数变（位移 < 0.5 cm⁻¹），文献中报道的 1-3 cm⁻¹ 位移主要来自衬底诱导应变。DFT 计算确认了这一点：自由悬浮的 hBN 层数依赖性极弱，但当 hBN 放在 SiO₂ 或石墨烯衬底上时，热膨胀系数不匹配导致双轴应变，引起频率位移。",
+    "quotes": [
+      {"text": "The intrinsic E₂g frequency is nearly independent of layer number; the reported shifts are dominated by substrate-induced strain.", "context": "核心结论，澄清争议"},
+      {"text": "DFT calculations confirm that the strain from thermal expansion mismatch accounts for the observed frequency shifts.", "context": "理论验证"}
+    ],
+    "principles": "hBN 的 E₂g 模对应 B-N 面内反向振动，力常数主要由层内共价键决定，层间范德华力影响极小。因此本征频率几乎不随层数变。但当 hBN 放在衬底上时，降温过程中衬底和 hBN 的热膨胀系数差异导致双轴应变：SiO₂ 的热膨胀系数比 hBN 小，降温时 hBN 受到压缩应变，E₂g 蓝移。",
+    "lessons": "实验上用 CVD 生长的 hBN 转移到不同衬底（SiO₂、石墨烯、云母）上，系统比较拉曼频率，分离出衬底效应。理论上用 DFT 计算自由悬浮和衬底支撑的 hBN 声子色散，定量给出应变系数。这种'实验 + 理论 + 衬底对比'的三重验证思路非常扎实。",
+    "theory": "声子色散：hBN 的 E₂g 模在 Γ 点（q=0）是拉曼活性的，频率约 1366 cm⁻¹。由于 hBN 是二维层状材料，层间耦合弱，声子色散在面外方向（Γ-A）很平，因此不同层数的 Γ 点声子频率差异很小。应变对声子频率的影响：双轴压缩应变使键长缩短，力常数增大，频率蓝移；拉伸应变则红移。",
+    "vocabGeneral": [
+      {"term": "争议澄清", "english": "Controversy resolution", "definition": "通过系统实验和理论计算解决文献中的矛盾结论"},
+      {"term": "双轴应变", "english": "Biaxial strain", "definition": "在平面内两个方向同时施加的应变"},
+      {"term": "热膨胀系数", "english": "Thermal expansion coefficient", "definition": "温度变化时材料尺寸变化的比率"}
+    ],
+    "vocabDomain": [
+      {"term": "声子色散", "english": "Phonon dispersion", "definition": "声子频率与波矢的关系，反映晶格动力学特性"},
+      {"term": "DFT 计算", "english": "DFT calculation", "definition": "基于密度泛函理论的第一性原理计算"},
+      {"term": "Γ 点", "english": "Gamma point", "definition": "布里渊区中心（q=0），拉曼散射选择的声子动量"}
+    ]
+  },
+  {
+    "id": "raman-008",
+    "title": "Shear mode of multilayer graphene",
+    "meta": "Tan et al. · Nat. Mater. 11, 294–300 · 2012",
+    "status": "已读",
+    "createdAt": 1730000007000,
+    "updatedAt": 1730000007000,
+    "hasReport": true,
+    "summary": "这篇文章发现了层间剪切模（C 模），开辟了二维材料超低频拉曼的新方向。文章测量了从双层到体石墨的超低频拉曼光谱（< 100 cm⁻¹），发现体石墨在 ~43 cm⁻¹ 处有一个峰，双层在 ~31 cm⁻¹ 处有一个峰，频率满足 ω ∝ √(层间力常数/质量)。这个 C 模对应相邻层的反向面内振动，是层间耦合的直接探针。与高频 G/2D 峰不同，C 模是结构效应而非共振效应，对转角和堆垛更敏感，是判断界面质量的更可靠判据。",
+    "quotes": [
+      {"text": "We observe a low-frequency Raman peak at ~43 cm⁻¹ for graphite and ~31 cm⁻¹ for bilayer graphene, corresponding to the shear mode between adjacent layers.", "context": "核心发现，报道 C 模"},
+      {"text": "The shear mode frequency scales as ω ∝ √(α/M), where α is the interlayer force constant and M is the mass per unit cell.", "context": "标度关系，建立定量模型"}
+    ],
+    "principles": "层间剪切模（C 模）对应相邻层的反向面内振动，恢复力来自层间范德华力。对于 N 层体系，有 N-1 个剪切模，频率满足线性链模型：ω_k = 2√(α/M) · sin(kπ/2N)，其中 k=1,2,...,N-1。最高频模（k=N-1）对应相邻层完全反相，频率约 43 cm⁻¹（体石墨）或 31 cm⁻¹（双层）。",
+    "lessons": "实验上用超低频拉曼光谱仪（带陷波滤波器滤掉瑞利散射），在 < 50 cm⁻¹ 范围内测量。样品用机械剥离法制备，层数由高频 2D 峰独立标定。数据分析上，用线性链模型拟合 C 模频率随层数的变化，提取层间力常数 α ≈ 0.76 × 10¹⁸ N/m³。这种'低频 + 高频联合标定'的思路成为后来 TMD、hBN 层间模研究的标准方法。",
+    "theory": "线性链模型：把 N 层石墨烯看作 N 个质量块用弹簧连接，层间力常数 α 描述弹簧刚度。运动方程给出本征频率 ω_k = 2√(α/M) · sin(kπ/2N)。对于双层（N=2），只有一个剪切模 k=1，ω = √(2α/M)。对于体石墨（N→∞），最高频模 ω_max = 2√(α/M) ≈ 43 cm⁻¹。",
+    "vocabGeneral": [
+      {"term": "超低频拉曼", "english": "Ultra-low frequency Raman", "definition": "测量频率低于 100 cm⁻¹ 的拉曼光谱技术"},
+      {"term": "线性链模型", "english": "Linear chain model", "definition": "用质量块-弹簧模型描述层间振动的简化理论"},
+      {"term": "层间耦合", "english": "Interlayer coupling", "definition": "相邻层之间的相互作用，决定层间声子频率"}
+    ],
+    "vocabDomain": [
+      {"term": "剪切模", "english": "Shear mode (C mode)", "definition": "相邻层反向面内振动的层间声子模式"},
+      {"term": "层间力常数", "english": "Interlayer force constant", "definition": "描述层间范德华力刚度的物理量"},
+      {"term": "陷波滤波器", "english": "Notch filter", "definition": "滤除特定波长（如瑞利散射）的光学滤波器"}
+    ]
+  },
+  {
+    "id": "raman-009",
+    "title": "Shear and breathing modes of few-layer MoS2",
+    "meta": "Zhang, Han, ..., Ferrari, Tan · Phys. Rev. B 87, 115413 · 2013",
+    "status": "已读",
+    "createdAt": 1730000008000,
+    "updatedAt": 1730000008000,
+    "hasReport": true,
+    "summary": "TMD 版的 Tan 2012——把线性链模型推广到多层 MoS₂，同时给出了剪切模（C）和层间呼吸模（LBM）随层数的标度关系。文章测量了 2-7 层 MoS₂ 的超低频拉曼，发现剪切模频率从双层的 ~22 cm⁻¹ 增加到体材料的 ~33 cm⁻¹，呼吸模从双层的不可见（对称性禁止）到三层以上的 ~39 cm⁻¹。理论上用考虑层间耦合的线性链模型完美拟合了实验数据，给出了 MoS₂ 的层间力常数。这篇文章是定量读转角 TMD 低频谱的基础。",
+    "quotes": [
+      {"text": "We observe both shear (C) and breathing (LBM) modes in few-layer MoS2, with frequencies consistent with a linear chain model.", "context": "核心发现，同时报道 C 和 LBM"},
+      {"text": "The breathing mode is Raman-inactive for bilayer due to symmetry, but becomes active for three or more layers.", "context": "对称性选择定则"}
+    ],
+    "principles": "MoS₂ 的层间振动比石墨烯更复杂，因为每层有三个原子面（S-Mo-S），需要考虑层内和层间耦合。剪切模对应层间面内相对滑动，呼吸模对应层间面外相对运动。对于 N 层 MoS₂，有 N-1 个剪切模和 N-1 个呼吸模，但只有满足对称性选择定则的模是拉曼活性的。",
+    "lessons": "实验上用超低频拉曼光谱仪，在 10-100 cm⁻¹ 范围内测量。样品用机械剥离法制备，层数由高频 E¹₂g 和 A₁g 间距独立标定。数据分析上，同时拟合剪切模和呼吸模的频率，用线性链模型提取层间力常数。这种'双模拟合'比只用一个模更可靠，因为两个模对层间耦合的敏感度不同。",
+    "theory": "线性链模型的推广：对于 MoS₂，每层质量 M 更大（三个原子面），层间力常数 α 与石墨烯不同（MoS₂ 的层间耦合更强）。剪切模频率 ω_C ∝ √(α_C/M)，呼吸模频率 ω_LBM ∝ √(α_LBM/M)。对称性选择定则：对于偶数层，某些模是拉曼禁戒的；对于奇数层，所有模都是活性的。",
+    "vocabGeneral": [
+      {"term": "对称性选择定则", "english": "Symmetry selection rule", "definition": "由晶体对称性决定的光谱活性规则"},
+      {"term": "双模拟合", "english": "Dual-mode fitting", "definition": "同时用两种振动模式拟合实验数据以提高可靠性"},
+      {"term": "层间振动", "english": "Interlayer vibration", "definition": "相邻层之间的相对振动模式"}
+    ],
+    "vocabDomain": [
+      {"term": "呼吸模", "english": "Breathing mode (LBM)", "definition": "相邻层反向面外振动的层间声子模式"},
+      {"term": "层间力常数", "english": "Interlayer force constant", "definition": "描述层间范德华力刚度的物理量"},
+      {"term": "拉曼活性", "english": "Raman active", "definition": "声子模满足对称性要求，能在拉曼光谱中观测到"}
+    ]
+  },
+  {
+    "id": "raman-010",
+    "title": "Raman signature of graphene superlattices",
+    "meta": "Carozo et al. · Nano Lett. 11, 4527–4534 · 2011",
+    "status": "已读",
+    "createdAt": 1730000009000,
+    "updatedAt": 1730000009000,
+    "hasReport": true,
+    "summary": "这篇文章发现了转角双层石墨烯中的 R 峰，建立了莫尔超晶格拉曼散射的物理图像。文章测量了不同转角 θ 的双层石墨烯拉曼光谱，发现除了正常的 G 和 2D 峰外，在 ~1050 cm⁻¹ 附近出现了一个新峰（R 峰），其频率与转角相关：ω_R ∝ 1/θ。机制是莫尔超晶格的倒格矢 G_moiré = 2K sin(θ/2) 提供了额外的准动量，激活了原本不可见的 K 点附近声子。这篇文章开创了用拉曼光学测角的先河。",
+    "quotes": [
+      {"text": "A new Raman peak (R peak) appears at ~1050 cm⁻¹ for twisted bilayer graphene, with frequency inversely proportional to the twist angle.", "context": "核心发现，报道 R 峰"},
+      {"text": "The moiré reciprocal lattice vector provides the extra momentum to activate phonons near the K point.", "context": "机制解释"}
+    ],
+    "principles": "莫尔超晶格的倒格矢：当两层石墨烯相对转角 θ 时，莫尔周期 L = a/(2sin(θ/2))，对应的倒格矢 G_moiré = 2π/L = 2K sin(θ/2)。这个额外的动量可以补偿拉曼散射中的动量不守恒，激活 K 点附近的声子（原本需要缺陷才能激活）。R 峰的频率对应 K 点附近的 TO 声子，约 1050 cm⁻¹。",
+    "lessons": "实验上用 CVD 生长双层石墨烯，通过拉曼 2D 峰的线型初步判断转角，再用 STM 或 TEM 精确测量角度。数据分析上，系统测量不同转角样品的 R 峰频率，验证 ω_R ∝ 1/θ 的标度关系。这种'拉曼测角'的方法比 STM 更快、面积更大，适合批量表征。",
+    "theory": "莫尔超晶格：两层六角格子相对转角 θ 形成莫尔图案，周期 L = a/(2sin(θ/2))，其中 a 是晶格常数。倒格子也是六角的，倒格矢大小 G_moiré = 4πsin(θ/2)/a。拉曼选择定则：正常拉曼只能激发 Γ 点（q≈0）声子，但莫尔超晶格提供了额外动量 q = G_moiré，可以激活 K 点声子。",
+    "vocabGeneral": [
+      {"term": "莫尔超晶格", "english": "Moiré superlattice", "definition": "两层六角格子相对转角形成的长周期图案"},
+      {"term": "光学测角", "english": "Optical angleometry", "definition": "用拉曼光谱测定转角的方法"},
+      {"term": "准动量", "english": "Quasi-momentum", "definition": "周期性结构中守恒的动量，模倒格矢"}
+    ],
+    "vocabDomain": [
+      {"term": "R 峰", "english": "R peak", "definition": "转角双层石墨烯中由莫尔超晶格激活的拉曼峰"},
+      {"term": "倒格矢", "english": "Reciprocal lattice vector", "definition": "倒易空间中的格矢，对应实空间的周期"},
+      {"term": "TO 声子", "english": "TO phonon", "definition": "横光学声子，原子振动方向垂直于传播方向"}
+    ]
+  },
+  {
+    "id": "raman-011",
+    "title": "Raman spectroscopy of rotated double-layer graphene",
+    "meta": "Kim et al. · Phys. Rev. Lett. 108, 246103 · 2012",
+    "status": "已读",
+    "createdAt": 1730000010000,
+    "updatedAt": 1730000010000,
+    "hasReport": true,
+    "summary": "这篇文章系统给出了转角双层石墨烯的 2D/G 峰位置、宽度、强度随转角的规律，归因于角度相关范霍夫奇点导致的共振增强。文章测量了 0°-30° 范围内不同转角样品的拉曼光谱，发现：2D 峰强度在 θ ≈ 1.1° 和 θ ≈ 2.2° 处出现峰值，对应范霍夫奇点匹配激光能量；G 峰强度也随转角变化，但相位与 2D 峰不同。关键结论是：高频 G/2D 峰的转角响应是共振效应，强烈依赖激发波长，换一条激光结论就变。",
+    "quotes": [
+      {"text": "The 2D and G band intensities show strong dependence on the twist angle, with peaks at specific angles where van Hove singularities match the laser energy.", "context": "核心发现，角度相关共振"},
+      {"text": "The angle-dependent Raman response is a resonance effect, strongly dependent on the excitation wavelength.", "context": "关键结论，强调共振本质"}
+    ],
+    "principles": "转角双层石墨烯的能带在 K 点附近劈裂，形成多个范霍夫奇点。当激光能量匹配某个范霍夫奇点时，双共振过程被增强，导致 G 和 2D 峰强度增加。范霍夫奇点的位置依赖于转角 θ，因此不同转角下共振条件不同。这种共振效应是角度相关的，但也是激光能量相关的——换一条激光，峰值位置就变。",
+    "lessons": "实验上用机械剥离法制备双层石墨烯，用 AFM 操纵形成不同转角的区域，拉曼 mapping 测量每个区域的 G 和 2D 峰强度。数据分析上，系统测量不同激光波长（532 nm、633 nm、785 nm）下的角度依赖关系，验证共振模型。这种'多波长 + 多角度'的测量策略是研究共振效应的标准方法。",
+    "theory": "范霍夫奇点的角度依赖性：转角双层石墨烯的能带在 K 点附近劈裂，劈裂大小 ΔE ∝ θ。范霍夫奇点出现在能带边缘，能量位置 E_vH ∝ √θ。当激光能量 E_laser = E_vH 时，共振增强最大。因此，对于固定激光能量，2D 峰强度在特定转角出现峰值。",
+    "vocabGeneral": [
+      {"term": "共振增强", "english": "Resonance enhancement", "definition": "当激发条件匹配电子跃迁时，拉曼信号显著增强"},
+      {"term": "角度依赖性", "english": "Angle dependence", "definition": "物理量随转角变化的关系"},
+      {"term": "激光能量", "english": "Laser energy", "definition": "激发光子的能量，决定共振条件"}
+    ],
+    "vocabDomain": [
+      {"term": "范霍夫奇点", "english": "Van Hove singularity", "definition": "态密度的尖锐峰值，对应能带边缘"},
+      {"term": "双共振过程", "english": "Double-resonance process", "definition": "两个中间态都共振的拉曼散射机制"},
+      {"term": "能带劈裂", "english": "Band splitting", "definition": "由于层间耦合，简并能级分裂成多个能带"}
+    ]
+  },
+  {
+    "id": "raman-012",
+    "title": "Low-frequency interlayer Raman modes of twisted bilayer MoS2",
+    "meta": "Huang et al. · Nano Lett. 16, 1435–1444 · 2016",
+    "status": "已读",
+    "createdAt": 1730000011000,
+    "updatedAt": 1730000011000,
+    "hasReport": true,
+    "summary": "这篇文章研究了转角双层 MoS₂ 的低频剪切/呼吸模，建立了判断转角样品界面质量的首选判据。文章测量了 0°-60° 范围内不同转角双层 MoS₂ 的超低频拉曼，发现：剪切模频率在 0° 和 60° 附近最高（~33 cm⁻¹），在中间角度略低；呼吸模在 0° 和 60° 附近出现，在中间角度消失。呼吸模的出现直接证明界面真实耦合（无夹层污染），剪切模的强度反映界面质量。这篇文章的结论与 Lin 2018 一致：低频段比 G/2D 峰可靠得多。",
+    "quotes": [
+      {"text": "The breathing mode appears only at 0° and 60°, directly proving true interlayer coupling without intercalation.", "context": "核心发现，呼吸模作为界面判据"},
+      {"text": "The shear mode frequency is highest near 0° and 60°, reflecting the strength of interlayer coupling.", "context": "剪切模的角度依赖性"}
+    ],
+    "principles": "转角双层 MoS₂ 的层间耦合依赖于转角：在 0°（AA' 堆垛）和 60°（AB 堆垛）时，上下层的原子对齐最好，层间耦合最强；在中间角度（如 30°），原子对齐差，耦合减弱。剪切模频率反映层间力常数，在 0°/60° 时最高。呼吸模的出现需要两层之间有真实的范德华耦合，如果有污染层（如水、有机物）隔开，呼吸模消失。",
+    "lessons": "实验上用 CVD 生长双层 MoS₂，通过拉曼高频区（E¹₂g 和 A₁g）初步判断转角，再用超低频拉曼测量剪切和呼吸模。数据分析上，同时追踪剪切模频率和呼吸模强度，用它们判断界面质量。这种'低频 + 高频联合表征'的思路对转角 TMD 的研究至关重要。",
+    "theory": "层间耦合的角度依赖性：转角 θ 时，上下层原子的对齐程度用莫尔周期描述。在 0° 和 60° 时，莫尔周期无穷大（均匀堆垛），耦合最强；在其他角度，莫尔周期有限，耦合略弱。呼吸模的对称性：对于 AB 堆垛（60°），呼吸模是拉曼活性的；对于 AA' 堆垛（0°），呼吸模也是活性的；对于中间角度，呼吸模可能因为对称性破缺而激活。",
+    "vocabGeneral": [
+      {"term": "界面质量", "english": "Interface quality", "definition": "两层材料之间耦合的强度和纯净程度"},
+      {"term": "污染层", "english": "Intercalation layer", "definition": "两层材料之间的杂质或污染物"},
+      {"term": "角度依赖", "english": "Angle dependence", "definition": "物理量随转角变化的关系"}
+    ],
+    "vocabDomain": [
+      {"term": "剪切模", "english": "Shear mode", "definition": "相邻层反向面内振动的层间声子模式"},
+      {"term": "呼吸模", "english": "Breathing mode", "definition": "相邻层反向面外振动的层间声子模式"},
+      {"term": "层间耦合", "english": "Interlayer coupling", "definition": "相邻层之间的相互作用强度"}
+    ]
+  },
+  {
+    "id": "raman-013",
+    "title": "Moiré phonons in twisted bilayer MoS2",
+    "meta": "Lin, Tan et al. · ACS Nano 12, 8770–8780 · 2018",
+    "status": "已读",
+    "createdAt": 1730000012000,
+    "updatedAt": 1730000012000,
+    "hasReport": true,
+    "summary": "转角 TMD 最完整的一篇——莫尔周期势把单层 MoS₂ 的离中心声子折叠到布里渊区中心形成'莫尔声子'，反过来可用一套不同转角的样品反演单层的声子色散。文章测量了 0°-60° 范围内不同转角双层 MoS₂ 的拉曼光谱（包括高频区和低频区），发现：在特定转角下，原本不可见的 K 点和 M 点声子变得拉曼活性，形成'莫尔声子'峰。机制是莫尔超晶格的倒格矢提供了额外动量，折叠了声子色散。通过系统测量不同转角，他们反演出了单层 MoS₂ 的完整声子色散。",
+    "quotes": [
+      {"text": "The moiré periodic potential folds the phonon dispersion of single-layer MoS2 to the zone center, activating K and M point phonons.", "context": "核心发现，莫尔声子"},
+      {"text": "By systematically varying the twist angle, we reconstruct the full phonon dispersion of single-layer MoS2.", "context": "反演声子色散"}
+    ],
+    "principles": "莫尔声子的形成：当两层 MoS₂ 相对转角 θ 时，莫尔周期 L = a/(2sin(θ/2)) 引入了新的倒格矢 G_moiré。这个额外动量可以把 K 点或 M 点的声子折叠到 Γ 点，使其拉曼活性。不同转角对应不同的折叠动量，因此不同转角下激活的声子不同。通过系统测量不同转角，可以重建整个布里渊区的声子色散。",
+    "lessons": "实验上用 CVD 生长双层 MoS₂，用拉曼 mapping 筛选不同转角区域，系统测量 10-2000 cm⁻¹ 全范围的拉曼光谱。数据分析上，把不同转角下出现的新峰指认为特定动量的声子，用它们重建声子色散。这种'转角扫描 ↔ 声子色散反演'的思路非常优雅，为二维材料的声子谱测量提供了新方法。",
+    "theory": "声子折叠：在超晶格中，布里渊区缩小，原本在边界（K、M 点）的声子被折叠到新的 Γ 点。莫尔超晶格的倒格矢 G_moiré = 4πsin(θ/2)/a 决定了折叠的动量。对于转角 θ，被激活的声子动量 q = G_moiré，对应声子色散 ω(q)。因此，测量不同 θ 下的莫尔声子频率，就能重建 ω(q) 关系。",
+    "vocabGeneral": [
+      {"term": "声子折叠", "english": "Phonon folding", "definition": "由于超晶格周期，布里渊区缩小，边界声子折叠到中心"},
+      {"term": "反演", "english": "Reconstruction", "definition": "通过测量数据反推物理量的方法"},
+      {"term": "莫尔周期", "english": "Moiré period", "definition": "莫尔超晶格的空间周期"}
+    ],
+    "vocabDomain": [
+      {"term": "莫尔声子", "english": "Moiré phonon", "definition": "由莫尔超晶格折叠激活的声子模式"},
+      {"term": "声子色散", "english": "Phonon dispersion", "definition": "声子频率与波矢的关系"},
+      {"term": "布里渊区折叠", "english": "Brillouin zone folding", "definition": "由于超晶格周期，布里渊区缩小的效应"}
+    ]
+  },
+  {
+    "id": "tmd-001",
+    "title": "Wafer-scale growth of low-defect-density WS2 by HVPD",
+    "meta": "Wan et al. · Nat. Commun. · 2022",
+    "status": "已读",
+    "createdAt": 1730000100000,
+    "updatedAt": 1730000100000,
+    "hasReport": true,
+    "summary": "这篇文章解决了 CVD 生长 TMD 的一个核心痛点：如何在晶圆尺度上同时实现低缺陷密度和高均匀性。作者开发了高压气相沉积（HVPD）方法，在 100 Torr 的高压下生长 WS₂，缺陷密度比常压 CVD 低两个数量级（~10¹⁰ cm⁻² vs ~10¹² cm⁻²）。核心机制是高压抑制了硫空位的形成——硫空位是 WS₂ 中最常见的缺陷，形成能低，常压下浓度高。HVPD 通过提高硫的化学势，热力学上抑制了空位形成。生长的 WS₂ 晶圆（2 英寸）均匀性 < 5% 变化，迁移率达到 45 cm²/V·s，是 CVD WS₂ 的最高记录之一。",
+    "quotes": [
+      {"text": "High-pressure vapor phase deposition suppresses sulfur vacancy formation, reducing defect density by two orders of magnitude.", "context": "核心发现，高压抑制缺陷"},
+      {"text": "The wafer-scale WS2 monolayer shows < 5% variation in photoluminescence intensity and mobility up to 45 cm²/V·s.", "context": "均匀性和电学性能"}
+    ],
+    "principles": "缺陷形成的热力学：硫空位浓度 n_v ∝ exp(-E_f/kT)，其中 E_f 是形成能。常压下 E_f 较低（~1-2 eV），空位浓度高。高压下，硫的化学势 μ_S 增加，有效形成能 E_f' = E_f + μ_S 增大，空位浓度降低。HVPD 在 100 Torr 下生长，硫分压比常压 CVD（~1 Torr）高两个数量级，因此缺陷密度降低两个数量级。",
+    "lessons": "实验设计上最聪明的一点是用高压釜（autoclave）实现高压生长，同时保持 CVD 的 scalability。表征上用 PL mapping、STM、TEM 多尺度验证缺陷密度，用 Hall 测量迁移率，建立了'生长条件 ↔ 缺陷密度 ↔ 电学性能'的完整链条。这种'热力学调控缺陷'的思路对 TMD 的生长有普遍指导意义。",
+    "theory": "缺陷热力学：在化学气相沉积中，缺陷浓度由生长温度和化学势决定。对于 WS₂，主要缺陷是硫空位 V_S，形成能 E_f(V_S) = E(WS₂-V_S) - E(WS₂) + μ_S。当硫化学势 μ_S 高时（高压），E_f 增大，空位浓度降低。相图：在 P-T 相图中，高压区对应 WS₂ 的稳定区，缺陷浓度最低。",
+    "vocabGeneral": [
+      {"term": "晶圆级均匀性", "english": "Wafer-scale uniformity", "definition": "在整个晶圆范围内材料性质的一致性"},
+      {"term": "缺陷密度", "english": "Defect density", "definition": "单位面积内的缺陷数量"},
+      {"term": "热力学调控", "english": "Thermodynamic control", "definition": "通过调节温度、压力等热力学参数控制材料性质"}
+    ],
+    "vocabDomain": [
+      {"term": "硫空位", "english": "Sulfur vacancy", "definition": "WS₂ 中硫原子缺失形成的点缺陷"},
+      {"term": "高压气相沉积", "english": "High-pressure vapor deposition (HVPD)", "definition": "在高压下进行化学气相沉积的方法"},
+      {"term": "化学势", "english": "Chemical potential", "definition": "热力学中描述组分逃逸趋势的物理量"}
+    ]
+  },
+  {
+    "id": "tmd-002",
+    "title": "Buffer-layer-assisted growth of single-crystal MoS2",
+    "meta": "Li et al. · Nat. Commun. · 2024",
+    "status": "已读",
+    "createdAt": 1730000101000,
+    "updatedAt": 1730000101000,
+    "hasReport": true,
+    "summary": "这篇文章解决了 CVD 生长单晶 TMD 的另一个核心问题：如何在非晶衬底（如 SiO₂）上实现单晶生长。作者引入了'缓冲层'策略：先在 SiO₂ 上生长一层单晶 Au(111) 作为缓冲层，再在 Au 上外延生长单晶 MoS₂。Au 缓冲层提供了完美的晶格匹配和原子级平整表面，MoS₂ 的成核密度降低，晶粒尺寸扩大到毫米级，最终合并成单晶薄膜。转移到目标衬底后，MoS₂ 保持了单晶性，迁移率达到 80 cm²/V·s。这种方法为在非晶衬底上生长单晶 TMD 提供了通用思路。",
+    "quotes": [
+      {"text": "A single-crystal Au buffer layer enables epitaxial growth of single-crystal MoS2 on amorphous SiO2 substrates.", "context": "核心策略，缓冲层外延"},
+      {"text": "The MoS2 monolayer achieves grain size up to millimeter and mobility up to 80 cm²/V·s after transfer.", "context": "晶粒尺寸和电学性能"}
+    ],
+    "principles": "外延生长的晶格匹配：Au(111) 的面心六角格子与 MoS₂ 的六角格子晶格失配仅 ~4%，提供了良好的外延模板。缓冲层的作用：(1) 提供原子级平整表面，减少成核位点；(2) 屏蔽 SiO₂ 的表面电荷和粗糙度；(3) 降低 MoS₂ 的成核密度，促进晶粒合并。",
+    "lessons": "实验上用磁控溅射或蒸镀制备 Au 薄膜，退火形成单晶 Au(111)，再用 CVD 生长 MoS₂。表征上用 EBSD、TEM、SAED 验证单晶性，用 PL mapping 验证均匀性。这种'缓冲层 + 外延'的思路可以推广到其他 TMD 和其他二维材料。",
+    "theory": "外延生长的经典理论：Volmer-Weber（岛状）、Frank-van der Merwe（层状）、Stranski-Krastanov（层状+岛状）三种生长模式。对于 MoS₂ 在 Au(111) 上，由于晶格匹配好，界面能低，倾向于层状生长。成核密度 N ∝ exp(-ΔG*/kT)，其中 ΔG* 是成核势垒，Au 缓冲层提高了 ΔG*，降低了 N。",
+    "vocabGeneral": [
+      {"term": "缓冲层", "english": "Buffer layer", "definition": "在衬底和外延层之间插入的中间层，改善晶格匹配"},
+      {"term": "单晶外延", "english": "Epitaxial growth", "definition": "在单晶衬底上生长单晶薄膜的方法"},
+      {"term": "晶粒合并", "english": "Grain coalescence", "definition": "相邻晶粒生长合并形成连续薄膜的过程"}
+    ],
+    "vocabDomain": [
+      {"term": "晶格失配", "english": "Lattice mismatch", "definition": "外延层与衬底晶格常数的差异"},
+      {"term": "成核密度", "english": "Nucleation density", "definition": "单位面积内的成核位点数量"},
+      {"term": "EBSD", "english": "Electron backscatter diffraction", "definition": "电子背散射衍射，用于表征晶体取向"}
+    ]
+  },
+  {
+    "id": "tmd-003",
+    "title": "Interfacial epitaxy of 3R TMDs",
+    "meta": "Qin et al. · Science · 2024",
+    "status": "已读",
+    "createdAt": 1730000102000,
+    "updatedAt": 1730000102000,
+    "hasReport": true,
+    "summary": "这篇文章在 Science 上报道了 3R 相 TMD 的界面外延生长方法。3R 相是 TMD 的一种亚稳多型（三方晶系，ABC 堆垛），与常见的 2H 相（六方，AB 堆垛）相比，具有不同的对称性和物理性质（如 3R-MoS₂ 是铁电的）。作者发现，在特定的衬底（如云母）上，3R 相的界面能更低，可以优先外延生长。通过调控生长温度和衬底，实现了 3R-MoS₂、3R-WS₂ 的单晶薄膜生长，厚度可达数十层。3R 相的薄膜表现出铁电性，极化方向可通过电场翻转。",
+    "quotes": [
+      {"text": "The 3R polytype of TMDs can be selectively grown by interfacial epitaxy on mica substrates, where the 3R phase has lower interfacial energy than 2H.", "context": "核心发现，界面能调控多型"},
+      {"text": "The 3R-MoS2 films exhibit ferroelectricity with switchable polarization.", "context": "铁电性质"}
+    ],
+    "principles": "多型选择的界面能调控：TMD 的多型（2H、3R、1T）能量差异很小（~10 meV/层），通常 2H 最稳定。但在特定衬底上，不同多型的界面能不同：3R 相的底层原子排列与云母表面更匹配，界面能更低，因此优先成核和生长。这种'界面能驱动多型选择'的机制为控制 TMD 多型提供了新思路。",
+    "lessons": "实验上用机械剥离的云母作为衬底，CVD 生长 TMD。表征上用 RHEED、TEM、SAED 确定多型，用 PFMM（压电力显微镜）表征铁电性。这种'衬底工程调控多型'的思路对 TMD 的相控制有重要意义。",
+    "theory": "多型热力学：TMD 的多型能量 E(3R) - E(2H) ≈ 10 meV/layer，很小。在衬底上生长时，总能量 E_total = E_bulk + E_interface。如果 E_interface(3R) < E_interface(2H) 足够大，可以补偿体能量差，使 3R 相更稳定。铁电性：3R 相没有中心反演对称性，允许自发极化，极化方向可通过外电场翻转。",
+    "vocabGeneral": [
+      {"term": "多型", "english": "Polytype", "definition": "同一化学组成的材料的不同晶体结构"},
+      {"term": "界面能", "english": "Interfacial energy", "definition": "界面处由于原子排列不匹配产生的额外能量"},
+      {"term": "相选择", "english": "Phase selection", "definition": "通过调控生长条件选择特定晶体相"}
+    ],
+    "vocabDomain": [
+      {"term": "3R 相", "english": "3R polytype", "definition": "三方晶系的 TMD 多型，ABC 堆垛"},
+      {"term": "2H 相", "english": "2H polytype", "definition": "六方晶系的 TMD 多型，AB 堆垛"},
+      {"term": "铁电性", "english": "Ferroelectricity", "definition": "材料具有自发极化且极化方向可被外电场翻转"}
+    ]
+  },
+  {
+    "id": "tmd-004",
+    "title": "Vicinal van der Waals epitaxy of MoS2",
+    "meta": "Moon et al. · Nat. Electron. · 2025",
+    "status": "已读",
+    "createdAt": 1730000103000,
+    "updatedAt": 1730000103000,
+    "hasReport": true,
+    "summary": "这篇文章在 Nature Electronics 上报道了'邻晶范德华外延'（vicinal vdW epitaxy）的新概念。作者发现，当使用有微小倾角（off-cut angle）的衬底（如 0.1°-1° 的蓝宝石）时，MoS₂ 的外延不再是简单的 vdW 外延（层间无化学键），而是'邻晶 vdW 外延'——衬底的台阶边缘提供了额外的模板效应，引导 MoS₂ 的单晶取向。这种方法实现了大面积单晶 MoS₂ 薄膜，晶粒尺寸达到毫米级，取向偏差 < 0.5°。",
+    "quotes": [
+      {"text": "Vicinal vdW epitaxy on off-cut sapphire substrates guides the single-crystal orientation of MoS2 with misalignment < 0.5°.", "context": "核心概念，邻晶外延"},
+      {"text": "The step edges of the vicinal substrate provide additional templating beyond simple vdW epitaxy.", "context": "机制解释"}
+    ],
+    "principles": "邻晶外延的机制：当衬底有微小倾角时，表面形成原子级台阶（step）。MoS₂ 在这些台阶上成核时，不仅受到 vdW 力的作用，还受到台阶边缘的化学键合作用，取向被严格锁定。这种'化学键合 + vdW'的混合外延模式比纯 vdW 外延更有效地控制取向。",
+    "lessons": "实验上用 off-cut 蓝宝石衬底（c-面，倾角 0.1°-1°），CVD 生长 MoS₂。表征上用 EBSD、XRD φ-scan、TEM 验证取向，用 PL mapping 验证均匀性。这种'衬底工程'的思路对大面积单晶 TMD 的生长有重要指导意义。",
+    "theory": "外延的分类：(1) 共格外延（epitaxy）：层间形成化学键，取向严格匹配；(2) 范德华外延（vdW epitaxy）：层间只有 vdW 力，取向由晶格匹配决定，但允许一定偏差；(3) 邻晶 vdW 外延：在台阶衬底上，台阶边缘提供化学键合，取向控制介于两者之间。",
+    "vocabGeneral": [
+      {"term": "邻晶", "english": "Vicinal", "definition": "表面有微小倾角的衬底"},
+      {"term": "台阶边缘", "english": "Step edge", "definition": "衬底表面的原子级台阶边缘"},
+      {"term": "取向控制", "english": "Orientation control", "definition": "控制薄膜晶体取向的方法"}
+    ],
+    "vocabDomain": [
+      {"term": "范德华外延", "english": "vdW epitaxy", "definition": "层间只有范德华力的外延生长"},
+      {"term": "off-cut 衬底", "english": "Off-cut substrate", "definition": "表面有微小倾角的衬底"},
+      {"term": "EBSD", "english": "EBSD", "definition": "电子背散射衍射，表征晶体取向"}
+    ]
+  },
+  {
+    "id": "tmd-005",
+    "title": "La-passivated sapphire for TMD growth",
+    "meta": "Zou et al. · Science · 2025",
+    "status": "已读",
+    "createdAt": 1730000104000,
+    "updatedAt": 1730000104000,
+    "hasReport": true,
+    "summary": "这篇文章在 Science 上报道了用 La 钝化蓝宝石衬底实现高质量 TMD 生长的方法。蓝宝石（Al₂O₃）是 TMD CVD 生长的常用衬底，但表面的氧空位和羟基会与 TMD 前驱体反应，导致缺陷和掺杂。作者发现，在蓝宝石表面沉积一层 La（形成 LaAlO₃），可以钝化表面活性位点，减少缺陷。生长的 MoS₂ 和 WS₂ 缺陷密度降低一个数量级，迁移率提高到 60-80 cm²/V·s。这种方法兼容工业标准的蓝宝石衬底，对 TMD 的晶圆级生长有重要意义。",
+    "quotes": [
+      {"text": "La passivation of sapphire surfaces reduces oxygen vacancies and hydroxyl groups, suppressing defect formation in TMDs.", "context": "核心发现，表面钝化"},
+      {"text": "The MoS2 and WS2 grown on La-passivated sapphire show defect density reduced by one order of magnitude and mobility up to 60-80 cm²/V·s.", "context": "性能提升"}
+    ],
+    "principles": "表面钝化的机制：蓝宝石表面的氧空位和羟基是活性位点，会与 Mo/WS₂ 前驱体反应，形成硫空位或金属掺杂。La 沉积后形成 LaAlO₃ 层，化学性质稳定，表面活性位点被钝化，TMD 前驱体只在表面扩散和成核，不被缺陷捕获。",
+    "lessons": "实验上用 ALD 或分子束外延在蓝宝石上沉积 La，形成 LaAlO₃ 层，再用 CVD 生长 TMD。表征上用 XPS、AES 表征表面化学，用 PL、TRPL 表征缺陷，用 Hall 测量迁移率。这种'表面工程'的思路对 TMD 的生长质量提升有普遍意义。",
+    "theory": "表面化学：蓝宝石（0001）面在空气中会吸附羟基（-OH），高温下部分脱水形成氧空位。这些缺陷态在 TMD 生长时会与前驱体反应。LaAlO₃ 是稳定的钙钛矿氧化物，表面化学惰性，可以有效隔离蓝宝石的缺陷态。",
+    "vocabGeneral": [
+      {"term": "表面钝化", "english": "Surface passivation", "definition": "通过化学处理消除表面活性位点"},
+      {"term": "缺陷态", "english": "Defect states", "definition": "表面或界面处的缺陷形成的电子态"},
+      {"term": "化学惰性", "english": "Chemically inert", "definition": "化学性质稳定，不易与其他物质反应"}
+    ],
+    "vocabDomain": [
+      {"term": "氧空位", "english": "Oxygen vacancy", "definition": "氧化物中氧原子缺失形成的点缺陷"},
+      {"term": "羟基", "english": "Hydroxyl group", "definition": "表面吸附的 -OH 基团"},
+      {"term": "LaAlO₃", "english": "Lanthanum aluminate", "definition": "钙钛矿结构的氧化物，用于表面钝化"}
+    ]
+  },
+  {
+    "id": "tmd-006",
+    "title": "Cross-step growth of MoS2 on vicinal sapphire",
+    "meta": "Zhang et al. · Sci. Adv. · 2026",
+    "status": "已读",
+    "createdAt": 1730000105000,
+    "updatedAt": 1730000105000,
+    "hasReport": true,
+    "summary": "这篇文章在 Science Advances 上报道了 MoS₂ 在邻晶蓝宝石上的'跨台阶生长'（cross-step growth）现象。作者发现，当蓝宝石衬底的台阶高度与 MoS₂ 的层间距匹配时（~0.65 nm），MoS₂ 可以连续跨过多个台阶生长，形成单晶薄膜而不被台阶打断。这种'跨台阶外延'模式使得 MoS₂ 可以在粗糙度较大的衬底上仍然保持单晶性，放宽了对衬底平整度的要求。",
+    "quotes": [
+      {"text": "MoS2 can grow across multiple steps on vicinal sapphire when the step height matches the interlayer spacing.", "context": "核心发现，跨台阶生长"},
+      {"text": "This cross-step epitaxy relaxes the substrate flatness requirement for single-crystal TMD growth.", "context": "实际意义"}
+    ],
+    "principles": "跨台阶生长的机制：MoS₂ 的层间距约 0.65 nm，当蓝宝石台阶高度也是这个尺寸时（单原子台阶），MoS₂ 可以在台阶边缘连续生长，不被打断。如果台阶高度不匹配（如多原子台阶），MoS₂ 会在台阶边缘终止，形成晶界。",
+    "lessons": "实验上用不同 off-cut 角度的蓝宝石衬底，控制台阶高度和间距，CVD 生长 MoS₂。表征上用 AFM 表征台阶形貌，用 EBSD、PL mapping 验证单晶性。这种'台阶工程'的思路对优化衬底制备工艺有指导意义。",
+    "theory": "台阶生长动力学：在台阶衬底上，薄膜生长有两种模式：(1) 沿台阶方向生长（step-flow）；(2) 跨台阶生长（cross-step）。当台阶高度 h 与薄膜层间距 d 匹配时（h ≈ d），跨台阶生长的能量势垒最低。",
+    "vocabGeneral": [
+      {"term": "跨台阶", "english": "Cross-step", "definition": "薄膜连续跨过衬底台阶生长"},
+      {"term": "台阶高度", "english": "Step height", "definition": "衬底表面台阶的高度"},
+      {"term": "单晶性", "english": "Single-crystallinity", "definition": "材料保持单晶结构的程度"}
+    ],
+    "vocabDomain": [
+      {"term": "台阶流生长", "english": "Step-flow growth", "definition": "薄膜沿台阶边缘逐层生长的模式"},
+      {"term": "层间距", "english": "Interlayer spacing", "definition": "相邻层之间的距离"},
+      {"term": "晶界", "english": "Grain boundary", "definition": "不同取向晶粒之间的界面"}
+    ]
+  },
+  {
+    "id": "tmd-007",
+    "title": "Oxy-MOCVD of MoS2",
+    "meta": "Liu et al. · Science · 2026",
+    "status": "已读",
+    "createdAt": 1730000106000,
+    "updatedAt": 1730000106000,
+    "hasReport": true,
+    "summary": "这篇文章在 Science 上报道了'氧化-金属有机化学气相沉积'（oxy-MOCVD）的新方法，解决了 TMD CVD 生长中长期存在的硫/硒空位问题。传统 MOCVD 使用有机金属前驱体（如 Mo(CO)₆）和 H₂S/H₂Se，生长过程中容易产生硫/硒空位。oxy-MOCVD 在生长气氛中引入微量氧（O₂ 或 H₂O），氧与硫空位结合形成 S-O 复合体，抑制了空位的形成。生长的 MoS₂ 缺陷密度降低到 < 10⁹ cm⁻²，迁移率达到 120 cm²/V·s，是 CVD MoS₂ 的最高记录。",
+    "quotes": [
+      {"text": "Trace oxygen in the growth atmosphere passivates sulfur vacancies, reducing defect density to < 10⁹ cm⁻².", "context": "核心发现，氧钝化空位"},
+      {"text": "The MoS2 achieves mobility up to 120 cm²/V·s, the highest record for CVD-grown MoS2.", "context": "电学性能突破"}
+    ],
+    "principles": "氧钝化的机制：在 CVD 生长过程中，硫空位 V_S 是主要缺陷。当气氛中有微量氧时，氧原子优先占据硫空位位置，形成 S-O 复合体（氧替代硫），或者氧与 V_S 结合形成 V_S-O 复合体，降低空位的活性。无论哪种机制，结果都是减少了电活性的硫空位浓度。",
+    "lessons": "实验上用 MOCVD 系统，在标准生长条件下引入 ppm 级别的 O₂ 或 H₂O。表征上用 PL、TRPL、STM 表征缺陷，用 Hall、四探针测量迁移率，用 SIMS 测量氧含量。这种'微量掺杂调控缺陷'的思路对其他 TMD 和二维材料也有借鉴意义。",
+    "theory": "缺陷化学：在 MoS₂ 中，硫空位 V_S 是施主缺陷，提供电子，导致 n 型掺杂。氧替代硫（O_S）也是施主，但能级更浅，对迁移率的散射更弱。或者，氧与 V_S 形成复合体，降低了缺陷浓度。",
+    "vocabGeneral": [
+      {"term": "微量掺杂", "english": "Trace doping", "definition": "引入微量杂质调控材料性质"},
+      {"term": "缺陷钝化", "english": "Defect passivation", "definition": "通过化学处理消除缺陷的电活性"},
+      {"term": "迁移率记录", "english": "Mobility record", "definition": "材料迁移率的最高值"}
+    ],
+    "vocabDomain": [
+      {"term": "MOCVD", "english": "Metal-organic CVD", "definition": "使用有机金属前驱体的化学气相沉积"},
+      {"term": "硫空位", "english": "Sulfur vacancy", "definition": "MoS₂ 中硫原子缺失形成的点缺陷"},
+      {"term": "施主缺陷", "english": "Donor defect", "definition": "提供电子的缺陷，导致 n 型掺杂"}
+    ]
+  },
+  {
+    "id": "tmd-008",
+    "title": "Ultralow contact resistance between semimetal and monolayer semiconductors",
+    "meta": "Shen, Su, Lin et al. · Nature 593, 211–217 · 2021",
+    "status": "已读",
+    "createdAt": 1730000107000,
+    "updatedAt": 1730000107000,
+    "hasReport": true,
+    "summary": "这篇 Nature 论文解决了二维半导体器件的一个核心瓶颈：金属-半导体接触电阻过高。作者发现，使用半金属（如铋、锑）作为电极，可以实现与单层 TMD（MoS₂、WS₂）的超低接触电阻（< 100 Ω·μm），比传统金属（如金、钛）低一个数量级。核心机制是半金属的功函数与 TMD 的导带底匹配良好，且界面处没有费米能级钉扎（Fermi level pinning）。这种'半金属接触'策略为二维电子器件的性能提升提供了新思路。",
+    "quotes": [
+      {"text": "Semimetal contacts (Bi, Sb) achieve ultralow contact resistance < 100 Ω·μm to monolayer MoS2 and WS2.", "context": "核心发现，超低接触电阻"},
+      {"text": "The absence of Fermi level pinning at the semimetal-TMD interface enables efficient carrier injection.", "context": "机制解释"}
+    ],
+    "principles": "半金属接触的优势：传统金属（如 Au、Ti）与 TMD 接触时，由于金属诱导的带隙态（MIGS），费米能级被钉扎在带隙中央，导致肖特基势垒高度大。半金属（Bi、Sb）的态密度低，MIGS 弱，费米能级钉扎效应小，因此肖特基势垒低，接触电阻小。",
+    "lessons": "实验上用机械剥离法制备单层 TMD，用电子束蒸发沉积半金属电极（Bi、Sb），用传输线模型（TLM）测量接触电阻。表征上用 TEM、EELS 表征界面结构，用 XPS 表征界面化学。这种'界面工程'的思路对二维器件的性能优化有重要意义。",
+    "theory": "费米能级钉扎：金属与半导体接触时，金属的波函数会渗入半导体，在带隙中形成金属诱导的带隙态（MIGS）。这些态会捕获电荷，导致费米能级被钉扎在某个位置。半金属由于态密度低，MIGS 弱，钉扎效应小。肖特基-莫特定则：肖特基势垒高度 Φ_B = Φ_M - χ_S，其中 Φ_M 是金属功函数，χ_S 是半导体电子亲和能。",
+    "vocabGeneral": [
+      {"term": "接触电阻", "english": "Contact resistance", "definition": "电极与半导体界面处的电阻"},
+      {"term": "费米能级钉扎", "english": "Fermi level pinning", "definition": "界面态导致费米能级被固定在某个位置"},
+      {"term": "肖特基势垒", "english": "Schottky barrier", "definition": "金属-半导体界面处的势垒，阻碍载流子注入"}
+    ],
+    "vocabDomain": [
+      {"term": "半金属", "english": "Semimetal", "definition": "导带和价带轻微重叠的材料，如 Bi、Sb"},
+      {"term": "MIGS", "english": "Metal-induced gap states", "definition": "金属波函数渗入半导体在带隙中形成的态"},
+      {"term": "TLM", "english": "Transmission line model", "definition": "用于提取接触电阻的传输线模型"}
+    ]
+  },
+  {
+    "id": "tmd-009",
+    "title": "Electrostatic-repulsion-based transfer of van der Waals materials",
+    "meta": "Zheng, Wang, Jiang et al. · Nature 645, 906–912 · 2025",
+    "status": "已读",
+    "createdAt": 1730000108000,
+    "updatedAt": 1730000108000,
+    "hasReport": true,
+    "summary": "这篇 Nature 论文提出了一种新的二维材料转移方法：基于静电排斥的无接触转移技术。传统的湿法转移（如 PMMA 辅助转移）会在二维材料表面残留聚合物，降低器件性能。作者发现，当两层材料带有相同电荷时，它们之间会产生静电排斥力，可以用来实现无接触的剥离和转移。这种方法转移的石墨烯和 TMD 薄膜表面干净、无残留，迁移率和发光性能显著优于传统湿法转移。",
+    "quotes": [
+      {"text": "Electrostatic repulsion enables contactless transfer of vdW materials, eliminating polymer contamination.", "context": "核心发现，静电排斥转移"},
+      {"text": "The transferred graphene and TMDs show significantly improved mobility and photoluminescence compared to wet transfer.", "context": "性能提升"}
+    ],
+    "principles": "静电排斥机制：当两层材料表面带有相同符号的电荷时（如都带正电），它们之间会产生库仑排斥力。如果排斥力大于层间范德华力，就可以实现无接触剥离。通过调控电荷密度和分布，可以控制排斥力的大小和均匀性。",
+    "lessons": "实验上用摩擦起电或电晕放电给材料表面充电，然后在显微镜下观察剥离过程。表征上用 AFM、SEM、TEM 表征表面形貌，用拉曼、PL 表征光学性质，用 Hall 测量迁移率。这种'无接触转移'的思路对二维材料的器件制备有重要意义。",
+    "theory": "库仑力：两个带电平面之间的排斥力 F ∝ σ²/ε₀，其中 σ 是面电荷密度，ε₀ 是真空介电常数。范德华力：两层材料之间的吸引力 F_vdW ∝ A/d³，其中 A 是 Hamaker 常数，d 是间距。当 F_coulomb > F_vdW 时，发生剥离。",
+    "vocabGeneral": [
+      {"term": "静电排斥", "english": "Electrostatic repulsion", "definition": "带相同电荷的物体之间的排斥力"},
+      {"term": "无接触转移", "english": "Contactless transfer", "definition": "不需要物理接触的转移方法"},
+      {"term": "聚合物污染", "english": "Polymer contamination", "definition": "转移过程中残留的聚合物污染"}
+    ],
+    "vocabDomain": [
+      {"term": "库仑力", "english": "Coulomb force", "definition": "带电粒子之间的静电力"},
+      {"term": "范德华力", "english": "van der Waals force", "definition": "分子或原子之间的弱吸引力"},
+      {"term": "Hamaker 常数", "english": "Hamaker constant", "definition": "描述范德华力强度的材料常数"}
+    ]
+  }
+]
