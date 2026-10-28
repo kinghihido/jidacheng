@@ -316,6 +316,54 @@ a { color: var(--ink); }
 
 /* 课表 */
 .course-list { display: flex; flex-direction: column; }
+
+/* 学习站入口 */
+.site-list { display: flex; flex-direction: column; }
+.site-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid var(--rule-soft);
+  text-decoration: none;
+  color: var(--ink);
+  min-height: 44px;
+}
+.site-row:first-child { border-top: none; padding-top: 0; }
+.site-name {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  letter-spacing: 0.04em;
+  flex: 0 0 auto;
+}
+.site-desc {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-align: right;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.site-row:hover .site-name {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.site-row .site-out {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  flex: 0 0 auto;
+}
+
+/* 内页里更大的学习站条目 */
+.site-list--big .site-row {
+  padding: 16px 0;
+  gap: 18px;
+}
+.site-list--big .site-name { font-size: 21px; }
+.site-list--big .site-desc { font-size: 13px; max-width: 24em; }
+.site-list--big .site-row:hover .site-out { color: var(--accent); }
 .course-row {
   display: flex;
   align-items: baseline;

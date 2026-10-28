@@ -25,19 +25,30 @@
 <main class="page">
   <p class="crumb"><a href="index.html">总台</a><span>/</span><span>本科学习</span></p>
   <h1 class="page-title">本科学习</h1>
-  <p class="page-desc">这学期的课表，和之后要接进来的学习站。链接你定，位置先留着。</p>
+  <p class="page-desc">三门课各有自己的站，讲义与笔记都在那边；课表和还没建的部分在这里。</p>
 
   <div class="work">
-    <!-- 学习站接入位 -->
+    <!-- 学习站入口 -->
     <section class="work-cell cell-flex">
       <div class="cell-head">
         <h2 class="cell-title">学习站</h2>
-        <span class="hint" id="linkState">待接入</span>
+        <span class="hint">3 个 · 新窗口打开</span>
       </div>
-      <div class="slot slot-grow" id="studySlot">
-        <p>这里会放你指定的学习站入口：课程资料、讲义、习题都在那边。</p>
-        <p>把链接发我，我接到这里，总台的「本科学习」也跟着指过去。</p>
+      <div class="site-list site-list--big">
+        <a class="site-row" href="https://kinghihido.github.io/hanyu-xuexi/" target="_blank" rel="noopener">
+          <span class="site-name">汉语</span>
+          <span class="site-desc">古代汉语 · 现代汉语讲义整理</span>
+        </a>
+        <a class="site-row" href="https://kinghihido.github.io/materials-analysis-learning-site/" target="_blank" rel="noopener">
+          <span class="site-name">现代材料</span>
+          <span class="site-desc">现代材料分析与原理 · 19 篇讲稿、522 页图文对照</span>
+        </a>
+        <a class="site-row" href="https://kinghihido.github.io/quantum-mechanics-notes/" target="_blank" rel="noopener">
+          <span class="site-name">量子统计</span>
+          <span class="site-desc">材料中的量子与统计 · 50 个知识点</span>
+        </a>
       </div>
+      <p class="panel-note">三个站各自独立维护，那边更新了，这里的入口不用动。</p>
     </section>
 
     <!-- 课程 -->
@@ -98,25 +109,7 @@
 (function () {
   "use strict";
 
-  /* 学习站地址：拿到链接后填在这里即可 */
-  var STUDY_LINK = "";
-  var STUDY_NAME = "打开学习站";
-
   function pad(n) { return n < 10 ? "0" + n : String(n); }
-
-  var slot = document.getElementById("studySlot");
-  if (STUDY_LINK) {
-    slot.textContent = "";
-    var a = document.createElement("a");
-    a.className = "btn";
-    a.href = STUDY_LINK;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.textContent = STUDY_NAME;
-    a.style.textDecoration = "none";
-    slot.appendChild(a);
-    document.getElementById("linkState").textContent = "已接入";
-  }
 
   (function clock() {
     var d = new Date();
