@@ -202,6 +202,20 @@
 
   var HABITS = ["早起", "运动", "阅读", "专注", "早睡"];
   var WEEK = ["日", "一", "二", "三", "四", "五", "六"];
+  var ZH_DIGIT = ["〇","一","二","三","四","五","六","七","八","九"];
+  var ZH_MONTH = ["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+  function zhYear(y) {
+    return String(y).split("").map(function (d) { return ZH_DIGIT[+d]; }).join("") + "年";
+  }
+  function zhDay(d) {
+    if (d <= 10) return ["","一日","二日","三日","四日","五日","六日","七日","八日","九日","十日"][d];
+    if (d <= 19) return "十" + ZH_DIGIT[d - 10] + "日";
+    if (d === 20) return "二十日";
+    if (d <= 29) return "二十" + ZH_DIGIT[d - 20] + "日";
+    if (d === 30) return "三十日";
+    return "三十一日";
+  }
 
   function read(key, fallback) {
     try {
@@ -224,7 +238,7 @@
   function tick() {
     var now = new Date();
     document.getElementById("todayDate").textContent =
-      now.getFullYear() + " 年 " + (now.getMonth() + 1) + " 月 " + now.getDate() + " 日";
+      zhYear(now.getFullYear()) + ZH_MONTH[now.getMonth() + 1] + zhDay(now.getDate());
     document.getElementById("todayWeek").textContent = "星期" + WEEK[now.getDay()];
     var t = pad(now.getHours()) + ":" + pad(now.getMinutes());
     document.getElementById("todayClock").textContent = t;
