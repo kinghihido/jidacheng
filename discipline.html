@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>日常网站 · 集大成者</title>
+<title>日常打卡 · 集大成者</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2324544a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%23edeEE9' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
+<style>
+.checkin-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--rule-soft);flex-wrap:wrap}.checkin-row:first-of-type{border-top:none}.checkin-label{font-family:var(--serif);font-size:16px;color:var(--ink);letter-spacing:.04em;min-width:80px}.checkin-controls{display:flex;align-items:center;gap:10px;flex:1 1 auto;justify-content:flex-end}.checkin-time{font-family:var(--mono);font-size:13px;color:var(--ink-3);min-width:56px;text-align:right}.checkin-btn{font-family:var(--sans);font-size:13px;padding:7px 14px;min-height:34px;background:var(--accent);color:#f4f5ef;border:1px solid var(--accent);border-radius:0;cursor:pointer;white-space:nowrap}.checkin-btn:hover{background:var(--accent-deep);border-color:var(--accent-deep)}.checkin-btn.done{background:transparent;color:var(--accent);border-color:var(--accent)}.checkin-btn.done:hover{background:var(--paper)}.counter-display{display:flex;align-items:center;gap:16px;margin:16px 0}.counter-num{font-family:var(--serif);font-size:48px;line-height:1;color:var(--ink);min-width:80px;text-align:center}.counter-num small{font-size:16px;color:var(--ink-3);font-family:var(--sans);margin-left:4px}.counter-controls{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}.counter-btn{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;font-size:20px;background:var(--paper);border:1px solid var(--rule);color:var(--ink);cursor:pointer;font-family:var(--sans)}.counter-btn:hover{background:var(--paper-2);border-color:var(--ink-3)}.counter-btn.primary{width:auto;padding:0 16px;background:var(--accent);border-color:var(--accent);color:#f4f5ef;font-size:14px}.counter-btn.primary:hover{background:var(--accent-deep);border-color:var(--accent-deep)}.counter-input{width:80px!important;text-align:center;font-family:var(--mono)!important;font-size:14px!important}.progress-track{width:100%;height:6px;background:var(--paper-2);margin-top:16px;position:relative;overflow:hidden}.progress-fill{height:100%;background:var(--accent);transition:width .3s ease}.progress-fill.complete{background:var(--accent-deep)}.task-card{border:1px solid var(--rule);padding:16px;margin-bottom:12px;background:var(--panel);position:relative}.task-card.overdue{border-color:var(--seal)}.task-card.urgent{border-color:#d97706}.task-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}.task-title{font-family:var(--serif);font-size:17px;color:var(--ink);margin:0;line-height:1.4;flex:1 1 auto}.task-title.done{text-decoration:line-through;color:var(--ink-3)}.task-actions{display:flex;gap:4px;flex:0 0 auto}.task-actions button{font-size:12px;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:4px 6px}.task-actions button:hover{color:var(--seal)}.task-meta{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:6px}.task-meta .overdue{color:var(--seal);font-weight:500}.task-meta .urgent{color:#d97706;font-weight:500}.task-desc{margin-top:10px;font-size:14px;color:var(--ink-2);line-height:1.6}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}@media(max-width:559px){.form-row{grid-template-columns:1fr}}.empty-state{padding:40px 20px;text-align:center;color:var(--ink-3);font-size:14px}.empty-state strong{display:block;font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink-2);margin-bottom:8px}.section-label{font-family:var(--serif);font-size:15px;color:var(--accent);letter-spacing:.08em;margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--rule-soft)}.section-label:first-child{margin-top:0}
+</style>
 </head>
 <body>
-
 <nav class="topbar">
   <a class="brand" href="index.html">集大成者</a>
   <ul class="nav">
@@ -21,23 +23,23 @@
   </ul>
   <span class="topbar-clock" id="navClock">--:--</span>
 </nav>
-
 <main class="page">
-  <p class="crumb"><a href="index.html">总台</a><span>/</span><span>日常网站</span></p>
-  <h1 class="page-title">日常网站</h1>
-  <p class="page-desc">五件事：早起、运动、阅读、专注、早睡。打勾是为了看见节奏，不是为了给自己记账。</p>
-
+  <p class="crumb"><a href="index.html">总台</a><span>/</span><span>日常打卡</span></p>
+  <h1 class="page-title">日常打卡</h1>
+  <p class="page-desc">三餐、睡眠、运动、任务。记录是为了看见节奏，不是为了责备自己。</p>
   <div class="work">
-    <!-- 今日 -->
     <section class="work-cell">
       <div class="cell-head">
         <h2 class="cell-title">今天</h2>
         <span class="hint" id="todayLabel">—</span>
       </div>
-      <div id="toggles"></div>
+      <div class="section-label">三餐</div>
+      <div id="mealCheckins"></div>
+      <div class="section-label">健身 · 臂力棒</div>
+      <div id="fitnessCheckin"></div>
+      <div class="section-label">睡眠</div>
+      <div id="sleepCheckin"></div>
     </section>
-
-    <!-- 数字 -->
     <section class="work-cell cell-flex">
       <div class="cell-head">
         <h2 class="cell-title">近况</h2>
@@ -45,214 +47,204 @@
       </div>
       <div class="summary-grid">
         <div class="summary-cell">
-          <div class="lit-num" id="weekPct">0<small style="font-size:13px;font-family:var(--sans);color:var(--ink-3)">%</small></div>
-          <div class="lit-k">本周完成度</div>
+          <div class="lit-num" id="mealPct">0<small style="font-size:13px;font-family:var(--sans);color:var(--ink-3)">%</small></div>
+          <div class="lit-k">本周三餐</div>
         </div>
         <div class="summary-cell">
-          <div class="lit-num" id="streak">0</div>
-          <div class="lit-k">连续打卡 · 天</div>
+          <div class="lit-num" id="fitnessAvg">0</div>
+          <div class="lit-k">日均臂力棒</div>
         </div>
         <div class="summary-cell">
-          <div class="lit-num" id="todayDone">0</div>
-          <div class="lit-k">今天完成 · 项</div>
+          <div class="lit-num" id="taskDone">0</div>
+          <div class="lit-k">任务完成</div>
         </div>
         <div class="summary-cell">
-          <div class="lit-num" id="weekCount">0</div>
-          <div class="lit-k">本周打卡 · 次</div>
+          <div class="lit-num" id="taskPending">0</div>
+          <div class="lit-k">任务待办</div>
         </div>
       </div>
       <p class="hint" style="margin:auto 0 0;padding-top:16px">连着断一天不算前功尽弃，第二天接上就行。</p>
     </section>
-
-    <!-- 七天表 -->
     <section class="work-cell" style="grid-column:1 / -1">
       <div class="cell-head">
-        <h2 class="cell-title">这七天</h2>
-        <span class="hint">实心为已做</span>
+        <h2 class="cell-title">任务清单</h2>
+        <span class="hint">按截止日期排序</span>
       </div>
-      <div class="table-wrap">
-        <table class="habit-table" id="weekTable">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
+      <div class="slot" style="margin-bottom:18px">
+        <p style="font-family:var(--serif);font-size:18px;color:var(--ink-2);margin:0 0 12px">添加新任务</p>
+        <div class="form-row">
+          <div class="field">
+            <label for="taskTitle">任务名称</label>
+            <input type="text" id="taskTitle" placeholder="例：材料科学基础大作业">
+          </div>
+          <div class="field">
+            <label for="taskDeadline">截止日期</label>
+            <input type="date" id="taskDeadline">
+          </div>
+        </div>
+        <div class="field">
+          <label for="taskDesc">描述（可选）</label>
+          <textarea id="taskDesc" rows="2" placeholder="具体要求、注意事项..."></textarea>
+        </div>
+        <button class="btn" id="addTaskBtn">添加任务</button>
       </div>
+      <div id="taskList"></div>
     </section>
   </div>
-
   <p class="hint" style="margin-top:18px">打卡记录存在这台电脑的浏览器里，换设备不同步。</p>
 </main>
-
 <footer class="foot">
   <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
   <p>kinghihido · 2026</p>
 </footer>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 <script>
 (function () {
   "use strict";
-
-  try {
-    localStorage.setItem("__jdc_probe", "1");
-    localStorage.removeItem("__jdc_probe");
-  } catch (err) {
-    var warn = document.createElement("p");
-    warn.className = "notice";
+  try { localStorage.setItem("__jdc_probe","1"); localStorage.removeItem("__jdc_probe"); }
+  catch (err) {
+    var warn = document.createElement("p"); warn.className = "notice";
     warn.innerHTML = "<strong>存不下打卡。</strong>现在是直接打开本地文件，浏览器多数会禁掉网页存储。换成发布后的网址访问，记录才会留下。";
-    var host = document.querySelector("main");
-    host.insertBefore(warn, host.firstChild);
+    document.querySelector("main").insertBefore(warn, document.querySelector("main").firstChild);
   }
+  var MEAL_KEY = "jdc.meals", FITNESS_KEY = "jdc.fitness", TASKS_KEY = "jdc.tasks";
+  var MEALS = ["早餐", "午餐", "晚餐"], GOAL = 50;
+  var WEEK = ["日","一","二","三","四","五","六"];
+  function pad(n){return n<10?"0"+n:String(n)}
+  function dayKey(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+  function toast(msg){var el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove("show")},1800)}
+  function readObj(key){try{var v=JSON.parse(localStorage.getItem(key)||"{}");return v&&typeof v==="object"&&!Array.isArray(v)?v:{}}catch(e){return{}}}
+  function readArr(key){try{var v=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(v)?v:[]}catch(e){return[]}}
+  function write(key,data){try{localStorage.setItem(key,JSON.stringify(data));return true}catch(e){toast("保存失败");return false}}
 
-  var KEY = "jdc.habits";
-  var HABITS = ["早起", "运动", "阅读", "专注", "早睡"];
-  var WEEK = ["日", "一", "二", "三", "四", "五", "六"];
+  var today = dayKey(new Date());
+  document.getElementById("todayLabel").textContent =
+    (new Date().getMonth()+1)+" 月 "+new Date().getDate()+" 日 · 星期"+WEEK[new Date().getDay()];
 
-  function pad(n) { return n < 10 ? "0" + n : String(n); }
-
-  function dayKey(d) {
-    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-  }
-
-  function toast(msg) {
-    var el = document.getElementById("toast");
-    el.textContent = msg;
-    el.classList.add("show");
-    clearTimeout(toast._t);
-    toast._t = setTimeout(function () { el.classList.remove("show"); }, 1800);
-  }
-
-  function load() {
-    try {
-      var v = JSON.parse(localStorage.getItem(KEY) || "{}");
-      return v && typeof v === "object" && !Array.isArray(v) ? v : {};
-    } catch (e) {
-      return {};
-    }
-  }
-
-  function persist(data) {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(data));
-      return true;
-    } catch (e) {
-      toast("保存失败，浏览器存储可能满了");
-      return false;
-    }
-  }
-
-  var todayKey = dayKey(new Date());
-  var state = load();
-  if (!Array.isArray(state[todayKey])) state[todayKey] = state[todayKey] || [];
-
-  var toggleBox = document.getElementById("toggles");
-  HABITS.forEach(function (name) {
-    var label = document.createElement("label");
-    label.className = "habit-toggle";
-    label.style.borderTop = "1px solid var(--rule-soft)";
-
-    var box = document.createElement("input");
-    box.type = "checkbox";
-    box.checked = state[todayKey].indexOf(name) > -1;
-    box.setAttribute("data-habit", name);
-
-    var text = document.createElement("span");
-    text.textContent = name;
-
-    box.addEventListener("change", function () {
-      var list = state[todayKey].slice();
-      var at = list.indexOf(name);
-      if (box.checked && at === -1) list.push(name);
-      if (!box.checked && at > -1) list.splice(at, 1);
-      state[todayKey] = list;
-      if (!persist(state)) return;
-      paint();
+  /* 三餐 */
+  var mealState = readObj(MEAL_KEY);
+  if (!mealState[today]) mealState[today] = {};
+  var mealBox = document.getElementById("mealCheckins");
+  MEALS.forEach(function(name){
+    var row=document.createElement("div");row.className="checkin-row";
+    var label=document.createElement("span");label.className="checkin-label";label.textContent=name;
+    var controls=document.createElement("div");controls.className="checkin-controls";
+    var timeSpan=document.createElement("span");timeSpan.className="checkin-time";
+    var rec=mealState[today][name];timeSpan.textContent=rec?rec.time:"--:--";
+    var btn=document.createElement("button");btn.className="checkin-btn"+(rec?" done":"");btn.textContent=rec?"已打卡":"打卡";
+    btn.addEventListener("click",function(){
+      if(mealState[today][name]){delete mealState[today][name];btn.textContent="打卡";btn.classList.remove("done");timeSpan.textContent="--:--"}
+      else{var now=new Date();mealState[today][name]={time:pad(now.getHours())+":"+pad(now.getMinutes())};btn.textContent="已打卡";btn.classList.add("done");timeSpan.textContent=mealState[today][name].time;toast(name+" 打卡成功")}
+      write(MEAL_KEY,mealState);updateStats();
     });
-
-    label.appendChild(box);
-    label.appendChild(text);
-    toggleBox.appendChild(label);
+    controls.appendChild(timeSpan);controls.appendChild(btn);row.appendChild(label);row.appendChild(controls);mealBox.appendChild(row);
   });
-  toggleBox.firstChild.style.borderTop = "none";
 
-  function paint() {
-    var rec = state[todayKey] || [];
-    Array.prototype.forEach.call(toggleBox.querySelectorAll("input"), function (box) {
-      box.checked = rec.indexOf(box.getAttribute("data-habit")) > -1;
+  /* 健身 */
+  var fitState = readObj(FITNESS_KEY);
+  if (!fitState[today]) fitState[today] = {count:0};
+  var fitBox = document.getElementById("fitnessCheckin");fitBox.innerHTML="";
+  var display=document.createElement("div");display.className="counter-display";
+  var num=document.createElement("span");num.className="counter-num";
+  function refreshNum(){num.innerHTML=fitState[today].count+'<small>/ '+GOAL+'</small>'}
+  refreshNum();
+  var track=document.createElement("div");track.className="progress-track";
+  var fill=document.createElement("div");fill.className="progress-fill";
+  function refreshBar(){var p=Math.min(100,Math.round((fitState[today].count/GOAL)*100));fill.style.width=p+"%";fill.className="progress-fill"+(p>=100?" complete":"")}
+  track.appendChild(fill);refreshBar();
+  var ctrls=document.createElement("div");ctrls.className="counter-controls";
+  var minusBtn=document.createElement("button");minusBtn.className="counter-btn";minusBtn.textContent="-";
+  minusBtn.addEventListener("click",function(){if(fitState[today].count>0){fitState[today].count--;refreshNum();refreshBar();input.value=fitState[today].count;doneBtn.textContent=fitState[today].count>=GOAL?"已完成":"完成 "+GOAL+" 个";write(FITNESS_KEY,fitState);updateStats()}});
+  var input=document.createElement("input");input.type="number";input.className="counter-input";input.min="0";input.value=fitState[today].count;
+  input.addEventListener("change",function(){var v=parseInt(input.value)||0;if(v<0)v=0;fitState[today].count=v;refreshNum();refreshBar();doneBtn.textContent=v>=GOAL?"已完成":"完成 "+GOAL+" 个";write(FITNESS_KEY,fitState);updateStats()});
+  var plusBtn=document.createElement("button");plusBtn.className="counter-btn";plusBtn.textContent="+";
+  plusBtn.addEventListener("click",function(){fitState[today].count++;refreshNum();refreshBar();input.value=fitState[today].count;doneBtn.textContent=fitState[today].count>=GOAL?"已完成":"完成 "+GOAL+" 个";write(FITNESS_KEY,fitState);updateStats()});
+  var doneBtn=document.createElement("button");doneBtn.className="counter-btn primary";doneBtn.textContent=fitState[today].count>=GOAL?"已完成":"完成 "+GOAL+" 个";
+  doneBtn.addEventListener("click",function(){fitState[today].count=GOAL;refreshNum();refreshBar();input.value=GOAL;doneBtn.textContent="已完成";write(FITNESS_KEY,fitState);toast("臂力棒 "+GOAL+" 个，完成！");updateStats()});
+  ctrls.appendChild(minusBtn);ctrls.appendChild(input);ctrls.appendChild(plusBtn);ctrls.appendChild(doneBtn);
+  display.appendChild(num);fitBox.appendChild(display);fitBox.appendChild(track);fitBox.appendChild(ctrls);
+
+  /* 睡眠 */
+  var sleepState = readObj(MEAL_KEY);
+  if (!sleepState[today]) sleepState[today] = {};
+  var sleepBox = document.getElementById("sleepCheckin");
+  var sleepRow=document.createElement("div");sleepRow.className="checkin-row";
+  var sleepLabel=document.createElement("span");sleepLabel.className="checkin-label";sleepLabel.textContent="入睡时间";
+  var sleepControls=document.createElement("div");sleepControls.className="checkin-controls";
+  var sleepTime=document.createElement("span");sleepTime.className="checkin-time";
+  var sleepRec=sleepState[today]["睡眠"];sleepTime.textContent=sleepRec?sleepRec.time:"--:--";
+  var sleepBtn=document.createElement("button");sleepBtn.className="checkin-btn"+(sleepRec?" done":"");sleepBtn.textContent=sleepRec?"已打卡":"打卡";
+  sleepBtn.addEventListener("click",function(){
+    if(sleepState[today]["睡眠"]){delete sleepState[today]["睡眠"];sleepBtn.textContent="打卡";sleepBtn.classList.remove("done");sleepTime.textContent="--:--"}
+    else{var now=new Date();sleepState[today]["睡眠"]={time:pad(now.getHours())+":"+pad(now.getMinutes())};sleepBtn.textContent="已打卡";sleepBtn.classList.add("done");sleepTime.textContent=sleepState[today]["睡眠"].time;toast("睡眠打卡成功")}
+    write(MEAL_KEY,sleepState);updateStats();
+  });
+  sleepControls.appendChild(sleepTime);sleepControls.appendChild(sleepBtn);sleepRow.appendChild(sleepLabel);sleepRow.appendChild(sleepControls);sleepBox.appendChild(sleepRow);
+
+  /* 任务清单 */
+  var tasks = readArr(TASKS_KEY);
+  var taskList=document.getElementById("taskList");
+  var titleInput=document.getElementById("taskTitle");
+  var deadlineInput=document.getElementById("taskDeadline");
+  var descInput=document.getElementById("taskDesc");
+  var addBtn=document.getElementById("addTaskBtn");
+  addBtn.addEventListener("click",function(){
+    var title=titleInput.value.trim(),deadline=deadlineInput.value,desc=descInput.value.trim();
+    if(!title){toast("请输入任务名称");return}
+    if(!deadline){toast("请选择截止日期");return}
+    tasks.push({id:Date.now(),title:title,deadline:deadline,desc:desc,done:false,createdAt:Date.now()});
+    write(TASKS_KEY,tasks);titleInput.value="";deadlineInput.value="";descInput.value="";renderTasks();updateStats();toast("任务已添加");
+  });
+  function renderTasks(){
+    taskList.innerHTML="";
+    if(tasks.length===0){var empty=document.createElement("div");empty.className="empty-state";empty.innerHTML="<strong>还没有任务</strong>添加一个大作业，开始管理截止日期";taskList.appendChild(empty);return}
+    var sorted=tasks.slice().sort(function(a,b){if(a.done!==b.done)return a.done?1:-1;return new Date(a.deadline)-new Date(b.deadline)});
+    var now=new Date();now.setHours(0,0,0,0);
+    sorted.forEach(function(task){
+      var card=document.createElement("div");
+      var deadline=new Date(task.deadline);deadline.setHours(0,0,0,0);
+      var daysLeft=Math.ceil((deadline-now)/(1000*60*60*24));
+      if(!task.done&&daysLeft<0)card.className="task-card overdue";
+      else if(!task.done&&daysLeft<=3)card.className="task-card urgent";
+      else card.className="task-card";
+      var head=document.createElement("div");head.className="task-head";
+      var title=document.createElement("h3");title.className="task-title"+(task.done?" done":"");title.textContent=task.title;
+      var actions=document.createElement("div");actions.className="task-actions";
+      var toggleBtn=document.createElement("button");toggleBtn.textContent=task.done?"↩ 撤销":"✓ 完成";
+      toggleBtn.addEventListener("click",function(){task.done=!task.done;write(TASKS_KEY,tasks);renderTasks();updateStats();toast(task.done?"任务已完成":"任务已恢复")});
+      var delBtn=document.createElement("button");delBtn.textContent="✕ 删除";
+      delBtn.addEventListener("click",function(){if(confirm("确定删除？")){tasks=tasks.filter(function(t){return t.id!==task.id});write(TASKS_KEY,tasks);renderTasks();updateStats();toast("任务已删除")}});
+      actions.appendChild(toggleBtn);actions.appendChild(delBtn);head.appendChild(title);head.appendChild(actions);
+      var meta=document.createElement("div");meta.className="task-meta";
+      var dlSpan=document.createElement("span");var dlDate=new Date(task.deadline);dlSpan.textContent="截止 "+dlDate.getFullYear()+"."+pad(dlDate.getMonth()+1)+"."+pad(dlDate.getDate());
+      var stSpan=document.createElement("span");
+      if(task.done){stSpan.textContent="已完成";stSpan.style.color="var(--accent)"}
+      else if(daysLeft<0){stSpan.textContent="已逾期 "+Math.abs(daysLeft)+" 天";stSpan.className="overdue"}
+      else if(daysLeft===0){stSpan.textContent="今天截止";stSpan.className="urgent"}
+      else if(daysLeft<=3){stSpan.textContent="还剩 "+daysLeft+" 天";stSpan.className="urgent"}
+      else{stSpan.textContent="还剩 "+daysLeft+" 天"}
+      meta.appendChild(dlSpan);meta.appendChild(stSpan);card.appendChild(head);card.appendChild(meta);
+      if(task.desc){var desc=document.createElement("div");desc.className="task-desc";desc.textContent=task.desc;card.appendChild(desc)}
+      taskList.appendChild(card);
     });
-
-    var d = new Date();
-    document.getElementById("todayLabel").textContent =
-      (d.getMonth() + 1) + " 月 " + d.getDate() + " 日 · 星期" + WEEK[d.getDay()] + " · " + rec.length + "/" + HABITS.length;
-
-    /* 近七天表 */
-    var days = [];
-    for (var i = 6; i >= 0; i--) {
-      var dd = new Date();
-      dd.setDate(dd.getDate() - i);
-      days.push(dd);
-    }
-
-    var thead = document.querySelector("#weekTable thead");
-    var tbody = document.querySelector("#weekTable tbody");
-    thead.textContent = "";
-    tbody.textContent = "";
-
-    var headRow = document.createElement("tr");
-    var corner = document.createElement("th");
-    corner.textContent = "习惯";
-    headRow.appendChild(corner);
-    days.forEach(function (day) {
-      var th = document.createElement("th");
-      th.textContent = (day.getMonth() + 1) + "." + day.getDate();
-      headRow.appendChild(th);
-    });
-    thead.appendChild(headRow);
-
-    HABITS.forEach(function (name) {
-      var tr = document.createElement("tr");
-      var th = document.createElement("th");
-      th.scope = "row";
-      th.textContent = name;
-      tr.appendChild(th);
-      days.forEach(function (day) {
-        var td = document.createElement("td");
-        var mark = document.createElement("span");
-        var hit = (state[dayKey(day)] || []).indexOf(name) > -1;
-        mark.className = "cell-mark" + (hit ? " on" : "");
-        td.appendChild(mark);
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-
-    /* 本周完成度 */
-    var hits = 0;
-    days.forEach(function (day) { hits += (state[dayKey(day)] || []).length; });
-    document.getElementById("weekPct").innerHTML = Math.round((hits / (HABITS.length * 7)) * 100) +
-      '<small style="font-size:13px;font-family:var(--sans);color:var(--ink-3)">%</small>';
-    document.getElementById("weekCount").textContent = hits;
-    document.getElementById("todayDone").textContent = rec.length;
-
-    /* 连续天数：今天没记就从昨天算起 */
-    var streak = 0;
-    var cursor = new Date();
-    if ((state[dayKey(cursor)] || []).length === 0) cursor.setDate(cursor.getDate() - 1);
-    while ((state[dayKey(cursor)] || []).length > 0) {
-      streak += 1;
-      cursor.setDate(cursor.getDate() - 1);
-    }
-    document.getElementById("streak").textContent = streak;
   }
+  renderTasks();
 
-  (function clock() {
-    var d = new Date();
-    document.getElementById("navClock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
-  })();
-
-  paint();
+  /* 统计 */
+  function updateStats(){
+    var days=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(dayKey(d))}
+    var mealTotal=0,mealPossible=days.length*MEALS.length;
+    days.forEach(function(dk){var rec=mealState[dk]||{};MEALS.forEach(function(m){if(rec[m])mealTotal++})});
+    document.getElementById("mealPct").innerHTML=Math.round((mealTotal/mealPossible)*100)+'<small style="font-size:13px;font-family:var(--sans);color:var(--ink-3)">%</small>';
+    var fitTotal=0;days.forEach(function(dk){var rec=fitState[dk];if(rec)fitTotal+=(rec.count||0)});
+    document.getElementById("fitnessAvg").textContent=Math.round(fitTotal/days.length);
+    var doneCount=0,pendingCount=0;tasks.forEach(function(t){if(t.done)doneCount++;else pendingCount++});
+    document.getElementById("taskDone").textContent=doneCount;
+    document.getElementById("taskPending").textContent=pendingCount;
+  }
+  updateStats();
+  (function clock(){var d=new Date();document.getElementById("navClock").textContent=pad(d.getHours())+":"+pad(d.getMinutes())})();
 })();
 </script>
-
 </body>
 </html>
