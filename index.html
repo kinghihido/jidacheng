@@ -58,66 +58,43 @@
 
 <main class="panels">
 
-  <!-- ===== 模块：我的创作 ===== -->
-  <article class="panel panel--creative">
-    <div class="panel-top">
-      <span class="kicker">文字</span>
-      <span class="stat" id="creativeStat">0 篇</span>
-    </div>
-    <h2 class="panel-title">我的创作</h2>
-    <p class="panel-desc">日记、随感、写到一半的长文。先写下来，再谈好坏。</p>
-    <div class="panel-body">
-      <div class="paper-block">
-        <p class="paper-lines" id="creativePreview">还没有写过字。<br><em>今天写三行，也算开张。</em></p>
-      </div>
-      <p class="paper-meta" id="creativeMeta">最近一篇 · —</p>
-    </div>
-    <a class="enter" href="writing.html">打开写作台</a>
-  </article>
-
-  <!-- ===== 模块：我的摄影 ===== -->
-  <article class="panel panel--photo">
-    <div class="panel-top">
-      <span class="kicker">影像</span>
-      <span class="stat" id="photoStat">0 张</span>
-    </div>
-    <h2 class="panel-title">我的摄影</h2>
-    <p class="panel-desc">按时间排的相册。留一张底片，比留一句“那天挺好的”更实在。</p>
-    <div class="panel-body">
-      <figure class="photo-figure">
-        <div class="photo-frame">
-          <img src="assets/photos/weiminghu.jpg" alt="未名湖与博雅塔的秋日午后，示例照片">
-        </div>
-        <figcaption class="photo-cap">
-          <span>未名湖 · 博雅塔</span>
-          <span>示例照片</span>
-        </figcaption>
-      </figure>
-    </div>
-    <a class="enter" href="photography.html">进入相册</a>
-  </article>
-
   <!-- ===== 模块：本科学习 ===== -->
   <article class="panel panel--study">
     <div class="panel-top">
       <span class="kicker">课业</span>
-      <span class="stat">学期 2026 秋</span>
+      <span class="stat">学期 2026 秋 · 4 站</span>
     </div>
     <h2 class="panel-title">本科学习</h2>
-    <p class="panel-desc">三门课各有一个站，讲义、课件、笔记都在里面。</p>
+    <p class="panel-desc">四门课各有一个站，讲义、课件、笔记都在里面。</p>
     <div class="panel-body">
-      <div class="site-list">
-        <a class="site-row" href="https://kinghihido.github.io/hanyu-xuexi/" target="_blank" rel="noopener">
-          <span class="site-name">汉语</span>
-          <span class="site-desc">古代汉语 · 现代汉语讲义</span>
+      <div class="site-grid">
+        <a class="site-card" href="https://kinghihido.github.io/hanyu-xuexi/" target="_blank" rel="noopener">
+          <span class="site-card-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#f7f1e4"/><text x="32" y="44" font-size="34" text-anchor="middle" fill="#a63d2f" font-family="serif">汉</text></svg></span>
+          <span class="site-card-body">
+            <span class="site-card-name">汉语</span>
+            <span class="site-card-desc">古代汉语 · 现代汉语讲义</span>
+          </span>
         </a>
-        <a class="site-row" href="https://kinghihido.github.io/materials-analysis-learning-site/" target="_blank" rel="noopener">
-          <span class="site-name">现代材料</span>
-          <span class="site-desc">分析与原理 · 19 篇讲稿</span>
+        <a class="site-card" href="https://kinghihido.github.io/materials-analysis-learning-site/" target="_blank" rel="noopener">
+          <span class="site-card-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#161c22"/><rect x="12" y="16" width="40" height="12" rx="4" fill="#1d252d" stroke="#2b353f"/><rect x="24" y="20" width="6" height="4" fill="#a78bfa"/><rect x="36" y="20" width="6" height="4" fill="#a78bfa"/><rect x="14" y="36" width="36" height="3" rx="1.5" fill="#6ea8fe"/><ellipse cx="32" cy="47" rx="20" ry="8" fill="#2b3a4d" stroke="#6ea8fe" stroke-opacity=".6"/></svg></span>
+          <span class="site-card-body">
+            <span class="site-card-name">现代材料</span>
+            <span class="site-card-desc">分析与原理 · 19 篇讲稿</span>
+          </span>
         </a>
-        <a class="site-row" href="https://kinghihido.github.io/quantum-mechanics-notes/" target="_blank" rel="noopener">
-          <span class="site-name">量子统计</span>
-          <span class="site-desc">50 个知识点 · 课堂笔记</span>
+        <a class="site-card" href="https://kinghihido.github.io/quantum-mechanics-notes/" target="_blank" rel="noopener">
+          <span class="site-card-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#0E1526"/><text x="16" y="24" font-size="22" font-family="Georgia,serif" fill="#E8B27A" text-anchor="middle">φ</text></svg></span>
+          <span class="site-card-body">
+            <span class="site-card-name">量子统计</span>
+            <span class="site-card-desc">50 个知识点 · 课堂笔记</span>
+          </span>
+        </a>
+        <a class="site-card" href="https://kinghihido.github.io/china-economy-study-website/" target="_blank" rel="noopener">
+          <span class="site-card-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#A8321F"/><text x="32" y="44" font-size="38" font-family="serif" fill="#F7F2E8" text-anchor="middle">经</text></svg></span>
+          <span class="site-card-body">
+            <span class="site-card-name">经济专题</span>
+            <span class="site-card-desc">中国经济 · 六讲整理</span>
+          </span>
         </a>
       </div>
       <p class="panel-note">本学期 7 门课 · 课表在「本科学习」里</p>
@@ -169,6 +146,45 @@
       </div>
     </div>
     <a class="enter" href="discipline.html">去打卡</a>
+  </article>
+
+  <!-- ===== 模块：我的创作 ===== -->
+  <article class="panel panel--creative">
+    <div class="panel-top">
+      <span class="kicker">文字</span>
+      <span class="stat" id="creativeStat">0 篇</span>
+    </div>
+    <h2 class="panel-title">我的创作</h2>
+    <p class="panel-desc">日记、随感、写到一半的长文。先写下来，再谈好坏。</p>
+    <div class="panel-body">
+      <div class="paper-block">
+        <p class="paper-lines" id="creativePreview">还没有写过字。<br><em>今天写三行，也算开张。</em></p>
+      </div>
+      <p class="paper-meta" id="creativeMeta">最近一篇 · —</p>
+    </div>
+    <a class="enter" href="writing.html">打开写作台</a>
+  </article>
+
+  <!-- ===== 模块：我的摄影 ===== -->
+  <article class="panel panel--photo">
+    <div class="panel-top">
+      <span class="kicker">影像</span>
+      <span class="stat" id="photoStat">0 张</span>
+    </div>
+    <h2 class="panel-title">我的摄影</h2>
+    <p class="panel-desc">按时间排的相册。留一张底片，比留一句“那天挺好的”更实在。</p>
+    <div class="panel-body">
+      <figure class="photo-figure">
+        <div class="photo-frame">
+          <img src="assets/photos/weiminghu.jpg" alt="未名湖与博雅塔的秋日午后，示例照片">
+        </div>
+        <figcaption class="photo-cap">
+          <span>未名湖 · 博雅塔</span>
+          <span>示例照片</span>
+        </figcaption>
+      </figure>
+    </div>
+    <a class="enter" href="photography.html">进入相册</a>
   </article>
 
 </main>
