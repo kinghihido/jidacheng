@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>阅读报告 · 学海无涯 · 集大成者</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2324544a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%23edeEE9' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.report-page { max-width: 780px; margin: 0 auto; }
+.report-page .back-link { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--ink-3); text-decoration: none; margin-bottom: 20px; transition: color .15s; }
+.report-page .back-link:hover { color: var(--ink-1); }
+.report-page .paper-title { font-family: var(--serif); font-size: 26px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; color: var(--ink-1); }
+.report-page .paper-meta { font-size: 14px; color: var(--ink-3); margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule-soft); }
+.report-page .paper-tags { display: flex; gap: 8px; margin-bottom: 20px; }
+.report-page .paper-tags .status-tag { font-size: 12px; }
+.section { margin-bottom: 32px; }
+.section h2 { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--ink-1); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--rule-soft); }
+.section p { font-size: 15px; line-height: 1.85; color: var(--ink-2); }
+.section blockquote { margin: 12px 0; padding: 12px 16px; background: var(--bg-warm, #faf9f6); border-left: 3px solid var(--accent, #24544a); font-size: 14px; line-height: 1.7; color: var(--ink-2); font-style: italic; }
+.section blockquote .cite { display: block; margin-top: 6px; font-size: 12px; color: var(--ink-3); font-style: normal; }
+.vocab-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+.vocab-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--rule-soft); font-weight: 600; color: var(--ink-1); font-size: 13px; }
+.vocab-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule-soft); color: var(--ink-2); vertical-align: top; }
+.vocab-table .vocab-term { font-weight: 600; color: var(--ink-1); white-space: nowrap; }
+.vocab-table .vocab-en { font-family: var(--mono); font-size: 13px; white-space: nowrap; color: var(--ink-3); }
+@media (max-width: 640px) {
+  .report-page .paper-title { font-size: 22px; }
+  .section h2 { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a class="brand" href="index.html">集大成者</a>
+  <ul class="nav">
+    <li><a href="index.html">总台</a></li>
+    <li><a href="writing.html">创作</a></li>
+    <li><a href="photography.html">摄影</a></li>
+    <li><a href="study.html">本科学习</a></li>
+    <li><a href="literature.html">学海无涯</a></li>
+    <li><a href="discipline.html">日常</a></li>
+  </ul>
+  <span class="topbar-clock" id="navClock">--:--</span>
+</nav>
+
+<main class="page">
+  <div class="report-page" id="reportContent">
+    <p class="hint" style="text-align:center;padding:60px 0">加载中……</p>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>静态站点 · GitHub Pages · 内容只保存在本机浏览器</p>
+  <p>kinghihido · 2026</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEYS = { papers: "jdc.papers", vocab: "jdc.vocab" };
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+  function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+  function load(key, fb) { try { var v = JSON.parse(localStorage.getItem(key) || "null"); return v === null ? fb : v; } catch (e) { return fb; } }
+
+  function getTag(p) { return p.id && p.id.indexOf("raman") === 0 ? "Raman" : (p.id && p.id.indexOf("tmd") === 0 ? "TMD" : ""); }
+
+  function renderReport(paper) {
+    var tag = getTag(paper);
+    var html = '';
+    html += '<a class="back-link" href="literature.html">&larr; 返回文献列表</a>';
+    html += '<h1 class="paper-title">' + esc(paper.title || "无题") + '</h1>';
+    html += '<div class="paper-meta">' + esc(paper.meta || "") + '</div>';
+
+    if (tag) {
+      html += '<div class="paper-tags"><span class="status-tag">' + esc(tag) + '</span>';
+      html += '<span class="status-tag done">' + esc(paper.status || "已读") + '</span></div>';
+    }
+
+    /* 概述 */
+    if (paper.summary) {
+      html += '<div class="section"><h2>概述</h2><p>' + esc(paper.summary) + '</p></div>';
+    }
+
+    /* 原文引用 */
+    if (paper.quotes && paper.quotes.length) {
+      html += '<div class="section"><h2>原文引用</h2>';
+      paper.quotes.forEach(function (q) {
+        html += '<blockquote>' + esc(q.text || "");
+        if (q.context) html += '<span class="cite">—— ' + esc(q.context) + '</span>';
+        html += '</blockquote>';
+      });
+      html += '</div>';
+    }
+
+    /* 原理总结 */
+    if (paper.principles) {
+      html += '<div class="section"><h2>原理总结</h2><p>' + esc(paper.principles) + '</p></div>';
+    }
+
+    /* 可借鉴之处 */
+    if (paper.lessons) {
+      html += '<div class="section"><h2>可借鉴之处</h2><p>' + esc(paper.lessons) + '</p></div>';
+    }
+
+    /* 相关理论 */
+    if (paper.theory) {
+      html += '<div class="section"><h2>相关理论知识</h2><p>' + esc(paper.theory) + '</p></div>';
+    }
+
+    /* 词汇表 */
+    var allVocab = [].concat(paper.vocabGeneral || [], paper.vocabDomain || []);
+    if (allVocab.length) {
+      html += '<div class="section"><h2>词汇表</h2>';
+      html += '<table class="vocab-table"><thead><tr><th>术语</th><th>English</th><th>释义</th></tr></thead><tbody>';
+      allVocab.forEach(function (v) {
+        html += '<tr><td class="vocab-term">' + esc(v.term) + '</td><td class="vocab-en">' + esc(v.english) + '</td><td>' + esc(v.definition) + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+
+    document.getElementById("reportContent").innerHTML = html;
+    document.title = (paper.title || "阅读报告") + " · 学海无涯 · 集大成者";
+  }
+
+  function showNotFound() {
+    document.getElementById("reportContent").innerHTML =
+      '<a class="back-link" href="literature.html">&larr; 返回文献列表</a>' +
+      '<div class="section"><h2>未找到该文献</h2><p>可能数据尚未加载，或该文献已被删除。</p></div>';
+  }
+
+  function findPaper(papers, id) {
+    for (var i = 0; i < papers.length; i++) {
+      if (papers[i].id === id) return papers[i];
+    }
+    return null;
+  }
+
+  /* 从 URL 获取 paper id */
+  var params = new URLSearchParams(window.location.search);
+  var paperId = params.get("id");
+  if (!paperId) { showNotFound(); return; }
+
+  /* 先尝试从 localStorage 加载 */
+  var papers = load(KEYS.papers, []);
+  if (!Array.isArray(papers)) papers = [];
+  var paper = findPaper(papers, paperId);
+
+  if (paper) {
+    renderReport(paper);
+  } else {
+    /* localStorage 没有，从 papers.json 加载 */
+    fetch("papers.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+      if (data && data.length) {
+        /* 存入 localStorage */
+        localStorage.setItem(KEYS.papers, JSON.stringify(data));
+        /* 合并词汇 */
+        var vocab = load(KEYS.vocab, []);
+        if (!Array.isArray(vocab)) vocab = [];
+        data.forEach(function (p) {
+          [].concat(p.vocabGeneral || [], p.vocabDomain || []).forEach(function (v) {
+            if (!v.category) v.category = "通用";
+            if (!vocab.some(function (e) { return e.english.toLowerCase() === v.english.toLowerCase(); })) vocab.push(v);
+          });
+        });
+        localStorage.setItem(KEYS.vocab, JSON.stringify(vocab));
+
+        var found = findPaper(data, paperId);
+        if (found) renderReport(found);
+        else showNotFound();
+      } else {
+        showNotFound();
+      }
+    }).catch(function () { showNotFound(); });
+  }
+
+  (function () { var d = new Date(); document.getElementById("navClock").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes()); })();
+})();
+</script>
+</body>
+</html>
