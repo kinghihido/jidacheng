@@ -34,7 +34,7 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-  body::before {
+  body::before { /* 宣纸纤维噪点 */
     content: "";
     position: fixed; inset: 0;
     background-image:
@@ -43,10 +43,11 @@
     background-size: 37px 43px, 61px 67px;
     pointer-events: none; z-index: 1;
   }
-  .ink-drop {
+  .ink-drop { /* 飘落花瓣画布 */
     position: fixed; inset: 0; pointer-events: none; z-index: 2;
   }
 
+  /* ---------- 顶部导航 ---------- */
   .topbar {
     position: relative; z-index: 20;
     display: flex; align-items: center; gap: 26px;
@@ -77,6 +78,7 @@
     letter-spacing: 1px; white-space: nowrap; font-family: "Ma Shan Zheng", serif; font-size: 15px;
   }
 
+  /* ---------- 主卷轴 ---------- */
   .scroll-wrap {
     position: relative; z-index: 10;
     max-width: 920px; margin: 0 auto;
@@ -92,7 +94,7 @@
     transform-origin: center top;
     animation: unroll .9s cubic-bezier(.22,.61,.36,1) both;
   }
-  .scroll::before, .scroll::after {
+  .scroll::before, .scroll::after { /* 卷轴上下木杆 */
     content: ""; position: absolute; left: 0; right: 0; height: 9px;
     background: linear-gradient(180deg, #c9b894, #a18a5f 45%, #7d6844);
     border-radius: 2px;
@@ -106,11 +108,13 @@
 
   .scroll-inner { position: relative; }
 
+  /* 角印花纹 */
   .corner { position: absolute; width: 46px; height: 46px; opacity: .5; pointer-events: none; }
   .corner svg { width: 100%; height: 100%; }
   .corner.tl { top: 14px; left: 14px; transform: rotate(0); }
   .corner.br { bottom: 14px; right: 14px; transform: rotate(180deg); }
 
+  /* ---------- 题头 ---------- */
   .masthead { text-align: center; margin-bottom: 26px; }
   .masthead .brush {
     font-family: "Ma Shan Zheng", "Noto Serif SC", serif;
@@ -139,6 +143,7 @@
   }
   .masthead .rule .dot { width: 6px; height: 6px; background: var(--cinnabar); border-radius: 50%; }
 
+  /* 诗签 */
   .verse-tag {
     max-width: 460px; margin: 22px auto 0;
     padding: 14px 22px 14px 26px;
@@ -163,6 +168,7 @@
     font-size: 11px; font-family: serif;
   }
 
+  /* ---------- 写作区 ---------- */
   .section-label {
     display: inline-flex; align-items: center; gap: 10px;
     font-family: "Ma Shan Zheng", serif; font-size: 22px; letter-spacing: 4px;
@@ -213,7 +219,7 @@
     border: 1px solid var(--line); border-radius: 2px; outline: none;
     background-image:
       linear-gradient(transparent 1.9em, rgba(51,41,31,.055) 2em);
-    background-size: 100% 2.1em;
+    background-size: 100% 2.1em; /* 稿纸横格 */
     transition: border-color .25s, box-shadow .25s;
   }
   .field textarea:focus { border-color: var(--cinnabar); box-shadow: 0 0 0 3px rgba(166,61,47,.12); }
@@ -221,6 +227,7 @@
   .toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
   .toolbar-end { display: flex; gap: 10px; }
 
+  /* 墨晕按钮 */
   .btn {
     position: relative; overflow: hidden;
     padding: 8px 22px; cursor: pointer;
@@ -245,6 +252,7 @@
   .btn-ghost:hover { background: rgba(51,41,31,.06); color: var(--ink); border-color: var(--ink-3); box-shadow: none; }
   .btn-ghost::after { display: none; }
 
+  /* ---------- 存档 ---------- */
   .archive { margin-top: 8px; }
   .entry {
     display: flex; align-items: center; gap: 12px;
@@ -275,6 +283,7 @@
   .empty strong { display: block; font-family: "Ma Shan Zheng", serif; font-size: 21px; color: var(--ink-2); letter-spacing: 3px; font-weight: 400; }
   .empty p { font-size: 13px; margin-top: 6px; letter-spacing: 1px; }
 
+  /* ---------- 阅读弹层（竖排卷轴） ---------- */
   .reader { position: fixed; inset: 0; z-index: 60; display: none; }
   .reader.show { display: block; }
   .reader .veil {
@@ -329,6 +338,7 @@
   }
   .reader .vol-close:hover { transform: rotate(90deg); color: var(--cinnabar); border-color: var(--cinnabar); }
 
+  /* ---------- 盖印 ---------- */
   .seal {
     position: fixed; left: 50%; top: 42%; z-index: 80;
     transform: translate(-50%, -50%) scale(3) rotate(-8deg);
@@ -350,6 +360,7 @@
     100% { transform: translate(-50%, -50%) scale(1) rotate(-8deg); opacity: 1; }
   }
 
+  /* ---------- 水墨山峦 ---------- */
   .ink-mount {
     position: relative; z-index: 5;
     width: 100%; margin-top: -20px; pointer-events: none;
@@ -427,6 +438,7 @@
       </header>
 
       <div class="work-grid">
+        <!-- 写作区 -->
         <section class="sheet">
           <div class="sheet-head">
             <h2 class="sheet-title">研墨</h2>
@@ -461,6 +473,7 @@
           </div>
         </section>
 
+        <!-- 存档区 -->
         <section class="sheet">
           <div class="sheet-head">
             <h2 class="sheet-title">藏稿</h2>
@@ -475,6 +488,7 @@
     </div>
   </div>
 
+  <!-- 水墨山峦 -->
   <div class="ink-mount" aria-hidden="true">
     <svg viewBox="0 0 1200 170" preserveAspectRatio="none">
       <path d="M0 170 L0 128 Q70 96 150 116 T320 108 Q420 100 470 130 T660 122 Q760 116 830 138 T1030 128 Q1120 122 1200 138 L1200 170 Z" fill="rgba(51,41,31,0.16)"/>
@@ -493,6 +507,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="seal" id="seal">集大成者<br>墨痕</div>
 
+<!-- 阅读弹层 -->
 <div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="展卷阅读">
   <div class="veil" id="readerVeil"></div>
   <div class="vol">
@@ -511,6 +526,7 @@
 (function () {
   "use strict";
 
+  /* ---------- 时辰 ---------- */
   var SHICHEN = ["子时","丑时","寅时","卯时","辰时","巳时","午时","未时","申时","酉时","戌时","亥时"];
   function shichen(h) { return SHICHEN[Math.floor(((h + 1) % 24) / 2)]; }
   function pad(n) { return n < 10 ? "0" + n : String(n); }
@@ -523,6 +539,7 @@
   tickClock();
   setInterval(tickClock, 30000);
 
+  /* ---------- 诗签 ---------- */
   var VERSES = [
     "文章本天成，妙手偶得之。——陆游",
     "两句三年得，一吟双泪流。——贾岛",
@@ -536,6 +553,7 @@
   document.getElementById("verseText").textContent =
     VERSES[Math.floor(Math.random() * VERSES.length)];
 
+  /* ---------- 存储 ---------- */
   var KEY = "jdc.writings";
   function load() {
     try {
@@ -548,6 +566,7 @@
     catch (e) { toast("墨池已满，先删去几篇旧稿再存"); return false; }
   }
 
+  /* ---------- 组件 ---------- */
   var listEl = document.getElementById("list");
   var listCountEl = document.getElementById("listCount");
   var titleEl = document.getElementById("title");
@@ -583,6 +602,7 @@
     return d.innerHTML;
   }
 
+  /* ---------- 盖印 ---------- */
   function sealStamp() {
     var seal = document.getElementById("seal");
     seal.classList.remove("show");
@@ -591,6 +611,7 @@
     setTimeout(function () { seal.classList.remove("show"); }, 1300);
   }
 
+  /* ---------- 渲染存档 ---------- */
   function render() {
     var items = load().sort(function (a, b) { return b.ts - a.ts; });
     listCountEl.textContent = items.length + " 篇";
@@ -656,6 +677,7 @@
     });
   }
 
+  /* ---------- 展卷阅读 ---------- */
   function read(item) {
     var reader = document.getElementById("reader");
     document.getElementById("readerTitle").textContent = item.title || "无题";
@@ -680,6 +702,7 @@
     if (e.key === "Escape") closeReader();
   });
 
+  /* ---------- 编辑 / 删除 ---------- */
   function edit(id) {
     var item = load().filter(function (x) { return x.id === id; })[0];
     if (!item) return;
@@ -759,6 +782,7 @@
     if ((e.ctrlKey || e.metaKey) && e.key === "s") { e.preventDefault(); save(); }
   });
 
+  /* ---------- 落花 ---------- */
   var petals = [];
   var petalRunning = true;
   var cv = document.getElementById("petalCanvas");
