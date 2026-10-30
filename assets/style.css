@@ -916,17 +916,25 @@ textarea {
 @media (min-width: 860px) {
   .panels { grid-template-columns: repeat(2, 1fr); }
   .panel--study { grid-column: span 2; }
-  .panel--daily { grid-column: span 2; }
+  .panel--outbound { grid-column: span 2; }
   .work { grid-template-columns: 1.05fr 0.95fr; }
 }
 
 @media (min-width: 1120px) {
+  /* 宽屏排成 4 + 3 + 3：
+     上排学习站（一整行四个卡片）／中排三个并列内容站／下排燕园、日常、摄影 */
   .panels { grid-template-columns: repeat(12, 1fr); }
   .panel--study { grid-column: span 12; }
-  .panel--lit { grid-column: span 5; }
-  .panel--daily { grid-column: span 7; }
-  .panel--outbound { grid-column: span 7; }
-  .panel--photo { grid-column: span 5; }
+  .panel--red { grid-column: span 4; }
+  .panel--lit { grid-column: span 4; }
+  .panel--green { grid-column: span 4; }
+  .panel--poi { grid-column: span 4; }
+  .panel--daily { grid-column: span 4; }
+  .panel--photo { grid-column: span 4; }
+  .panel--outbound { grid-column: span 12; }
+  /* 别处整行时两个链接横排，免得一条竖线拖太长 */
+  .panel--outbound .site-list { flex-direction: row; flex-wrap: wrap; gap: 0 40px; }
+  .panel--outbound .site-row { flex: 1 1 300px; }
   .panel--daily .panel-body { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 28px; }
   .panel-title { font-size: 30px; }
 
