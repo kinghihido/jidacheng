@@ -1,28 +1,25 @@
 # 集大成者
 
-一个材料系学生的个人档案总台。五个入口，一套视觉：纸色底、宋体标题、发丝线分格。
+一个材料系学生的个人档案总台。**轻量集合点：本站不装内容，只做入口。** 纸色底、宋体标题、发丝线分格。
+
+> 2026-10-31 起，两块最有分量的内容先后独立成站，总台只保留指向它们的外链：
+> - **我的创作** → 雾里楼台（`kinghihido/wuli-loutai`）
+> - **学海无涯（文献阅读）** → 学海无涯（`kinghihido/paper-reading`）
+>
+> 现在六个子站地位平等，各自一个仓库、各自迭代，总台不再背着它们的体积。
 
 ## 页面
 
 | 文件 | 板块 | 现在有什么 |
 | --- | --- | --- |
-| `index.html` | 总台 | 五个模块的入口、四个统计数字、近七天打卡格 |
-| `writing.html` | 我的创作 | 写作台（标题 / 类型 / 正文），保存、改稿、删除 |
-| `photography.html` | 我的摄影 | 上传照片（自动压到长边 1600），相册、删除 |
+| `index.html` | 总台 | 学习站入口（4 个）、**学海无涯**与**雾里楼台**外链入口、日常打卡格、**别处**模块（文献连接器 / 全部仓库）、近七天统计 |
 | `study.html` | 本科学习 | 四个学习站入口（汉语 / 现代材料 / 量子统计 / 经济专题）、本学期课表、三个待建分区 |
-| `literature.html` | 学海无涯 | PDF 上传 → AI 生成中文阅读报告（概述 / 引用 / 原理 / 借鉴 / 理论 / 词汇表），手动添加、编辑、筛选 |
-| `discipline.html` | 日常网站 | 五项打卡、近七天表格、本周完成度与连续天数 |
+| `photography.html` | 我的摄影 | 上传照片（自动压到长边 1600），相册、删除 |
+| `discipline.html` | 日常网站 | 三餐打卡、臂力棒计数、睡眠记录、任务清单 |
 
-## 数据存在哪
+## 站点目录
 
-所有内容（文稿、照片、文献、打卡）保存在**浏览器本地** `localStorage`，键名 `jdc.writings` / `jdc.photos` / `jdc.papers` / `jdc.vocab` / `jdc.habits`。
-
-- 换设备、换浏览器、清缓存，数据都不会跟过去。
-- 照片压缩后存本地，容量上限约 5 MB，放十几张就到顶。
-- AI 接口的 Key 存在本机（`jdc.ai.key`），不会上传。
-- 想跨设备同步，下一步要接后端或把内容存进仓库（可以再商量）。
-
-## 学习站
+学习站：
 
 | 站点 | 地址 | 内容 |
 | --- | --- | --- |
@@ -31,35 +28,47 @@
 | 量子统计 | https://kinghihido.github.io/quantum-mechanics-notes/ | 材料中的量子与统计，50 个知识点 |
 | 经济专题 | https://kinghihido.github.io/china-economy-study-website/ | 中国经济专题（北大 NSD），六讲整理 |
 
+已拆出去的自有站：
+
+| 站点 | 地址 | 内容 |
+| --- | --- | --- |
+| 学海无涯 | https://kinghihido.github.io/paper-reading/ | 文献精读报告 22 篇、词汇 282 条 |
+| 雾里楼台 | https://kinghihido.github.io/wuli-loutai/ | 随笔与技术文章 |
+
+其他：
+
+| 站点 | 地址 | 内容 |
+| --- | --- | --- |
+| 文献连接器 | https://github.com/kinghihido/Zotero_Connector | Zotero × WorkBuddy |
+| 全部仓库 | https://github.com/kinghihido | GitHub 主页 |
+
+## 视觉
+
+- 一套变量在 `assets/style.css` 的 `:root`：纸色 `--paper`、墨三级 `--ink/-2/-3`、主色 `--accent`、朱砂 `--seal`。所有页面共用，**不要再在页面里写 `<style>` 或私有调色板**。
+- `--ink-3` 取 `#5e6563`（在纸色上对比度约 4.9:1，之前的 `#767d79` 只有 3.6:1，不达 AA）。
+- 站点标统一为：64×64 视窗、圆角 12、浅色调底 + 单字符/符号、0.5px 发丝描边。新增站点照这个规格做，先去子站看过 DNA，别凭空配色。
+
+## 数据存在哪
+
+照片、打卡、任务存在**浏览器本地** `localStorage`，键名 `jdc.photos` / `jdc.habits`。
+
+文稿与文献分别由雾里楼台、学海无涯自己管，键前缀分别是 `wuli.` 类与 `lit.`。
+
+- 换设备、换浏览器、清缓存，数据都不会跟过去。
+- 照片压缩后存本地，容量上限约 5 MB，放十几张就到顶。
+- AI 接口的 Key 存在本机（`jdc.ai.key`），不会上传。
+- 两个自转站与本站同在 `kinghihido.github.io` 域下，**localStorage 同源互通**。学海无涯首次进入时会读一次旧键 `jdc.papers` / `jdc.vocab` 做迁移，并把篇数同步回本站首页。
+
+### 一个旧的假统计
+
+首页原本读 `jdc.lit` 来显示「待读 / 在读 / 已读」，而文献页写的是 `jdc.papers` —— 全站没有任何地方往 `jdc.lit` 写过，所以那三个数**常年恒为 0**。现在首页改成直接取学海无涯的 `papers-index.json`（两站同在一个域名下，没有跨域问题），显示真实篇数。
+
 ## 还没做的
 
 - 课程笔记、实验与作业、复习清单三块目前只有结构，规则待定。
-- 照片的相册分组、创作的长文导出，都还没做。
-- 文献报告的 Markdown 渲染、词汇表导出为 Anki 卡片，可以考虑加。
-
-## AI 阅读报告
-
-「学海无涯」页面支持上传 PDF，自动提取文字并调用 AI 生成中文阅读报告。报告包含七个维度：概述、原文引用、原理总结、可借鉴之处、相关理论、通用词汇、专业词汇。
-
-### 配置方法
-
-1. 打开 https://kinghihido.github.io/jidacheng/literature.html
-2. 点右上角「AI 设置」
-3. 填入 API Key 和接口地址
-
-推荐用 **GitHub Models**（免费）：
-
-| 设置项 | 推荐值 |
-| --- | --- |
-| 接口地址 | `https://models.inference.ai.azure.com/chat/completions` |
-| API Key | GitHub Personal Access Token（Settings → Developer settings → Personal access tokens → Fine-grained tokens） |
-| 模型名 | `gpt-4o-mini` |
-
-也可以用 OpenAI、DeepSeek 等任何兼容 OpenAI 格式的接口。
-
-### 技能定义
-
-阅读报告的分析框架定义在 `skills/paper-reader/SKILL.md`，也可以单独在 Qoder 里调用此技能分析论文。
+- 照片的相册分组还没做。
+- 稳定后可考虑给四个学习站和雾里楼台做真正的 favicon / OG 图。
+- AI 生成阅读报告：之前 README 描述过「上传 PDF → 调 AI 生成七维度报告」，但 `literature.html` 里其实从没实现过这段，只有列表和词汇展示。这个功能的所有笔记已随模块迁到学海无涯，骨架留在那边待实现，分析框架在它的 `skills/paper-reader/SKILL.md`。
 
 ## 本地预览
 
