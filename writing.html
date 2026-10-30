@@ -379,71 +379,41 @@
   }
   .bloom-toggle:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(140,47,34,.24); }
 
-  /* ---------- 过渡页：水面 · 墨滴 · 入楼 ---------- */
-  .gate {
-    position: fixed; inset: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    background:
-      radial-gradient(ellipse at 50% 130%, rgba(255,255,255,0.14), transparent 62%),
-      radial-gradient(ellipse at 18% -8%, rgba(210,230,225,0.35), transparent 55%),
-      linear-gradient(180deg, #c9d6d1 0%, #9db1ab 45%, #6b8780 100%);
-    overflow: hidden;
-  }
-  .gate.opening { opacity: 0; transition: opacity .55s ease 1.02s; }
-  .gate.done { visibility: hidden; pointer-events: none; }
-  .gate-unveil {
-    position: absolute; left: 50%; top: 50%;
-    width: 200vmax; height: 200vmax;
-    margin-left: -100vmax; margin-top: -100vmax;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 40%, #fbf6e8, #efe6d0 78%);
-    box-shadow: 0 0 120px rgba(246,241,227,.9);
-    transform: scale(0);
-    transform-origin: center;
-    z-index: 3; pointer-events: none;
-    will-change: transform;
-  }
-  .gate.opening .gate-unveil {
-    transform: scale(1);
-    transition: transform 1s cubic-bezier(.7,0,.3,1);
-  }
-  .gate-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .gate-inner {
-    position: relative; z-index: 2; text-align: center;
-    display: flex; flex-direction: column; align-items: center;
-  }
-  .gate-name {
-    font-family: "Ma Shan Zheng", "Noto Serif SC", serif;
-    font-size: clamp(58px, 12vw, 108px);
-    color: #f6efdf; letter-spacing: 16px; line-height: 1.1;
-    text-shadow: 0 5px 26px rgba(15,25,25,.5), 0 0 70px rgba(245,240,220,.18);
-    user-select: none;
-  }
-  .gate-sub {
-    margin-top: 12px; font-size: 15px; letter-spacing: 8px;
-    color: rgba(246,239,223,.85); text-shadow: 0 2px 10px rgba(15,25,25,.4);
-  }
-  .gate-btn {
-    margin-top: 48px; width: 138px; height: 138px; border-radius: 50%;
-    background: radial-gradient(circle at 34% 28%, #c25040, #a63d2f 58%, #86301f);
-    color: #f8f1e0; border: 3px solid rgba(248,241,224,.9);
-    font-family: "Ma Shan Zheng", "Noto Serif SC", serif;
-    font-size: 27px; letter-spacing: 5px; text-indent: 5px;
-    cursor: pointer; position: relative;
-    box-shadow: 0 12px 34px rgba(20,12,4,.38), inset 0 -8px 16px rgba(60,10,6,.35), inset 0 6px 14px rgba(255,220,200,.25);
-    transition: transform .22s, box-shadow .22s;
-  }
-  .gate-btn:hover { transform: scale(1.07); box-shadow: 0 16px 40px rgba(20,12,4,.42), inset 0 -8px 16px rgba(60,10,6,.35); }
-  .gate-btn:active { transform: scale(.95); }
-  .gate-hint {
-    margin-top: 20px; font-size: 12px; letter-spacing: 3px;
-    color: rgba(246,239,223,.55);
-  }
+  /* ---------- 过渡页 gate ---------- */
+  .gate{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#e4e8e2;color:#1b2b2a;
+    font-family:"Songti SC","Noto Serif SC","STSong","SimSun",serif;-webkit-user-select:none;user-select:none}
+  .gate.done{display:none}
+  .gate-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+  /* 雾：缓慢漂移的两团白雾，盖在水面之上 */
+  .gate-unveil{position:absolute;inset:-10%;z-index:1;pointer-events:none;filter:blur(26px);
+    background:radial-gradient(38% 28% at 20% 76%,rgba(255,255,255,.34),transparent 70%),
+               radial-gradient(44% 30% at 80% 28%,rgba(255,255,255,.28),transparent 70%);
+    animation:gateMist 20s ease-in-out infinite alternate}
+  @keyframes gateMist{from{transform:translate3d(-3%,1%,0) scale(1)}to{transform:translate3d(3%,-2%,0) scale(1.08)}}
+  .gate-inner{position:relative;z-index:2;height:100%;box-sizing:border-box;padding:0 20px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;pointer-events:none;
+    transition:opacity .6s ease,transform .9s ease,filter .9s ease}
+  .gate-name{margin:0;font-weight:600;font-size:clamp(44px,9vw,92px);letter-spacing:.35em;padding-left:.35em;
+    text-shadow:0 0 18px rgba(236,241,235,.95),0 0 4px rgba(236,241,235,.85)}
+  .gate-sub{margin:16px 0 0;font-size:clamp(14px,2vw,18px);letter-spacing:.5em;padding-left:.5em;opacity:.72;
+    text-shadow:0 0 10px rgba(236,241,235,.95)}
+  .gate-btn{pointer-events:auto;margin-top:44px;font:inherit;font-size:18px;color:inherit;letter-spacing:.5em;
+    padding:12px 34px 12px calc(34px + .5em);border:1px solid rgba(27,43,42,.55);border-radius:999px;cursor:pointer;
+    background:rgba(238,243,237,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:background .35s,color .35s,transform .35s}
+  .gate-btn:hover{background:rgba(27,43,42,.92);color:#eef2ec;transform:translateY(-1px)}
+  .gate-btn:focus-visible{outline:2px solid #1b2b2a;outline-offset:4px}
+  .gate-hint{margin:20px 0 0;font-size:13px;letter-spacing:.2em;opacity:.55;text-shadow:0 0 8px rgba(236,241,235,.9)}
+  /* 入楼：文字化开，水面由点击处向外裂出一个越来越大的洞（洞由 JS 驱动） */
+  .gate.opening .gate-inner{opacity:0;transform:translateY(-10px) scale(1.04);filter:blur(6px);pointer-events:none}
+  /* 不支持 WebGL2 时的降级：纯淡出 */
+  .gate.nogl{background:radial-gradient(120% 90% at 50% 40%,#eef1ea,#c9d0c8)}
+  .gate.nogl.opening{opacity:0;transition:opacity 1s ease .2s}
+ 
 
   @media (prefers-reduced-motion: reduce) {
     .scroll, .masthead .brush span, .verse-tag, .ink-mount, .seal { animation: none !important; opacity: 1 !important; }
     .ink-drop { display: none; }
-    .gate { display: none; }
   }
 </style>
 </head>
@@ -581,111 +551,259 @@
 (function () {
   "use strict";
 
-  /* ---------- 过渡页：水面 · 墨滴 · 水波 · 入楼 ---------- */
-  var gate = document.getElementById("gate");
-  var gcv = document.getElementById("gateCanvas");
-  var gctx = gcv.getContext("2d");
-  var ripples = [];
-  var inks = [];
-  var rings = [];
-  function rnd(v) { return Math.random() * v; }
-  function sizeGate() {
-    gcv.width = window.innerWidth;
-    gcv.height = window.innerHeight;
-  }
-  sizeGate();
-  window.addEventListener("resize", sizeGate);
-
-  setInterval(function () {
-    ripples.push({ x: rnd(gcv.width), y: rnd(gcv.height), r: 4, max: 70 + rnd(130), o: 0.3 });
-    if (ripples.length > 26) ripples.shift();
-  }, 1500);
-
-  function spawnInk(x, y) {
-    inks.push({ x: x, y: y, r: 2, max: 55 + rnd(75), o: 0.85 });
-  }
-
-  function gateLoop() {
-    gctx.clearRect(0, 0, gcv.width, gcv.height);
-
-    ripples.forEach(function (p) {
-      p.r += 2.1;
-      var k = 1 - p.r / p.max;
-      if (k <= 0) { p.dead = true; return; }
-      gctx.beginPath();
-      gctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      gctx.strokeStyle = "rgba(255,255,255," + (p.o * k).toFixed(3) + ")";
-      gctx.lineWidth = 1.2 * k + 0.4;
-      gctx.stroke();
-      gctx.beginPath();
-      gctx.arc(p.x, p.y, p.r * 0.94, 0, Math.PI * 2);
-      gctx.strokeStyle = "rgba(35,55,54," + (p.o * k * 0.55).toFixed(3) + ")";
-      gctx.lineWidth = 0.8 * k + 0.3;
-      gctx.stroke();
-    });
-
-    inks.forEach(function (m) {
-      m.r += 4.2;
-      m.o *= 0.97;
-      if (m.o < 0.02) { m.dead = true; return; }
-      var op = m.o;
-      gctx.fillStyle = "rgba(12,26,26," + op.toFixed(3) + ")";
-      gctx.beginPath();
-      gctx.ellipse(m.x, m.y, m.r * 0.34, m.r * 0.40, 0, 0, Math.PI * 2);
-      gctx.fill();
-      gctx.fillStyle = "rgba(12,26,26," + (op * 0.52).toFixed(3) + ")";
-      gctx.beginPath();
-      gctx.ellipse(m.x, m.y, m.r * 0.66, m.r * 0.76, -0.4, 0, Math.PI * 2);
-      gctx.fill();
-      gctx.fillStyle = "rgba(12,26,26," + (op * 0.22).toFixed(3) + ")";
-      gctx.beginPath();
-      gctx.ellipse(m.x, m.y, m.r, m.r * 1.12, 0.3, 0, Math.PI * 2);
-      gctx.fill();
-      var n = 18;
-      for (var i = 0; i < n; i++) {
-        var a = (i / n) * Math.PI * 2 + rnd(0.6);
-        var rr = m.r * (0.92 + rnd(0.5));
-        gctx.fillStyle = "rgba(12,26,26," + (op * 0.38 * (1 - i / n)).toFixed(3) + ")";
-        gctx.beginPath();
-        gctx.arc(m.x + Math.cos(a) * rr, m.y + Math.sin(a) * rr * 1.12, 1 + rnd(2.2), 0, Math.PI * 2);
-        gctx.fill();
+  /* ---------- 过渡页：真实流体墨染水面 · 水波 · 入楼 (WebGL2) ---------- */
+  (function () {
+    var gate = document.getElementById("gate");
+    var cv = document.getElementById("gateCanvas");
+    var btn = document.getElementById("gateBtn");
+    var prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    function finish() {
+      gate.classList.add("done");
+      document.documentElement.style.overflow = prevOverflow;
+    }
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      finish();
+      return;
+    }
+ 
+    var gl = cv.getContext("webgl2", { alpha: false, antialias: false });
+    var ok = gl && (gl.getExtension("EXT_color_buffer_float") || gl.getExtension("EXT_color_buffer_half_float"));
+    if (!ok) { // 降级：没有流体，只做淡出
+      gate.classList.add("nogl");
+      btn.addEventListener("click", function () {
+        gate.classList.add("opening");
+        setTimeout(finish, 1300);
+      });
+      return;
+    }
+ 
+    var cfg = { SIM: 150, DYE: 1024, ITER: 20, CURL: 20, VEL_DIS: 0.25, DYE_DIS: 0.05, DIFF: 0.1, FORCE: 5000, INK: 1, SIZE: 1 };
+    var OPEN_DELAY = 250, OPEN_DUR = 1500, EDGE = 220;
+ 
+    var VS = "#version 300 es\nout vec2 vUv;void main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);vUv=p;gl_Position=vec4(p*2.-1.,0.,1.);}";
+    var H = "#version 300 es\nprecision highp float;precision highp sampler2D;in vec2 vUv;out vec4 o;uniform vec2 ts;\n" +
+      "#define vL (vUv-vec2(ts.x,0.))\n#define vR (vUv+vec2(ts.x,0.))\n#define vT (vUv+vec2(0.,ts.y))\n#define vB (vUv-vec2(0.,ts.y))\n";
+    var FS = {
+      splat: "uniform sampler2D uT;uniform float ar,rad;uniform vec3 col;uniform vec2 pt;" +
+        "void main(){vec2 p=vUv-pt;p.x*=ar;o=vec4(texture(uT,vUv).rgb+exp(-dot(p,p)/rad)*col,1.);}",
+      adv: "uniform sampler2D uV,uS;uniform vec2 vts,ds;uniform float dt,dis,dif;" +
+        "void main(){vec2 c=vUv-dt*texture(uV,vUv).xy*vts;vec4 r=texture(uS,c);" +
+        "if(dif>0.){vec4 a=(texture(uS,c+vec2(ds.x,0.))+texture(uS,c-vec2(ds.x,0.))+texture(uS,c+vec2(0.,ds.y))+texture(uS,c-vec2(0.,ds.y)))*.25;r=mix(r,a,dif);}" +
+        "o=r/(1.+dis*dt);}",
+      curl: "uniform sampler2D uV;void main(){float l=texture(uV,vL).y,r=texture(uV,vR).y,t=texture(uV,vT).x,b=texture(uV,vB).x;o=vec4(.5*(r-l-t+b),0.,0.,1.);}",
+      vort: "uniform sampler2D uV,uC;uniform float cu,dt;" +
+        "void main(){float l=texture(uC,vL).x,r=texture(uC,vR).x,t=texture(uC,vT).x,b=texture(uC,vB).x,c=texture(uC,vUv).x;" +
+        "vec2 f=.5*vec2(abs(t)-abs(b),abs(r)-abs(l));f/=length(f)+1e-4;f*=cu*c;f.y*=-1.;" +
+        "o=vec4(clamp(texture(uV,vUv).xy+f*dt,-1000.,1000.),0.,1.);}",
+      div: "uniform sampler2D uV;" +
+        "void main(){float l=texture(uV,vL).x,r=texture(uV,vR).x,t=texture(uV,vT).y,b=texture(uV,vB).y;vec2 c=texture(uV,vUv).xy;" +
+        "if(vL.x<0.)l=-c.x;if(vR.x>1.)r=-c.x;if(vT.y>1.)t=-c.y;if(vB.y<0.)b=-c.y;o=vec4(.5*(r-l+t-b),0.,0.,1.);}",
+      clear: "uniform sampler2D uT;uniform float val;void main(){o=texture(uT,vUv)*val;}",
+      pres: "uniform sampler2D uP,uD;" +
+        "void main(){float l=texture(uP,vL).x,r=texture(uP,vR).x,t=texture(uP,vT).x,b=texture(uP,vB).x;o=vec4((l+r+t+b-texture(uD,vUv).x)*.25,0.,0.,1.);}",
+      grad: "uniform sampler2D uP,uV;" +
+        "void main(){float l=texture(uP,vL).x,r=texture(uP,vR).x,t=texture(uP,vT).x,b=texture(uP,vB).x;o=vec4(texture(uV,vUv).xy-vec2(r-l,t-b),0.,1.);}",
+      disp: "uniform sampler2D uD;uniform vec2 dts,res;uniform float t;uniform vec4 rp[8];" +
+        "float hf(vec2 p){return sin(p.x*1.3+t*.5+2.*sin(p.y*.7+t*.3))+sin(p.y*1.9-t*.4+2.*sin(p.x*.8-t*.2))+.5*sin((p.x+p.y)*3.1+t*.9);}" +
+        "void main(){float d=texture(uD,vUv).r;" +
+        "float dl=texture(uD,vUv-vec2(dts.x,0.)).r,dr=texture(uD,vUv+vec2(dts.x,0.)).r,du=texture(uD,vUv+vec2(0.,dts.y)).r,db=texture(uD,vUv-vec2(0.,dts.y)).r;" +
+        "float asp=res.x/res.y;vec2 p=vUv*vec2(asp,1.)*5.;vec2 e=vec2(.05,0.);" +
+        "vec2 g=vec2(hf(p+e.xy)-hf(p-e.xy),hf(p+e.yx)-hf(p-e.yx))*.2;" +
+        "for(int i=0;i<8;i++){float age=t-rp[i].z;if(age<0.||age>5.)continue;" +
+        "vec2 dv=(vUv-rp[i].xy)*vec2(asp,1.);float r=length(dv);float f=r-.2*age;" +
+        "float env=exp(-f*f*500.)*exp(-age*.7)*rp[i].w;g+=dv/(r+1e-4)*cos(f*80.)*env*.5;}" +
+        "vec3 n=normalize(vec3(-g+vec2(dl-dr,db-du)*.8,1.));" +
+        "vec2 q=vUv-.5;q.x*=asp;" +
+        "vec3 bg=mix(vec3(.925,.94,.915),vec3(.74,.78,.76),smoothstep(.2,.95,length(q)));" +
+        "bg*=.82+.26*dot(n,normalize(vec3(-.4,.6,.7)));" +
+        "vec3 col=bg*exp(-d*vec3(2.6,2.25,2.15));" +
+        "col+=pow(max(dot(n,normalize(vec3(-.1,.18,1.))),0.),150.)*.14;" +
+        "col+=(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)-.5)/255.;o=vec4(col,1.);}"
+    };
+ 
+    function mk(fs) {
+      var p = gl.createProgram();
+      [[gl.VERTEX_SHADER, VS], [gl.FRAGMENT_SHADER, H + fs]].forEach(function (a) {
+        var s = gl.createShader(a[0]); gl.shaderSource(s, a[1]); gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s));
+        gl.attachShader(p, s);
+      });
+      gl.linkProgram(p);
+      return { p: p, loc: {} };
+    }
+    var P = {};
+    for (var k in FS) P[k] = mk(FS[k]);
+ 
+    function use(pr, o) {
+      gl.useProgram(pr.p);
+      var unit = 0;
+      for (var k in o) {
+        var v = o[k];
+        var l = pr.loc[k] = pr.loc[k] || gl.getUniformLocation(pr.p, k);
+        if (v instanceof WebGLTexture) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, v); gl.uniform1i(l, unit++); }
+        else if (typeof v === "number") gl.uniform1f(l, v);
+        else if (v.length === 2) gl.uniform2f(l, v[0], v[1]);
+        else gl.uniform3f(l, v[0], v[1], v[2]);
       }
+    }
+    function draw(t) {
+      if (t) { gl.bindFramebuffer(gl.FRAMEBUFFER, t.f); gl.viewport(0, 0, t.w, t.h); }
+      else { gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, cv.width, cv.height); }
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    function fbo(w, h) {
+      var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+      var f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+      gl.viewport(0, 0, w, h); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+      return { t: t, f: f, w: w, h: h, ts: [1 / w, 1 / h] };
+    }
+    function dbl(w, h) {
+      var a = fbo(w, h), b = fbo(w, h);
+      return { get read() { return a; }, get write() { return b; }, swap: function () { var x = a; a = b; b = x; }, ts: [1 / w, 1 / h] };
+    }
+    function res(r) {
+      var a = cv.width / cv.height; if (a < 1) a = 1 / a;
+      var mn = Math.round(r), mx = Math.round(r * a);
+      return cv.width > cv.height ? { w: mx, h: mn } : { w: mn, h: mx };
+    }
+    var vel, dye, pres, div, curl;
+    function init() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      cv.width = Math.floor(innerWidth * dpr); cv.height = Math.floor(innerHeight * dpr);
+      var s = res(cfg.SIM), d = res(cfg.DYE);
+      vel = dbl(s.w, s.h); dye = dbl(d.w, d.h); pres = dbl(s.w, s.h); div = fbo(s.w, s.h); curl = fbo(s.w, s.h);
+    }
+ 
+    function splat(x, y, dx, dy, amt, rad) {
+      var ar = cv.width / cv.height, r = rad / 100; if (ar > 1) r *= ar;
+      use(P.splat, { uT: vel.read.t, ar: ar, col: [dx, dy, 0], pt: [x, y], rad: r }); draw(vel.write); vel.swap();
+      if (amt > 0) { use(P.splat, { uT: dye.read.t, ar: ar, col: [amt, 0, 0], pt: [x, y], rad: r * 0.6 }); draw(dye.write); dye.swap(); }
+    }
+    function step(dt) {
+      use(P.curl, { uV: vel.read.t, ts: vel.ts }); draw(curl);
+      use(P.vort, { uV: vel.read.t, uC: curl.t, ts: vel.ts, cu: cfg.CURL, dt: dt }); draw(vel.write); vel.swap();
+      use(P.div, { uV: vel.read.t, ts: vel.ts }); draw(div);
+      use(P.clear, { uT: pres.read.t, val: 0.8 }); draw(pres.write); pres.swap();
+      for (var i = 0; i < cfg.ITER; i++) { use(P.pres, { uP: pres.read.t, uD: div.t, ts: vel.ts }); draw(pres.write); pres.swap(); }
+      use(P.grad, { uP: pres.read.t, uV: vel.read.t, ts: vel.ts }); draw(vel.write); vel.swap();
+      use(P.adv, { uV: vel.read.t, uS: vel.read.t, vts: vel.ts, ds: vel.ts, dt: dt, dis: cfg.VEL_DIS, dif: 0 }); draw(vel.write); vel.swap();
+      use(P.adv, { uV: vel.read.t, uS: dye.read.t, vts: vel.ts, ds: dye.ts, dt: dt, dis: cfg.DYE_DIS, dif: cfg.DIFF }); draw(dye.write); dye.swap();
+    }
+ 
+    // 水波：最多 8 圈同时存在，xy=位置 z=起始时间 w=强度
+    var rpa = new Float32Array(32), rpi = 0, T0 = performance.now();
+    for (var i = 0; i < 8; i++) rpa[i * 4 + 2] = -100;
+    function now() { return (performance.now() - T0) / 1000; }
+    function ripple(x, y, amp) {
+      rpa[rpi * 4] = x; rpa[rpi * 4 + 1] = y; rpa[rpi * 4 + 2] = now(); rpa[rpi * 4 + 3] = amp;
+      rpi = (rpi + 1) % 8;
+    }
+    function render() {
+      use(P.disp, { uD: dye.read.t, dts: dye.ts, res: [cv.width, cv.height], t: now() });
+      gl.uniform4fv(gl.getUniformLocation(P.disp.p, "rp"), rpa);
+      draw(null);
+    }
+ 
+    // 墨滴：中心落墨 + 一圈向外的小冲击，墨就会拉出丝状的细流
+    function drop(x, y, k, burst) {
+      var s = cfg.SIZE;
+      splat(x, y, 0, 0, cfg.INK * 2.2 * k, 0.35 * s);
+      var n = burst ? 16 : 8, v = burst ? 620 : 260;
+      for (var i = 0; i < n; i++) {
+        var a = i / n * 6.283 + Math.random() * 0.6;
+        splat(x + Math.cos(a) * 0.004, y + Math.sin(a) * 0.004, Math.cos(a) * v, Math.sin(a) * v, 0, 0.08 * s);
+      }
+      ripple(x, y, 0.8 + 0.2 * Math.min(k, 2));
+    }
+ 
+    // 指针
+    var p = { x: 0.5, y: 0.5, lx: 0.5, ly: 0.5, down: false, active: false };
+    var opening = false;
+    function setPos(e) { p.x = e.clientX / innerWidth; p.y = 1 - e.clientY / innerHeight; }
+    gate.addEventListener("pointerdown", function (e) {
+      if (opening || e.button !== 0 || (e.target.closest && e.target.closest("button"))) return;
+      gate.setPointerCapture(e.pointerId); setPos(e);
+      p.down = true; p.active = true; p.lx = p.x; p.ly = p.y;
+      drop(p.x, p.y, 0.6, false);
     });
-
-    rings.forEach(function (w) {
-      w.r += 13;
-      w.o *= 0.93;
-      if (w.o < 0.02) { w.dead = true; return; }
-      gctx.beginPath();
-      gctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
-      gctx.strokeStyle = "rgba(248,241,224," + (w.o * 0.9).toFixed(3) + ")";
-      gctx.lineWidth = 3 * (w.o / 0.9) + 0.5;
-      gctx.stroke();
+    gate.addEventListener("pointermove", function (e) {
+      if (opening) return;
+      setPos(e); if (!p.active) { p.active = true; p.lx = p.x; p.ly = p.y; }
     });
-
-    ripples = ripples.filter(function (p) { return !p.dead; });
-    inks = inks.filter(function (m) { return !m.dead; });
-    rings = rings.filter(function (w) { return !w.dead; });
-    requestAnimationFrame(gateLoop);
-  }
-  gateLoop();
-
-  gate.addEventListener("pointerdown", function (e) {
-    if (e.button === 0) spawnInk(e.clientX, e.clientY);
-  });
-
-  var gateBtn = document.getElementById("gateBtn");
-  gateBtn.addEventListener("click", function () {
-    if (gate.classList.contains("opening")) return;
-    var b = gateBtn.getBoundingClientRect();
-    var cx = b.left + b.width / 2, cy = b.top + b.height / 2;
-    rings.push({ x: cx, y: cy, r: 8, max: Math.max(gcv.width, gcv.height) * 1.4, o: 0.85 });
-    spawnInk(cx, cy);
-    setTimeout(function () { rings.push({ x: cx, y: cy, r: 8, max: Math.max(gcv.width, gcv.height) * 1.4, o: 0.6 }); }, 110);
-    setTimeout(function () { rings.push({ x: cx, y: cy, r: 8, max: Math.max(gcv.width, gcv.height) * 1.4, o: 0.4 }); }, 230);
-    gate.classList.add("opening");
-    setTimeout(function () { gate.classList.add("done"); }, 1650);
-  });
+    function up() { p.down = false; }
+    gate.addEventListener("pointerup", up);
+    gate.addEventListener("pointercancel", up);
+    gate.addEventListener("pointerleave", function () { if (!p.down) p.active = false; });
+    function applyInput() {
+      if (!p.active || opening) return;
+      var ar = cv.width / cv.height, dx = p.x - p.lx, dy = p.y - p.ly, dist = Math.hypot(dx, dy);
+      if (dist === 0 && !p.down) return;
+      if (ar < 1) dx *= ar; if (ar > 1) dy /= ar;
+      var n = Math.max(1, Math.min(12, Math.ceil(dist * 100)));
+      var kf = p.down ? 1 : 0.6, rad = (p.down ? 0.2 : 0.25) * cfg.SIZE;
+      for (var i = 1; i <= n; i++) {
+        var t = i / n;
+        splat(p.lx + (p.x - p.lx) * t, p.ly + (p.y - p.ly) * t, dx * cfg.FORCE * kf / n, dy * cfg.FORCE * kf / n, p.down ? 0.22 * cfg.INK : 0, rad);
+      }
+      p.lx = p.x; p.ly = p.y;
+    }
+ 
+    // 入楼台：落一大滴墨，连起三圈水波，水面从点击处裂开一个越来越大的洞
+    var ox = 0, oy = 0, openT = 0, maxR = 0, raf = 0;
+    btn.addEventListener("click", function () {
+      if (opening) return;
+      opening = true; p.down = false; p.active = false;
+      gate.classList.add("opening");
+      var b = btn.getBoundingClientRect();
+      ox = b.left + b.width / 2; oy = b.top + b.height / 2;
+      var ux = ox / innerWidth, uy = 1 - oy / innerHeight;
+      drop(ux, uy, 2.4, true);
+      setTimeout(function () { ripple(ux, uy, 1.2); }, 150);
+      setTimeout(function () { ripple(ux, uy, 1.0); }, 320);
+      maxR = Math.max(Math.hypot(ox, oy), Math.hypot(innerWidth - ox, oy), Math.hypot(ox, innerHeight - oy), Math.hypot(innerWidth - ox, innerHeight - oy));
+      openT = performance.now() + OPEN_DELAY;
+    });
+    function setHole(R) {
+      var m = "radial-gradient(circle at " + ox + "px " + oy + "px, transparent " + R + "px, #000 " + (R + EDGE) + "px)";
+      gate.style.webkitMaskImage = m; gate.style.maskImage = m;
+    }
+ 
+    var nextAmb = 0, last = performance.now();
+    function frame(t) {
+      var dt = Math.min((t - last) / 1000, 0.0167) || 0.0167; last = t;
+      if (!opening && t > nextAmb) { // 平时偶尔落一圈雨点似的涟漪
+        ripple(0.1 + Math.random() * 0.8, 0.1 + Math.random() * 0.8, 0.5);
+        nextAmb = t + 2200 + Math.random() * 2400;
+      }
+      applyInput(); step(dt); render();
+      if (opening) {
+        var k = Math.min(1, Math.max(0, (t - openT) / OPEN_DUR));
+        var e = 1 - Math.pow(1 - k, 3);
+        setHole(-EDGE + e * (maxR + EDGE * 2));
+        if (k >= 1) {
+          finish();
+          var ext = gl.getExtension("WEBGL_lose_context"); if (ext) ext.loseContext();
+          return;
+        }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+ 
+    var rt;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { if (!opening) init(); }, 200); });
+ 
+    init();
+    setTimeout(function () { drop(0.38, 0.56, 1, false); setTimeout(function () { drop(0.63, 0.44, 0.8, false); }, 500); }, 350);
+    raf = requestAnimationFrame(frame);
+  })();
+ 
 
   /* ---------- 时辰 ---------- */
   var SHICHEN = ["子时","丑时","寅时","卯时","辰时","巳时","午时","未时","申时","酉时","戌时","亥时"];
