@@ -1060,6 +1060,15 @@ textarea {
 }
 .tier-block-title { font-family: var(--serif); font-size: 16px; color: var(--ink); }
 
+/* 首页底部「打卡与影像」块可点击跳转（日常打卡→discipline.html，摄影→photography.html） */
+a.tier-block-title { text-decoration: none; color: var(--ink); }
+a.tier-block-title:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.tier-block--link { text-decoration: none; color: inherit; cursor: pointer; transition: box-shadow .15s ease; }
+.tier-block--link:hover { box-shadow: 0 0 0 1px var(--accent); }
+.tier-block--link:hover .tier-block-title,
+.tier-block--link:hover .photo-cap span:first-child { color: var(--accent); }
+.tier-block--link:hover .photo-frame { opacity: .92; }
+
 /* 别处 */
 .outbound-row {
   display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
