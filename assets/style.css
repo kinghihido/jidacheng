@@ -191,13 +191,10 @@ a { color: var(--ink); }
 .meta-v small { font-size: 13px; color: var(--ink-3); margin-left: 4px; font-family: var(--sans); }
 
 /* ---------- 五个模块 ---------- */
-
 .panels {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--rule);
-  border-bottom: 1px solid var(--rule);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 36px 20px 8px;
 }
 
 .panel {
@@ -463,47 +460,6 @@ a { color: var(--ink); }
   line-height: 1.8;
   color: var(--ink-3);
 }
-
-/* 打卡点 */
-.habit-dots { display: flex; flex-wrap: wrap; gap: 8px 16px; }
-.dot-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13.5px;
-  color: var(--ink-2);
-}
-.dot-mark {
-  width: 11px;
-  height: 11px;
-  border: 1px solid var(--ink-3);
-  background: transparent;
-  flex: 0 0 auto;
-}
-.dot-mark.on { background: var(--accent); border-color: var(--accent); }
-
-/* 总台上的近七天小格 */
-.mini-wrap { flex: 0 0 auto; }
-.mini-label {
-  margin: 0 0 6px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--ink-3);
-}
-.mini-week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
-  width: 180px;
-}
-.mini-week span {
-  display: block;
-  height: 13px;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-}
-.mini-week span.on { background: var(--accent); border-color: var(--accent); }
 
 /* ---------- 内页 ---------- */
 
@@ -914,41 +870,7 @@ textarea {
 }
 
 @media (min-width: 860px) {
-  .panels { grid-template-columns: repeat(2, 1fr); }
-  .panel--study { grid-column: span 2; }
-  .panel--outbound { grid-column: span 2; }
   .work { grid-template-columns: 1.05fr 0.95fr; }
-}
-
-@media (min-width: 1120px) {
-  /* 宽屏排成 4 + 3 + 3：
-     上排学习站（一整行四个卡片）／中排三个并列内容站／下排燕园、日常、摄影 */
-  .panels { grid-template-columns: repeat(12, 1fr); }
-  .panel--study { grid-column: span 12; }
-  .panel--red { grid-column: span 4; }
-  .panel--lit { grid-column: span 4; }
-  .panel--green { grid-column: span 4; }
-  .panel--poi { grid-column: span 4; }
-  .panel--daily { grid-column: span 4; }
-  .panel--photo { grid-column: span 4; }
-  .panel--outbound { grid-column: span 12; }
-  /* 别处整行时两个链接横排，免得一条竖线拖太长 */
-  .panel--outbound .site-list { flex-direction: row; flex-wrap: wrap; gap: 0 40px; }
-  .panel--outbound .site-row { flex: 1 1 300px; }
-  .panel--daily .panel-body { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 28px; }
-  .panel-title { font-size: 30px; }
-
-  /* 文献在窄列里改成竖排台账 */
-  .panel--lit .lit-stats { grid-template-columns: 1fr; gap: 0; }
-  .panel--lit .lit-stats > div {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-top: 1px solid var(--rule-soft);
-  }
-  .panel--lit .lit-stats > div:first-child { border-top: none; padding-top: 0; }
-  .panel--lit .lit-k { order: -1; margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1161,4 +1083,132 @@ textarea {
 @media (max-width: 560px) {
   .site-grid, .site-grid--3, .site-grid--2 { grid-template-columns: 1fr; }
   .tier-title { font-size: 16px; }
+}
+
+/* ============================================================
+   日常打卡：可点的勾选格 + 连续天数 + 七天条
+   ============================================================ */
+.habit-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.habit-count b {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-right: 3px;
+}
+
+/* 三个勾选项：跟 learning 卡片同一套 1px 发丝线 */
+.habit-checks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.habit-check {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+.habit-check:hover { background: var(--paper-2); }
+.habit-check:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.habit-box {
+  position: relative;
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--ink-3);
+  background: transparent;
+  transition: background .18s ease, border-color .18s ease;
+}
+.habit-check.is-on .habit-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+/* 勾：两根边旋转成一道钩 */
+.habit-check.is-on .habit-box::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 8px;
+  border-right: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(40deg);
+}
+.habit-name {
+  font-family: var(--serif);
+  font-size: 15.5px;
+  color: var(--ink-3);
+  letter-spacing: .04em;
+}
+.habit-check.is-on .habit-name { color: var(--ink); }
+
+/* 下半：连续 + 近七天 */
+.habit-summary {
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-soft);
+}
+.habit-streak { display: flex; align-items: baseline; gap: 9px; }
+.streak-num {
+  font-family: var(--serif);
+  font-size: 34px;
+  line-height: .9;
+  color: var(--accent);
+}
+.streak-lab { font-size: 12.5px; color: var(--ink-3); }
+
+.habit-week { margin-left: auto; }
+.habit-week-lab {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+}
+.week-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 22px);
+  gap: 4px;
+}
+.week-cell i {
+  display: block;
+  height: 15px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  transition: background .18s ease;
+}
+.week-cell.is-full i { background: var(--accent); border-color: var(--accent); }
+.week-cell em {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  font-style: normal;
+  text-align: center;
+  color: var(--ink-3);
+}
+.week-cell.is-today em { color: var(--accent); }
+
+@media (max-width: 560px) {
+  .habit-checks { grid-template-columns: 1fr; }
+  .habit-week { margin-left: 0; }
+  .week-strip { grid-template-columns: repeat(7, 1fr); }
 }
