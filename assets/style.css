@@ -1040,7 +1040,7 @@ textarea {
 
 .site-grid--3 { grid-template-columns: repeat(3, 1fr); }
 .site-grid--2 { grid-template-columns: repeat(2, 1fr); }
-.site-grid--5 { grid-template-columns: repeat(5, 1fr); }
+.site-grid--6 { grid-template-columns: repeat(6, 1fr); }
 
 /* 三个内容站各自的标识色：卡片顶部一条 */
 .site-card { position: relative; }
@@ -1087,12 +1087,12 @@ a.tier-block-title:hover { color: var(--accent); text-decoration: underline; tex
 
 @media (max-width: 900px) {
   .site-grid { grid-template-columns: repeat(2, 1fr); }
-  .site-grid--5 { grid-template-columns: repeat(3, 1fr); }
+  .site-grid--6 { grid-template-columns: repeat(3, 1fr); }
   .site-grid--3, .site-grid--2 { grid-template-columns: 1fr; }
   .tier-note { display: none; }
 }
 @media (max-width: 560px) {
-  .site-grid, .site-grid--3, .site-grid--2, .site-grid--5 { grid-template-columns: 1fr; }
+  .site-grid, .site-grid--3, .site-grid--2, .site-grid--6 { grid-template-columns: 1fr; }
   .tier-title { font-size: 16px; }
 }
 
