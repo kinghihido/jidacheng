@@ -16,9 +16,10 @@
 | 文件 | 板块 | 现在有什么 |
 | --- | --- | --- |
 | `index.html` | 总台 | 学习站入口（6 个）、三个内容站入口、日常打卡（可直接勾选）与摄影两块、三个积累站入口、**别处**模块（文献连接器 / 全部仓库）、近七天统计 |
-| `study.html` | 本科学习 | 五个学习站入口（汉语 / 现代材料 / 材料科学基础 / 量子统计 / 经济专题）、本学期课表、三个待建分区 |
+| `study.html` | 本科学习 | 六个学习站入口、本学期课表（10 门）、三个待建分区 |
 | `photography.html` | 我的摄影 | 上传照片（自动压到长边 1600），相册、删除 |
 | `discipline.html` | 日常网站 | 三餐打卡、臂力棒计数、睡眠记录、任务清单 |
+| `writing.html` | 创作（迁移页） | 原写作页已迁至独立站「雾里楼台」，此页自动跳转；本机如有旧稿可先导出 |
 
 ## 首页结构
 
@@ -40,7 +41,7 @@
 | 现代材料 | https://kinghihido.github.io/materials-analysis-learning-site/ | 现代材料分析与原理，19 篇讲稿、522 页图文 |
 | 材料科学基础 | https://kinghihido.github.io/materials-science-foundations/ | 415 页课件逐页放映，附 50 题章节自测 |
 | 量子统计 | https://kinghihido.github.io/quantum-mechanics-notes/ | 材料中的量子与统计，50 个知识点 |
-| 经济专题 | https://kinghihido.github.io/china-economy-study-website/ | 中国经济专题（北大 NSD），六讲整理 |
+| 经济专题 | https://kinghihido.github.io/china-economy-study-website/ | 中国经济专题（北大 NSD），七讲整理 |
 | 基础物理实验 | https://kinghihido.github.io/physlab-thu-night/ | 周四晚班课程站点：安排、地点、须知、资料 |
 
 内容站（中排三个并列）：
@@ -51,10 +52,13 @@
 | 学海无涯 | 苍蓝 | https://kinghihido.github.io/paper-reading/ | 文献精读报告 22 篇、词汇 282 条 |
 | 雾里楼台 | 雾绿 | https://kinghihido.github.io/wuliloutai-writing/ | 文集：日记 / 随感 / 长文 |
 
-下排：
+下排（积累站）：
 
 | 站点 | 主色 | 地址 | 内容 |
 | --- | --- | --- | --- |
+| 诗词积累 | 紫 | https://kinghihido.github.io/daily-poem/ | 每日一诗 · 抄录与批注 |
+| 计算机小知识 | 绿 | https://kinghihido.github.io/cs-weekly/ | 每周一条 · 原理与拾遗 |
+| 英语学习 | 棕 | https://kinghihido.github.io/english-daily/ | 每日精读 · 词汇与长难句 |
 
 其他：
 
@@ -71,7 +75,7 @@
 
 ## 数据存在哪
 
-照片、打卡、任务存在**浏览器本地** `localStorage`，键名 `jdc.photos` / `jdc.habits`。
+照片、打卡、任务存在**浏览器本地** `localStorage`，键名 `jdc.photos` / `jdc.meals`（三餐与睡眠）/ `jdc.tasks`（任务）/ `jdc.fitness`（臂力棒）。
 
 文稿与文献分别由雾里楼台、学海无涯自己管，键前缀分别是 `wuli.` 类与 `lit.`。
 
