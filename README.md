@@ -39,7 +39,7 @@
 | --- | --- | --- |
 | 汉语 | https://kinghihido.github.io/hanyu-xuexi/ | 古代汉语、现代汉语课堂讲义 |
 | 现代材料 | https://kinghihido.github.io/materials-analysis-learning-site/ | 现代材料分析与原理，19 篇讲稿、522 页图文 |
-| 材料科学基础 | https://kinghihido.github.io/materials-science-foundations/ | 415 页课件逐页放映，附 50 题章节自测 |
+| 材料科学基础 | https://kinghihido.github.io/materials-science-foundations/ | 415 页课件逐页放映，附两套共 100 题章节自测 |
 | 量子统计 | https://kinghihido.github.io/quantum-mechanics-notes/ | 材料中的量子与统计，50 个知识点 |
 | 经济专题 | https://kinghihido.github.io/china-economy-study-website/ | 中国经济专题（北大 NSD），七讲整理 |
 | 基础物理实验 | https://kinghihido.github.io/physlab-thu-night/ | 周四晚班课程站点：安排、地点、须知、资料 |
